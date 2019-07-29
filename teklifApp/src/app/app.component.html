@@ -1,0 +1,173 @@
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="container">
+
+
+    <h1 style="text-align: center;font-family: sans-serif;">ElektraWEB Teklif Formu</h1>
+    <form [formGroup]="profileForm" class="example-form">
+      <mat-card class="Section">
+
+        <div fxLayout="row wrap" fxLayout.xs="row wrap">
+          <div fxFlex="50" fxFlex.xs="100">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Otel Adı</mat-label>
+              <mat-icon matSuffix>business</mat-icon>
+              <input formControlName="hotelname" matInput value="">
+            </mat-form-field>
+          </div>
+          <div fxFlex="50" fxFlex.xs="100">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>E-mail</mat-label>
+              <mat-icon matSuffix>email</mat-icon>
+              <input type="text" formControlName="email" matInput placeholder="Email" value="">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50" fxFlex.xs="100">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Telefon</mat-label>
+              <mat-icon matSuffix>phone</mat-icon>
+              <input type="text" formControlName="phone" matInput placeholder="Telefon" value="">
+            </mat-form-field>
+
+          </div>
+
+          <div fxFlex="50" fxFlex.xs="100">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Yetkili Adı ve Soyadı</mat-label>
+              <mat-icon matSuffix>account_circle</mat-icon>
+              <input type="text" formControlName="authorized" matInput placeholder="Yetkili Adı ve Soyadı" value="">
+            </mat-form-field>
+          </div>
+
+
+          <div fxFlex="50">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Oda Sayısı</mat-label>
+              <mat-icon matSuffix>account_circle</mat-icon>
+              <input type="number" matInput placeholder="Oda Sayısı"
+                (keyup)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                formControlName="roomcount">
+            </mat-form-field>
+
+
+
+          </div>
+
+
+
+
+          <div fxFlex="50" fxFlex.xs="50">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Satıcı Adı ve Soyadı</mat-label>
+              <mat-icon matSuffix>account_circle</mat-icon>
+              <input type="text" formControlName="wantname" matInput placeholder="Satıcı  Adı ve Soyadı" value="">
+            </mat-form-field>
+          </div>
+
+
+
+        </div>
+
+      </mat-card>
+
+
+      <mat-card class="Section">
+
+        <div class="roomBar">
+
+
+
+
+
+        </div>
+
+        <div style="margin-bottom:10px;font-weight: 700;">Lütfen istediğiniz modulleri işaretleyip teklif oluştur tuşuna
+          basınız</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 5%;">Seç</th>
+              <th>Ürün Adı</th>
+
+              <th style="width: 10%;text-align: end;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let item of dataSource">
+              <td>
+                <mat-checkbox [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="item.selected"></mat-checkbox>
+              </td>
+              <td><span>{{item.productname}}</span></td>
+              <td style="text-align: end;">
+                <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'EUR'}}</span></ng-container>
+                <ng-container *ngIf="item.selected && this.showpriceControl == false">
+                  <span><strong>{{item.total | currency : 'EUR'}}</strong></span>
+                </ng-container>
+
+                <ng-container *ngIf="item.selected && this.showpriceControl == true">
+                    <span>{{0 | currency : 'EUR'}}</span>
+                  </ng-container>
+
+        
+
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+
+        <div fxLayout="row" fxLayout.xs="row wrap">
+
+          <div fxFlex="70" fxFlex.xs="100">
+
+            <div class="buttonBar">
+              <button 
+                (click)="teklifGonder();showControl();total(profileForm.get('roomcount').value);" mat-raised-button
+                color="warn">Teklif Oluştur ve Mail Olarak Gönder</button>
+              <!--<button mat-raised-button color="primary" [disabled]="offerCount" (click)="teklifGonder();">Teklif
+                İste</button>-->
+            </div>
+          </div>
+          <div fxFlex="30" fxFlex.xs="100">
+            <div class="totalBar">
+              <div><span class="totalLabel">Aylık Toplam </span> <span
+                  class="divid">:</span><span><strong>{{ totalpricefinal  | currency:'EUR'}}</strong></span></div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="textDesc"><i class="material-icons">info</i>
+          Bu fiyata bakım, sunucu, yedekleme ve güncelleme dahildir.</div>
+
+
+
+      </mat-card>
+    </form>
+
+  </div>
+
+
+</body>
+
+</html>
+
+
+<ng-template #progressTpl>
+  <mat-spinner></mat-spinner>
+</ng-template>
