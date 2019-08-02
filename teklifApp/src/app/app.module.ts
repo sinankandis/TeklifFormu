@@ -18,8 +18,8 @@ import {MatTableModule} from '@angular/material/table';
 import { FullMaterialModule } from './full-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { DialogComponent } from './dialog/dialog.component';
 import { AdminComponent } from './admin/admin.component';
+import { PriceComponent } from './price/price.component';
 
 
 
@@ -28,8 +28,8 @@ import { AdminComponent } from './admin/admin.component';
 @NgModule({
    declarations: [
       AppComponent,
-      DialogComponent,
-      AdminComponent
+      AdminComponent,
+      PriceComponent
    ],
    imports: [
       BrowserModule,
