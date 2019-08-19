@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminComponent } from './admin/admin.component';
 import { PriceComponent } from './price/price.component';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 
 
 
@@ -29,7 +30,8 @@ import { PriceComponent } from './price/price.component';
    declarations: [
       AppComponent,
       AdminComponent,
-      PriceComponent
+      PriceComponent,
+ 
    ],
    imports: [
       BrowserModule,
@@ -41,9 +43,11 @@ import { PriceComponent } from './price/price.component';
       FlexLayoutModule,
       HttpClientModule
    ],
-   providers: [],
+   providers: [
+      DecimalPipe ,
+   ],
    bootstrap: [
-      AppComponent
+      AppComponent,
    ]
 })
 export class AppModule { 
