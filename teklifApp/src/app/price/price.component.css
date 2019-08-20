@@ -83,3 +83,11 @@ table {
   border: 1px solid;
   text-indent: 5px;
   border-radius: 5px;}
+
+  .mailCheck {
+
+    display: flex;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+  }

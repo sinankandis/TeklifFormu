@@ -47,6 +47,7 @@ export class PriceComponent implements OnInit {
     wantname: new FormControl(''),
     wantemail: new FormControl(''),
     wantphone: new FormControl(''),
+    sellerEmailCheck: new FormControl(true)
 
 
 
@@ -75,7 +76,7 @@ export class PriceComponent implements OnInit {
 
   ngOnInit() {
 
-    this.http.get("pricelist.php").subscribe(resp => {
+    this.http.get("http://localhost/teklif/pricelist.php").subscribe(resp => {
       this.dataSource = this.elementdata = resp as any;
       console.log(this.dataSource);
     });
@@ -84,7 +85,7 @@ export class PriceComponent implements OnInit {
   }
 
   log() {
-    console.log(this.dataSource)
+    console.log(this.profileForm.value.sellerEmailCheck);
 
   }
 
@@ -106,13 +107,13 @@ export class PriceComponent implements OnInit {
 
   teklifGonder() {
 
-    console.log('Teklif Gonder', this.dataSource);
 
     if (this.profileForm.valid) {
       if (this.dataSource.filter(x => x.selected == true).length <= 0) {
         alert("Teklif Oluşturmak İçin En Az Bir Ürün Seçiniz!")
       }
       else {
+
 
         this.progress();
         let t = new FormData();
@@ -126,6 +127,7 @@ export class PriceComponent implements OnInit {
         t.append('offerstate', 'Teklif Gönderildi.');
         t.append('wantemail', formdata.wantemail);
         t.append('wantphone', formdata.wantphone);
+        t.append('sellerEmailCheck', formdata.sellerEmailCheck);
 
         let html = '';
         let total = 0;
@@ -166,12 +168,12 @@ export class PriceComponent implements OnInit {
 
         html += '<tr><td><strong>Ek Hizmetler :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.firstprice + ' € ' + '</strong></td></tr>';
         html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform((total * 12)) + " € " + '</strong>(' + total + ' € * 12 )</td></tr>';
-        html += '<tr><td><strong>Genel Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform( ((total * 12) + this.firstprice)) + " € " + '</strong></td></tr>';
+        html += '<tr><td><strong>Genel Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(((total * 12) + this.firstprice)) + " € " + '</strong></td></tr>';
 
         let messagebody = html;
         t.append('offer', messagebody);
         if (this.profileForm.valid) {
-          this.http.post("teklifgonder.php", t
+          this.http.post("http://localhost/teklif/teklifgonder.php", t
           ).subscribe(resp => { if (resp == "success") { alert("Teklifiniz Gönderildi."); } });
         }
 
@@ -194,6 +196,7 @@ export class PriceComponent implements OnInit {
 
     if (roomcount <= 100) {
 
+      if (roomcount < 10) { roomcount = 10 }
 
       this.dataSource = this.dataSource.map(x => {
         let gruptotal = 0;

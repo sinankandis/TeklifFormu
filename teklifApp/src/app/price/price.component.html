@@ -68,17 +68,29 @@
         </div>
 
 
-        <div fxFlex="50" fxFlex.xs="50">
+        <div fxFlex="50" fxFlex.xs="100">
+          <div fxLayout="row wrap" fxLayout.xs="row wrap">
+            <div fxFlex="50" fxFlex.xs="100">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Satıcı E-mail Adresi</mat-label>
+                <mat-icon matSuffix>email</mat-icon>
+                <input type="text" formControlName="wantemail" matInput placeholder="Satıcı E-mail Adresi" value="">
+              </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.xs="100" class="mailCheck">
+              <mat-checkbox (change)="log();" formControlName="sellerEmailCheck">Mail Gönderilsin mi ? </mat-checkbox>
+            </div>
 
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Satıcı E-mail Adresi</mat-label>
-            <mat-icon matSuffix>email</mat-icon>
-            <input type="text" formControlName="wantemail" matInput placeholder="Satıcı E-mail Adresi" value="">
-          </mat-form-field>
+          </div>
+
         </div>
 
 
-        <div fxFlex="50" fxFlex.xs="50">
+
+
+
+
+        <div fxFlex="50" fxFlex.xs="100">
 
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>Satıcı Telefon</mat-label>
@@ -193,8 +205,9 @@
         <div fxFlex="50" fxFlex.xs="100">
 
           <div class="buttonBar">
-            <button (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder();" mat-raised-button
-              color="warn">Teklif Oluştur ve Mail Olarak Gönder</button>
+            <button
+              (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder();"
+              mat-raised-button color="warn">Teklif Oluştur ve Mail Olarak Gönder</button>
             <!--<button mat-raised-button color="primary" [disabled]="offerCount" (click)="teklifGonder();">Teklif
                 İste</button>-->
           </div>
@@ -204,23 +217,23 @@
             <div><span class="totalLabel">Yıllık Toplam </span> <span
                 class="divid">:</span><span><strong>{{ totalpricefinal  | currency:'EUR'}}</strong> (
                 {{ totalpricefinal/12  | currency:'EUR'}} x 12 )</span>
-       
-       
-                <div style="font-weight: 700;">Ek Hizmetler</div>
-                <ng-container *ngFor="let item of ekhizmetler">
-                 <ng-container *ngFor="let x of item.firstprice">
-                  <div *ngIf="item.selected && x.price>0">
-                   <span>{{x.desc}} {{ x.price | currency:'EUR'}} </span> 
-                  </div> 
-           
-                 </ng-container>
-                </ng-container>
 
-                <span class="totalLabel">Genel Toplam </span> <span
+
+              <div style="font-weight: 700;">Ek Hizmetler</div>
+              <ng-container *ngFor="let item of ekhizmetler">
+                <ng-container *ngFor="let x of item.firstprice">
+                  <div *ngIf="item.selected && x.price>0">
+                    <span>{{x.desc}} {{ x.price | currency:'EUR'}} </span>
+                  </div>
+
+                </ng-container>
+              </ng-container>
+
+              <span class="totalLabel">Genel Toplam </span> <span
                 class="divid">:</span><span><strong>{{ totalpricefinal + firstprice | currency:'EUR'}}</strong></span>
-              </div>
-       
-              </div>
+            </div>
+
+          </div>
 
 
 
@@ -230,8 +243,8 @@
 
       <div class="textDesc"><i class="material-icons">info</i>
         Bu fiyata bakım, sunucu, yedekleme ve güncelleme dahildir.</div>
-        <div class="textDesc"><i class="material-icons">info</i>
-          efatura, edefter ve earşiv modüllerinde 1 sefere mahsus 500€ kurulum ücreti alınır.</div>
+      <div class="textDesc"><i class="material-icons">info</i>
+        efatura, edefter ve earşiv modüllerinde 1 sefere mahsus 500€ kurulum ücreti alınır.</div>
 
 
     </mat-card>
