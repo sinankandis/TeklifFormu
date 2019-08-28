@@ -7,6 +7,10 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { UserService } from '../admin/User.service';
+import { element } from 'protractor';
+import { group } from '@angular/animations';
+import { zip } from 'rxjs';
 
 
 
@@ -35,12 +39,18 @@ export class PriceComponent implements OnInit {
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
     public dialog: MatDialog,
-    private decimalPipe: DecimalPipe) { }
+    private decimalPipe: DecimalPipe,
+    public userservice: UserService) { }
+
+
+
 
 
   profileForm = new FormGroup({
+
+
     hotelname: new FormControl('', Validators.required),
-    roomcount: new FormControl('', Validators.required),
+    roomcount: new FormControl('', [Validators.required, Validators.min(0)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', Validators.required),
     authorized: new FormControl('', Validators.required),
@@ -54,6 +64,7 @@ export class PriceComponent implements OnInit {
   });
 
   public dataSource: any;
+  path: string = "";
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
@@ -62,6 +73,8 @@ export class PriceComponent implements OnInit {
   showpriceControl: boolean = true;
   overlayRef: OverlayRef;
   ekhizmetler: any;
+  hardware: any;
+  hardwaretotal: number;
 
 
   elementdata: PeriodicElement[] = [];
@@ -76,11 +89,31 @@ export class PriceComponent implements OnInit {
 
   ngOnInit() {
 
-    this.http.get("http://localhost/teklif/pricelist.php").subscribe(resp => {
+    if (this.userservice.userdata != null) {
+      this.profileForm.get("wantphone").setValue(this.userservice.userdata[0].tel);
+      this.profileForm.get("wantemail").setValue(this.userservice.userdata[0].email);
+      this.profileForm.get("wantname").setValue(this.userservice.userdata[0].name);
+
+    }
+
+
+
+
+
+
+
+    this.http.get(this.path + "pricelist.php").subscribe(resp => {
       this.dataSource = this.elementdata = resp as any;
       console.log(this.dataSource);
     });
     this.total(0);
+
+  }
+
+  logout() {
+    this.userservice.login = false;
+    this.userservice.userdata = null;
+    location.reload();
 
   }
 
@@ -136,26 +169,49 @@ export class PriceComponent implements OnInit {
           if (element.selected) {
             let altgrup = "";
             element.productgrup.forEach(x => {
-              if (x.selected == true) {
-                altgrup += x.productname + ' ( ' + x.quantity + ' Adet X ' + x.productprice + ' € ' + ' = ' + (x.productprice * x.quantity) + ' € )' + '<br>';
+              if (x.selected == true && x.type != "hardware") {
+
+                let discounttext3 = "";
+                if (x.discount > 0) {
+                  discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " € ( %" + x.discount + " İndirim )"
+                }
+
+                altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + x.productprice + ' € ' + ' = ' + (x.productprice * x.quantity) + ' € )' + '<br>' +
+                  "<b><span>"  + discounttext3 + "</span></b><hr>";
               }
             });
-
 
 
 
             let fixprice = element.roomprice[0].fixprice;
             let fixstring = "";
             if (fixprice > 0) {
-              fixstring = element.productname + ' Aylık Kullanım Fiyatı ' + fixprice + ' € ';
+              fixstring = element.firstprice[0].desc + fixprice + ' € ';
+            }
+
+            let hardwareitemtotal = 0;
+            element.productgrup.forEach(x => {
+              if (x.type == "hardware" && x.selected == true) { hardwareitemtotal += (x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount) }
+
+            });
+
+            if (hardwareitemtotal == undefined) { hardwareitemtotal = 0; } else { hardwareitemtotal = hardwareitemtotal }
+
+            let discounttext;
+            if (element.discount > 0) {
+              let nodiscountt = (element.total - hardwareitemtotal) + ((element.total - hardwareitemtotal) / (100 - element.discount) * element.discount);
+              discounttext = "( İndirim %" + element.discount + " ) <span>" + nodiscountt.toFixed(2) + ' €</span>' + "<br>";
+            } else {
+              discounttext = "";
+
             }
 
             total += element.total;
             html += '<tr><td style="width:50%;"><strong>' + element.productname + '</strong><p>' + element.desc + '<p>' +
-              '<p>' + fixstring + '<br>' + altgrup + '</p>'
+              '<p>'  /*fixstring*/ + '<br>' + altgrup + '</p>'
               + '</td>' +
               '<td>' + formdata.roomcount + '</td>' +
-              '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' + element.total + " €/ay " + '</p></tr>';
+              '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' + discounttext + "<b>" + (element.total - hardwareitemtotal).toFixed(2) + "</b>" + " €/ay " + '</p></tr>';
           }
         });
 
@@ -166,19 +222,51 @@ export class PriceComponent implements OnInit {
           }
         });
 
+
+
+        let hardware = "";
+        this.hardware.forEach(x => {
+          if (x.selected == true) {
+            let discounttext2 = "";
+            if (x.productgrup[0].discount > 0) {
+
+              discounttext2 = ((x.productgrup[0].productprice * x.productgrup[0].quantity) - (((x.productgrup[0].productprice * x.productgrup[0].quantity) / 100) * x.productgrup[0].discount)).toFixed(2) + " € ( %" + x.productgrup[0].discount + " İndirim )"
+
+            }
+            hardware += x.productgrup[0].productname + "<br>" + ' ( ' + x.productgrup[0].quantity + ' Adet X ' + x.productgrup[0].productprice + ' € ' + ' = ' + (x.productgrup[0].productprice * x.productgrup[0].quantity) + ' € )' + "<br><span>" +
+              discounttext2
+
+              + "</span><hr><br>";
+          }
+        })
+
+
+
+
+
+
+        html += '<tr><td><strong>Donanımlar :</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.hardwaretotal + ' € ' + '</strong></td></tr>';
         html += '<tr><td><strong>Ek Hizmetler :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.firstprice + ' € ' + '</strong></td></tr>';
-        html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform((total * 12)) + " € " + '</strong>(' + total + ' € * 12 )</td></tr>';
-        html += '<tr><td><strong>Genel Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(((total * 12) + this.firstprice)) + " € " + '</strong></td></tr>';
+        html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.totalpricefinal - (this.hardwaretotal * 12)) + " € " + '</strong>(' + ((this.totalpricefinal - (this.hardwaretotal * 12)) / 12).toFixed(2) + ' € * 12 )</td></tr>';
+        html += '<tr><td><strong>Genel Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(((this.totalpricefinal - (this.hardwaretotal * 12)) + this.hardwaretotal + this.firstprice)) + " € " + '</strong></td></tr>';
 
         let messagebody = html;
         t.append('offer', messagebody);
         if (this.profileForm.valid) {
-          this.http.post("http://localhost/teklif/teklifgonder.php", t
-          ).subscribe(resp => { if (resp == "success") { alert("Teklifiniz Gönderildi."); } });
+          this.http.post(this.path + "teklifgonder.php", t, {responseType: 'text'}
+          ).subscribe(resp => { 
+            
+            console.log(resp);
+            if (String(resp).trim() === "success") { 
+            alert("Teklifiniz Gönderildi.");
+            this.detachOverlay();
+
+          
+          } });
         }
 
-        this.detachOverlay();
-        alert("Teklifiniz Gönderildi.");
+        
+       
 
       }
     } else { alert("Lütfen Tüm Alanları Doldurunuz") }
@@ -196,17 +284,46 @@ export class PriceComponent implements OnInit {
 
     if (roomcount <= 100) {
 
-      if (roomcount < 10) { roomcount = 10 }
+      if (roomcount < 20) { roomcount = 20 }
 
       this.dataSource = this.dataSource.map(x => {
         let gruptotal = 0;
         if (x.selected == true) {
           x.productgrup.forEach(y => {
             if (y.selected == true) {
-              gruptotal += y.quantity * y.productprice;
+              gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
             }
           });
         }
+
+        let fixtotal = 0;
+
+        if (roomcount <= 1 && x.fixuse == true) {
+          fixtotal = x.roomprice[0].fixprice;
+        } else {
+
+          if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
+            fixtotal = (roomcount * x.roomprice[0].priceCase1);
+          } else {
+
+            fixtotal = x.roomprice[0].fixprice;
+
+          }
+
+
+        }
+
+        if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
+          fixtotal = (roomcount * x.roomprice[0].priceCase1);
+        } else {
+
+          fixtotal = x.roomprice[0].fixprice;
+
+        }
+
+
+        let totalsub = x.roomprice[0].priceCase1 * roomcount;
+
 
         return {
 
@@ -216,10 +333,13 @@ export class PriceComponent implements OnInit {
           'roomprice': x.roomprice,
           'productgrup': x.productgrup,
           'gruptotal': gruptotal,
-          'total': x.fixuse == false ? x.roomprice[0].priceCase1 * roomcount : x.roomprice[0].fixprice + gruptotal,
+          'total': x.fixuse == false ? totalsub - ((totalsub / 100) * x.discount) : (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal,
           'selected': x.selected,
           'desc': x.desc,
-          'firstprice': x.firstprice
+          'firstprice': x.firstprice,
+          'fixroompricecalculate': x.fixroompricecalculate,
+          'discount': x.discount,
+
         };
       }
       );
@@ -238,13 +358,41 @@ export class PriceComponent implements OnInit {
         if (x.selected == true) {
           x.productgrup.forEach(y => {
             if (y.selected == true) {
-              gruptotal += y.quantity * y.productprice;
+              gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
             }
           });
         }
 
-        console.log(gruptotal);
 
+        let fixtotal = 0;
+
+        if (roomcount <= 1 && x.fixuse == true) {
+          fixtotal = x.roomprice[0].fixprice;
+        } else {
+
+          if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
+            fixtotal = (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2);
+          } else {
+
+            fixtotal = x.roomprice[0].fixprice;
+
+          }
+
+
+
+        }
+
+
+
+        if (x.roomprice[0].fixprice < ((100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2)) && x.fixroompricecalculate == true) {
+          fixtotal = (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2);
+        } else {
+
+          fixtotal = x.roomprice[0].fixprice;
+
+        }
+
+        let totalsub = x.roomprice[0].priceCase1 * 100 + x.roomprice[0].priceCase2 * (roomcount - 100);
         return {
           'fixuse': x.fixuse,
           'id': x.id,
@@ -252,10 +400,14 @@ export class PriceComponent implements OnInit {
           'roomprice': x.roomprice,
           'productgrup': x.productgrup,
           'gruptotal': gruptotal,
-          'total': x.fixuse == false ? x.roomprice[0].priceCase1 * 100 + x.roomprice[0].priceCase2 * (roomcount - 100) : x.roomprice[0].fixprice + gruptotal,
+          'total': x.fixuse == false ? totalsub - ((totalsub / 100) * x.discount) : (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal,
           'selected': x.selected,
           'desc': x.desc,
-          'firstprice': x.firstprice
+          'firstprice': x.firstprice,
+          'fixroompricecalculate': x.fixroompricecalculate,
+          'discount': x.discount,
+
+
         };
       }
       );
@@ -271,10 +423,43 @@ export class PriceComponent implements OnInit {
         if (x.selected == true) {
           x.productgrup.forEach(y => {
             if (y.selected == true) {
-              gruptotal += y.quantity * y.productprice;
+              gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
             }
           });
         }
+
+        let fixtotal = 0;
+
+
+        if (roomcount <= 1 && x.fixuse == true) {
+          fixtotal = x.roomprice[0].fixprice;
+        } else {
+
+          if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
+            fixtotal = (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2) + ((roomcount - 200) * x.roomprice[0].priceCase3);
+          } else {
+
+            fixtotal = x.roomprice[0].fixprice;
+
+          }
+
+
+
+        }
+
+
+
+        if (x.roomprice[0].fixprice < ((100 * x.roomprice[0].priceCase1) + (100 * x.roomprice[0].priceCase2) + (roomcount - 200 * x.roomprice[0].priceCase3)) && x.fixroompricecalculate == true) {
+          fixtotal = (100 * x.roomprice[0].priceCase1) + (100 * x.roomprice[0].priceCase2) + ((roomcount - 200) * x.roomprice[0].priceCase3);
+
+
+        } else {
+
+          fixtotal = x.roomprice[0].fixprice;
+
+        }
+
+        let totalsub = x.roomprice[0].priceCase1 * 100 + x.roomprice[0].priceCase2 * 100 + x.roomprice[0].priceCase3 * (roomcount - 200);
 
         return {
           'fixuse': x.fixuse,
@@ -283,10 +468,15 @@ export class PriceComponent implements OnInit {
           'roomprice': x.roomprice,
           'productgrup': x.productgrup,
           'gruptotal': gruptotal,
-          'total': x.fixuse == false ? x.roomprice[0].priceCase1 * 100 + x.roomprice[0].priceCase2 * 100 + x.roomprice[0].priceCase3 * (roomcount - 200) : x.roomprice[0].fixprice + gruptotal,
+          'total': x.fixuse == false ? totalsub - ((totalsub / 100) * x.discount) : (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal,
           'selected': x.selected,
           'desc': x.desc,
-          'firstprice': x.firstprice
+          'firstprice': x.firstprice,
+          'fixroompricecalculate': x.fixroompricecalculate,
+          'discount': x.discount,
+
+
+
         };
       }
       );
@@ -314,14 +504,46 @@ export class PriceComponent implements OnInit {
 
       let grupid1 = 0;
       let ekhizmetler = new Array();
+      let hardware = new Array();
 
       this.dataSource.forEach(element => {
-        if (element.firstprice[0].grupid != grupid1) {
-          ekhizmetler.push(element);
-          grupid1 = element.firstprice[0].grupid;
+
+        if (element.selected == true) {
+
+          if (element.firstprice[0].grupid != grupid1) {
+            ekhizmetler.push(element);
+            grupid1 = element.firstprice[0].grupid;
+          }
         }
       });
       this.ekhizmetler = ekhizmetler;
+
+
+
+      this.dataSource.forEach(element => {
+        if (element.selected == true) {
+          element.productgrup.forEach(element2 => {
+            if (element2.type == "hardware" && element2.selected == true) {
+              hardware.push(element);
+            }
+
+          });
+
+        }
+      });
+
+
+      this.hardware = hardware;
+      let hardwaretotal = 0;
+
+      hardware.forEach(hard => {
+        hard.productgrup.forEach(element => {
+          hardwaretotal += (element.productprice * element.quantity) - (((element.productprice * element.quantity) / 100) * element.discount);
+
+        });
+      });
+
+
 
 
       this.dataSource.forEach(element => {
@@ -331,19 +553,21 @@ export class PriceComponent implements OnInit {
             singleprice += element.firstprice[0].price;
             grupid = element.firstprice[0].grupid;
           }
-
           totalprice += element.total;
+
         }
 
       });
 
 
+
       this.totalpricefinal = (totalprice * 12);
+      this.hardwaretotal = hardwaretotal;
       this.firstprice = singleprice;
 
 
 
-    } else { this.totalpricefinal = 0; }
+    } else { this.totalpricefinal = 0; this.hardwaretotal = 0; }
 
   }
 

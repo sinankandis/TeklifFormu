@@ -1,127 +1,243 @@
 <div class="container">
 
-  <!--<button [routerLink]="['login']"  mat-raised-button color="primary"><i class="material-icons">person</i> Login</button>-->
+  <ng-container *ngIf="userservice.login==false">
+    <button style="margin-bottom: 10px;" [routerLink]="['login']" mat-raised-button color="primary"><i
+        class="material-icons">person</i> Login</button>
+  </ng-container>
+
+  <ng-container *ngIf="userservice.login==true">
+    <button style="margin-bottom: 10px;" [routerLink]="['/']" (click)="logout();" mat-raised-button color="primary"><i
+        class="material-icons">person</i> Logout</button>
+  </ng-container>
+
   <form [formGroup]="profileForm" class="example-form">
 
     <mat-card class="Section">
 
       <h1 style="text-align: center;font-family: sans-serif;">ElektraWEB Teklif Formu</h1>
 
-      <div fxLayout="row wrap" fxLayout.xs="row wrap">
-        <div fxFlex="50" fxFlex.xs="100">
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Otel Adı</mat-label>
-            <mat-icon matSuffix>business</mat-icon>
-            <input formControlName="hotelname" matInput value="">
-          </mat-form-field>
-        </div>
-        <div fxFlex="50" fxFlex.xs="100">
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>E-mail</mat-label>
-            <mat-icon matSuffix>email</mat-icon>
-            <input type="text" formControlName="email" matInput placeholder="Email" value="">
-          </mat-form-field>
-        </div>
+      <ng-container *ngFor="let item of userservice.userdata">
+        <div fxLayout="row wrap" fxLayout.xs="row wrap">
+          <div fxFlex="50" fxFlex.xs="100">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Otel Adı</mat-label>
+              <mat-icon matSuffix>business</mat-icon>
+              <input formControlName="hotelname" matInput value="">
+            </mat-form-field>
+          </div>
+          <div fxFlex="50" fxFlex.xs="100">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>E-mail</mat-label>
+              <mat-icon matSuffix>email</mat-icon>
+              <input type="text" formControlName="email" matInput placeholder="Email" value="">
+            </mat-form-field>
+          </div>
 
-        <div fxFlex="50" fxFlex.xs="100">
+          <div fxFlex="50" fxFlex.xs="100">
 
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Telefon</mat-label>
-            <mat-icon matSuffix>phone</mat-icon>
-            <input type="text" formControlName="phone" matInput placeholder="Telefon" value="">
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Telefon</mat-label>
+              <mat-icon matSuffix>phone</mat-icon>
+              <input type="text" formControlName="phone" matInput placeholder="Telefon" value="">
+            </mat-form-field>
 
-        </div>
+          </div>
 
-        <div fxFlex="50" fxFlex.xs="100">
+          <div fxFlex="50" fxFlex.xs="100">
 
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Yetkili Adı ve Soyadı</mat-label>
-            <mat-icon matSuffix>account_circle</mat-icon>
-            <input type="text" formControlName="authorized" matInput placeholder="Yetkili Adı ve Soyadı" value="">
-          </mat-form-field>
-        </div>
-
-
-        <div fxFlex="50">
-
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Oda Sayısı</mat-label>
-            <mat-icon matSuffix>account_circle</mat-icon>
-            <input type="number" matInput placeholder="Oda Sayısı"
-              (keyup)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
-              formControlName="roomcount">
-          </mat-form-field>
-
-        </div>
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Yetkili Adı ve Soyadı</mat-label>
+              <mat-icon matSuffix>account_circle</mat-icon>
+              <input type="text" formControlName="authorized" matInput placeholder="Yetkili Adı ve Soyadı" value="">
+            </mat-form-field>
+          </div>
 
 
 
 
-        <div fxFlex="50" fxFlex.xs="50">
-
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Satıcı Adı ve Soyadı</mat-label>
-            <mat-icon matSuffix>account_circle</mat-icon>
-            <input type="text" formControlName="wantname" matInput placeholder="Satıcı Adı ve Soyadı" value="">
-          </mat-form-field>
-        </div>
 
 
-        <div fxFlex="50" fxFlex.xs="100">
-          <div fxLayout="row wrap" fxLayout.xs="row wrap">
-            <div fxFlex="50" fxFlex.xs="100">
-              <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>Satıcı E-mail Adresi</mat-label>
-                <mat-icon matSuffix>email</mat-icon>
-                <input type="text" formControlName="wantemail" matInput placeholder="Satıcı E-mail Adresi" value="">
-              </mat-form-field>
-            </div>
-            <div fxFlex="50" fxFlex.xs="100" class="mailCheck">
-              <mat-checkbox (change)="log();" formControlName="sellerEmailCheck">Mail Gönderilsin mi ? </mat-checkbox>
+
+          <div fxFlex="50" fxFlex.xs="50">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Satıcı Adı ve Soyadı</mat-label>
+              <mat-icon matSuffix>account_circle</mat-icon>
+              <input type="text" formControlName="wantname" matInput placeholder="Satıcı Adı ve Soyadı">
+            </mat-form-field>
+          </div>
+
+
+          <div fxFlex="50" fxFlex.xs="100">
+            <div fxLayout="row wrap" fxLayout.xs="row wrap">
+              <div fxFlex="100" fxFlex.xs="100">
+                <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-label>Satıcı E-mail Adresi</mat-label>
+                  <mat-icon matSuffix>email</mat-icon>
+                  <input type="text" formControlName="wantemail" matInput placeholder="Satıcı E-mail Adresi">
+                </mat-form-field>
+              </div>
+
+
             </div>
 
           </div>
 
+
+
+
+
+
+          <div fxFlex="50" fxFlex.xs="100">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Satıcı Telefon</mat-label>
+              <mat-icon matSuffix>phone</mat-icon>
+              <input type="text" formControlName="wantphone" matInput placeholder="Satıcı  Telefon">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50" fxFlex.xs="100" class="mailCheck">
+            <mat-checkbox formControlName="sellerEmailCheck">Mail Gönderilsin mi ? </mat-checkbox>
+          </div>
+
         </div>
+      </ng-container>
+
+
+
+
+      <!--Login Olunmamışsa-->
+
+
+      <ng-container *ngIf="!userservice.userdata">
+        <div fxLayout="row wrap" fxLayout.xs="row wrap">
+          <div fxFlex="50" fxFlex.xs="100">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Otel Adı</mat-label>
+              <mat-icon matSuffix>business</mat-icon>
+              <input formControlName="hotelname" matInput value="">
+            </mat-form-field>
+          </div>
+          <div fxFlex="50" fxFlex.xs="100">
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>E-mail</mat-label>
+              <mat-icon matSuffix>email</mat-icon>
+              <input type="text" formControlName="email" matInput placeholder="Email" value="">
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50" fxFlex.xs="100">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Telefon</mat-label>
+              <mat-icon matSuffix>phone</mat-icon>
+              <input type="text" formControlName="phone" matInput placeholder="Telefon" value="">
+            </mat-form-field>
+
+          </div>
+
+          <div fxFlex="50" fxFlex.xs="100">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Yetkili Adı ve Soyadı</mat-label>
+              <mat-icon matSuffix>account_circle</mat-icon>
+              <input type="text" formControlName="authorized" matInput placeholder="Yetkili Adı ve Soyadı" value="">
+            </mat-form-field>
+          </div>
 
 
 
 
 
 
-        <div fxFlex="50" fxFlex.xs="100">
 
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>Satıcı Telefon</mat-label>
-            <mat-icon matSuffix>phone</mat-icon>
-            <input type="text" formControlName="wantphone" matInput placeholder="Satıcı  Telefon" value="">
-          </mat-form-field>
+          <div fxFlex="50" fxFlex.xs="50" style="display:none;">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Satıcı Adı ve Soyadı</mat-label>
+              <mat-icon matSuffix>account_circle</mat-icon>
+              <input type="text" formControlName="wantname" matInput placeholder="Satıcı Adı ve Soyadı">
+            </mat-form-field>
+          </div>
+
+
+          <div fxFlex="50" fxFlex.xs="100" style="display:none;">
+            <div fxLayout="row wrap" fxLayout.xs="row wrap">
+              <div fxFlex="50" fxFlex.xs="100">
+                <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-label>Satıcı E-mail Adresi</mat-label>
+                  <mat-icon matSuffix>email</mat-icon>
+                  <input type="text" formControlName="wantemail" matInput placeholder="Satıcı E-mail Adresi">
+                </mat-form-field>
+              </div>
+              <div fxFlex="50" fxFlex.xs="100" class="mailCheck">
+                <mat-checkbox formControlName="sellerEmailCheck">Mail Gönderilsin mi ? </mat-checkbox>
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+
+
+
+          <div fxFlex="50" fxFlex.xs="100" style="display:none;">
+
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>Satıcı Telefon</mat-label>
+              <mat-icon matSuffix>phone</mat-icon>
+              <input type="text" formControlName="wantphone" matInput placeholder="Satıcı  Telefon">
+            </mat-form-field>
+          </div>
+
         </div>
+      </ng-container>
 
-      </div>
+
 
     </mat-card>
 
 
     <mat-card class="Section">
 
-      <div class="roomBar">
+      <div fxLayout="row wrap" style="margin-bottom:10px;font-weight: 700;">
+
+
+        <div fxFlex="80" fxFlex.xs="100" style="    align-items: center;
+        vertical-align: middle;
+        display: flex;">
+
+          Lütfen istediğiniz modulleri işaretleyip teklif oluştur tuşuna
+          basınız
+
+
+        </div>
 
 
 
+        <div fxFlex="20" fxFlex.xs="100">
 
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Oda Sayısı</mat-label>
+            <mat-icon matSuffix>business</mat-icon>
+            <input min="0" type="number" matInput placeholder="Oda Sayısı"
+              (keyup)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+              formControlName="roomcount">
+          </mat-form-field>
+
+        </div>
 
       </div>
 
-      <div style="margin-bottom:10px;font-weight: 700;">Lütfen istediğiniz modulleri işaretleyip teklif oluştur tuşuna
-        basınız</div>
       <table>
         <thead>
           <tr>
             <th style="width: 10%;">Seç</th>
             <th>Ürün Adı</th>
-
+            <th *ngIf="userservice.login">İndirim %</th>
             <th style="width: 10%;text-align: end;">Total</th>
           </tr>
         </thead>
@@ -130,20 +246,48 @@
           <ng-container *ngFor="let item of dataSource">
             <tr>
               <td>
-                <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected"></mat-checkbox>
+                <mat-checkbox
+                  (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                  [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected"></mat-checkbox>
               </td>
               <td><span>{{item.productname}}</span></td>
-              <td style="text-align: end;">
-                <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'EUR'}}</span></ng-container>
-                <ng-container *ngIf="item.selected && this.showpriceControl == false">
-                  <span><strong>{{item.total | currency : 'EUR'}}</strong></span>
-                </ng-container>
-
-
-                <ng-container *ngIf="item.selected && this.showpriceControl == true">
-                  <span>{{0 | currency : 'EUR'}}</span>
-                </ng-container>
+              <td style="text-align:center;" *ngIf="userservice.login">
+                <input
+                  (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                  [ngModelOptions]="{standalone: true}" [(ngModel)]="item.discount" style="width:50px;" type="number"
+                  min="0" value="0" class="productinput" matInput>
               </td>
+
+              <ng-container *ngIf="!userservice.login">
+
+                <td style="text-align: end;">
+                  <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'EUR'}}</span></ng-container>
+                  <ng-container *ngIf="item.selected && this.showpriceControl == false">
+                    <span>
+
+                      <strong>{{item.total | currency : 'EUR'}}</strong></span>
+                  </ng-container>
+
+
+                  <ng-container *ngIf="item.selected && this.showpriceControl == true">
+                    <span>{{0 | currency : 'EUR'}}</span>
+                  </ng-container>
+                </td>
+              </ng-container>
+
+
+              <ng-container *ngIf="userservice.login">
+
+                <td style="text-align: end;">
+                  <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'EUR'}}</span></ng-container>
+                  <ng-container *ngIf="item.selected">
+                    <span>
+
+                      <strong>{{item.total | currency : 'EUR'}}</strong></span>
+                  </ng-container>
+                </td>
+              </ng-container>
+
             </tr>
 
 
@@ -158,6 +302,8 @@
                         <th>Seç</th>
                         <th style="width:50%;">Ürün Adı</th>
                         <th style="width:15%;">Ürün Adeti</th>
+                        <th *ngIf="userservice.login">İndirim %</th>
+
 
                         <th>Ürün T.Fiyat</th>
                       </thead>
@@ -165,18 +311,30 @@
                         <ng-container *ngFor="let x of item.productgrup">
                           <tr>
                             <td>
-                              <mat-checkbox (click)="log();" [ngModelOptions]="{standalone: true}"
-                                [(ngModel)]="x.selected">
+                              <mat-checkbox
+                                (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="x.selected">
                               </mat-checkbox>
                             </td>
                             <td>{{x.productname}}</td>
                             <td>
 
                               <input type="number" value="x.quantity" class="productinput"
-                                [ngModelOptions]="{standalone: true}" [(ngModel)]="x.quantity" matInput>
+                                (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="x.quantity" matInput>
                             </td>
 
-                            <td style="text-align: end;">{{x.productprice * x.quantity | currency : 'EUR'}}</td>
+                            <td style="text-align:center;" *ngIf="userservice.login">
+                              <input
+                                (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]="x.discount" style="width:50px;"
+                                type="number" min="0" value="0" class="productinput" matInput>
+                            </td>
+
+
+                            <td style="text-align: end;">
+                              {{ (x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount) | currency : 'EUR'}}
+                            </td>
                           </tr>
                         </ng-container>
                       </tbody>
@@ -185,10 +343,6 @@
                   </td>
 
                 </tr>
-
-
-
-
 
               </ng-container>
 
@@ -214,23 +368,47 @@
         </div>
         <div fxFlex="50" fxFlex.xs="100">
           <div class="totalBar">
-            <div><span class="totalLabel">Yıllık Toplam </span> <span
-                class="divid">:</span><span><strong>{{ totalpricefinal  | currency:'EUR'}}</strong> (
-                {{ totalpricefinal/12  | currency:'EUR'}} x 12 )</span>
 
+            <div *ngIf="hardware">
+              <div style="font-weight: 700">Donanım</div>
+              <ng-container *ngFor="let item of hardware">
+                <ng-container *ngFor="let x of item.productgrup">
+                  <div *ngIf="x.selected && x.productprice > 0">
+                    <span>{{x.productname}} ( {{ x.quantity }} Adet x
+                      {{x.productprice -((x.productprice/100) * x.discount) | currency:'EUR'}} )
+                     <b> {{ (x.productprice * x.quantity) - (((x.productprice/100) * x.discount) * x.quantity) | currency:'EUR'}}</b>
+                    </span>
+                  </div>
 
-              <div style="font-weight: 700;">Ek Hizmetler</div>
+                </ng-container>
+
+              </ng-container>
+              <hr>
+            </div>
+
+            <div *ngIf="ekhizmetler">
+              <div style="font-weight: 700">Ek Hizmetler</div>
               <ng-container *ngFor="let item of ekhizmetler">
                 <ng-container *ngFor="let x of item.firstprice">
-                  <div *ngIf="item.selected && x.price>0">
-                    <span>{{x.desc}} {{ x.price | currency:'EUR'}} </span>
+                  <div *ngIf="item.selected == true  && x.price>0">
+                    <span>{{x.desc}} <b>{{ x.price | currency:'EUR'}}</b></span>
                   </div>
 
                 </ng-container>
               </ng-container>
+              <hr>
+            </div>
+
+            <div class="yearly">
+              <span class="totalLabel">Yıllık Toplam </span> <span
+                class="divid">:</span><span><strong>( {{ ( totalpricefinal - (hardwaretotal*12) ) /12  | currency:'EUR'}} x 12 ) {{ totalpricefinal - (hardwaretotal*12) | currency:'EUR'}}</strong>
+                </span>
+            </div>
+
+            <div class="generaly">
 
               <span class="totalLabel">Genel Toplam </span> <span
-                class="divid">:</span><span><strong>{{ totalpricefinal + firstprice | currency:'EUR'}}</strong></span>
+                class="divid">:</span><span><strong>{{ ( totalpricefinal - (hardwaretotal*12) ) + firstprice + hardwaretotal | currency:'EUR'}}</strong></span>
             </div>
 
           </div>
@@ -241,12 +419,9 @@
         </div>
       </div>
 
-      <div class="textDesc"><i class="material-icons">info</i>
-        Bu fiyata bakım, sunucu, yedekleme ve güncelleme dahildir.</div>
-      <div class="textDesc"><i class="material-icons">info</i>
-        efatura, edefter ve earşiv modüllerinde 1 sefere mahsus 500€ kurulum ücreti alınır.</div>
-
-
+      <div class="textDesc"><i class="material-icons">info</i>Bu fiyata bakım, sunucu, yedekleme ve güncelleme dahildir.</div>
+      <div class="textDesc"><i class="material-icons">info</i>efatura, edefter ve earşiv modüllerinde 1 sefere mahsus 500 € kurulum ücreti alınır.</div>
+      <div class="textDesc"><i class="material-icons">info</i>eFatura ürünlerinde eFinans özel entegratörüyle çalışılması halinde ilk yıldan sonra ücret alınmayacaktır. ilk yıl fiyatlarına 5000 er kontör dahildir. Sonrasında kullanılacak kontör bedelleri alınan adede göre fiyatlanmaktadır.</div>
     </mat-card>
   </form>
 

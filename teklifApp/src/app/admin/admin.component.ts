@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent implements OnInit {
 
+
   constructor(private http : HttpClient,private service : UserService,private router : Router) { }
 
   loginForm = new FormGroup({
@@ -25,7 +26,7 @@ export class AdminComponent implements OnInit {
       this.http.post("http://localhost/teklif/login.php",this.loginForm.value).subscribe(resp=>{
         let data = [];
         data.push(resp);
-        console.log(data);
+        this.service.userdata = data;
        if(data[0].email !="" && data[0].email !=null ) {
          this.service.login = true;
          this.router.navigate([""]);

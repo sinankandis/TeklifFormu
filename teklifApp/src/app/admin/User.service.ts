@@ -7,6 +7,8 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 export class UserService implements CanActivate  {
   constructor(private router : Router) { }
   login : boolean =false;
+  public userdata : any;
+
 
   canActivate(next:ActivatedRouteSnapshot,state:RouterStateSnapshot):boolean {
     if(this.login ==true) {return true; }
