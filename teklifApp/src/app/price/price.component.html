@@ -399,6 +399,20 @@
               <hr>
             </div>
 
+            
+            <div *ngIf="setupprice">
+              <div style="font-weight: 700">Kurulum Ücretleri</div>
+              <ng-container *ngFor="let x of setupprice">
+                    <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice | currency:'EUR'}}  )  <b>{{ x.quantity * x.setupprice | currency:'EUR'}}</b><br></span>
+            
+              </ng-container>
+              <hr>
+            </div>
+            
+       
+           
+
+
             <div class="yearly">
               <span class="totalLabel">Yıllık Toplam </span> <span
                 class="divid">:</span><span><strong>( {{ ( totalpricefinal - (hardwaretotal*12) ) /12  | currency:'EUR'}} x 12 ) {{ totalpricefinal - (hardwaretotal*12) | currency:'EUR'}}</strong>
@@ -408,7 +422,7 @@
             <div class="generaly">
 
               <span class="totalLabel">Genel Toplam </span> <span
-                class="divid">:</span><span><strong>{{ ( totalpricefinal - (hardwaretotal*12) ) + firstprice + hardwaretotal | currency:'EUR'}}</strong></span>
+                class="divid">:</span><span><strong>{{ ( totalpricefinal - (hardwaretotal*12) ) + firstprice + hardwaretotal + setuppricetotal | currency:'EUR'}}</strong></span>
             </div>
 
           </div>

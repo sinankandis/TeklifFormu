@@ -75,6 +75,8 @@ export class PriceComponent implements OnInit {
   ekhizmetler: any;
   hardware: any;
   hardwaretotal: number;
+  setupprice: any;
+  setuppricetotal: number;
 
 
   elementdata: PeriodicElement[] = [];
@@ -170,14 +172,12 @@ export class PriceComponent implements OnInit {
             let altgrup = "";
             element.productgrup.forEach(x => {
               if (x.selected == true && x.type != "hardware") {
-
                 let discounttext3 = "";
                 if (x.discount > 0) {
                   discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " € ( %" + x.discount + " İndirim )"
                 }
 
-                altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + x.productprice + ' € ' + ' = ' + (x.productprice * x.quantity) + ' € )' + '<br>' +
-                  "<b><span>"  + discounttext3 + "</span></b><hr>";
+                altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + x.productprice + ' € ' + ' = ' + (x.productprice * x.quantity) + ' € )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
               }
             });
 
@@ -241,32 +241,43 @@ export class PriceComponent implements OnInit {
         })
 
 
+        let setupprice = "";
+        this.setupprice.forEach(x => {
+          setupprice += x.setupdesc +"<br>"  + "( " +  x.quantity + " * " + x.setupprice + " € )" +  x.quantity * x.setupprice + " €";
+        });
 
 
 
-
-        html += '<tr><td><strong>Donanımlar :</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.hardwaretotal + ' € ' + '</strong></td></tr>';
-        html += '<tr><td><strong>Ek Hizmetler :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.firstprice + ' € ' + '</strong></td></tr>';
+        if (hardware) {
+          html += '<tr><td><strong>Donanımlar :</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.hardwaretotal + ' € ' + '</strong></td></tr>';
+        }
+        if (ekhizmetler) {
+          html += '<tr><td><strong>Ek Hizmetler :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.firstprice + ' € ' + '</strong></td></tr>';
+        }
+        if (setupprice) {
+          html += '<tr><td><strong>Kurulum Ücretleri :</strong><p>' + setupprice + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.setuppricetotal + ' € ' + '</strong></td></tr>';
+        }
         html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.totalpricefinal - (this.hardwaretotal * 12)) + " € " + '</strong>(' + ((this.totalpricefinal - (this.hardwaretotal * 12)) / 12).toFixed(2) + ' € * 12 )</td></tr>';
-        html += '<tr><td><strong>Genel Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(((this.totalpricefinal - (this.hardwaretotal * 12)) + this.hardwaretotal + this.firstprice)) + " € " + '</strong></td></tr>';
+        html += '<tr><td><strong>Genel Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(((this.totalpricefinal - (this.hardwaretotal * 12)) + this.hardwaretotal + this.firstprice + this.setuppricetotal)) + " € " + '</strong></td></tr>';
 
         let messagebody = html;
         t.append('offer', messagebody);
         if (this.profileForm.valid) {
-          this.http.post(this.path + "teklifgonder.php", t, {responseType: 'text'}
-          ).subscribe(resp => { 
-            
-            console.log(resp);
-            if (String(resp).trim() === "success") { 
-            alert("Teklifiniz Gönderildi.");
-            this.detachOverlay();
+          this.http.post(this.path + "teklifgonder.php", t, { responseType: 'text' }
+          ).subscribe(resp => {
 
-          
-          } });
+            console.log(resp);
+            if (String(resp).trim() === "success") {
+              alert("Teklifiniz Gönderildi.");
+              this.detachOverlay();
+
+
+            }
+          });
         }
 
-        
-       
+
+
 
       }
     } else { alert("Lütfen Tüm Alanları Doldurunuz") }
@@ -505,6 +516,7 @@ export class PriceComponent implements OnInit {
       let grupid1 = 0;
       let ekhizmetler = new Array();
       let hardware = new Array();
+      let setupprice = new Array();
 
       this.dataSource.forEach(element => {
 
@@ -517,6 +529,9 @@ export class PriceComponent implements OnInit {
         }
       });
       this.ekhizmetler = ekhizmetler;
+
+
+
 
 
 
@@ -542,6 +557,28 @@ export class PriceComponent implements OnInit {
 
         });
       });
+
+
+      this.dataSource.forEach(element => {
+        element.productgrup.forEach(x => {
+          if (x.selected == true && x.type != "hardware") {
+            if (x.setupprice > 0 && x.quantitycross == true && x.selected == true) {
+              setupprice.push(x);
+            }
+
+          }
+        })
+      });
+
+      this.setupprice = setupprice;
+
+      let setuppicetotal = 0;
+      this.setupprice.forEach(y => {
+        setuppicetotal += (y.quantity * y.setupprice)
+
+      });
+
+      this.setuppricetotal = setuppicetotal;
 
 
 
