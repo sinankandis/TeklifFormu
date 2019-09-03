@@ -5,7 +5,7 @@ table {
   }
   
   td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid #bfbfbf;
     text-align: left;
     padding: 8px;
   }
@@ -92,3 +92,25 @@ table {
     vertical-align: middle;
     align-items: center;
   }
+
+  p.desctext {
+    margin: 0;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.singleproduct {
+
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  background: #676463;
+  padding: 7px;
+  float: right;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.singleproductlabel {
+  color:white;
+  margin-right:10px;
+}

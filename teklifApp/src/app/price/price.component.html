@@ -245,12 +245,23 @@
 
           <ng-container *ngFor="let item of dataSource">
             <tr>
-              <td>
+              <td style="text-align: center;">
                 <mat-checkbox
                   (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
                   [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected"></mat-checkbox>
               </td>
-              <td><span>{{item.productname}}</span></td>
+              <td><span><b>{{item.productname}}</b>
+                  <ng-container *ngIf="item.selected==true && item.singleproduct==true ">
+                    <div class="singleproduct">
+                      <label class="singleproductlabel">Ürün Adedi</label>
+                      <input
+                        (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                        [ngModelOptions]="{standalone: true}" [(ngModel)]="item.quantity" style="width:50px;"
+                        type="number" min="0" value="0" class="productinput" matInput>
+                    </div>
+                  </ng-container>
+                  <p class="desctext" [innerHTML]="item.desc"></p>
+                </span></td>
               <td style="text-align:center;" *ngIf="userservice.login">
                 <input
                   (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
@@ -292,7 +303,7 @@
 
 
             <ng-container *ngIf="item.selected">
-              <ng-container *ngIf="item.productgrup.length>0">
+              <ng-container *ngIf="item.productgrup && item.productgrup.length>0 ">
 
                 <tr class="altTr">
                   <td></td>
@@ -376,7 +387,8 @@
                   <div *ngIf="x.selected && x.productprice > 0">
                     <span>{{x.productname}} ( {{ x.quantity }} Adet x
                       {{x.productprice -((x.productprice/100) * x.discount) | currency:'EUR'}} )
-                     <b> {{ (x.productprice * x.quantity) - (((x.productprice/100) * x.discount) * x.quantity) | currency:'EUR'}}</b>
+                      <b>
+                        {{ (x.productprice * x.quantity) - (((x.productprice/100) * x.discount) * x.quantity) | currency:'EUR'}}</b>
                     </span>
                   </div>
 
@@ -399,24 +411,26 @@
               <hr>
             </div>
 
-            
+
             <div *ngIf="setupprice">
               <div style="font-weight: 700">Kurulum Ücretleri</div>
               <ng-container *ngFor="let x of setupprice">
-                    <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice | currency:'EUR'}}  )  <b>{{ x.quantity * x.setupprice | currency:'EUR'}}</b><br></span>
-            
+                <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice | currency:'EUR'}} )
+                  <b>{{ x.quantity * x.setupprice | currency:'EUR'}}</b><br></span>
+
               </ng-container>
               <hr>
             </div>
-            
-       
-           
+
+
+
 
 
             <div class="yearly">
-              <span class="totalLabel">Yıllık Toplam </span> <span
-                class="divid">:</span><span><strong>( {{ ( totalpricefinal - (hardwaretotal*12) ) /12  | currency:'EUR'}} x 12 ) {{ totalpricefinal - (hardwaretotal*12) | currency:'EUR'}}</strong>
-                </span>
+              <span class="totalLabel">Yıllık Toplam </span> <span class="divid">:</span><span><strong>(
+                  {{ ( totalpricefinal - (hardwaretotal*12) ) /12  | currency:'EUR'}} x 12 )
+                  {{ totalpricefinal - (hardwaretotal*12) | currency:'EUR'}}</strong>
+              </span>
             </div>
 
             <div class="generaly">
@@ -433,9 +447,13 @@
         </div>
       </div>
 
-      <div class="textDesc"><i class="material-icons">info</i>Bu fiyata bakım, sunucu, yedekleme ve güncelleme dahildir.</div>
-      <div class="textDesc"><i class="material-icons">info</i>efatura, edefter ve earşiv modüllerinde 1 sefere mahsus 500 € kurulum ücreti alınır.</div>
-      <div class="textDesc"><i class="material-icons">info</i>eFatura ürünlerinde eFinans özel entegratörüyle çalışılması halinde ilk yıldan sonra ücret alınmayacaktır. ilk yıl fiyatlarına 5000 er kontör dahildir. Sonrasında kullanılacak kontör bedelleri alınan adede göre fiyatlanmaktadır.</div>
+      <div class="textDesc"><i class="material-icons">info</i>Bu fiyata bakım, sunucu, yedekleme ve güncelleme dahildir.
+      </div>
+      <div class="textDesc"><i class="material-icons">info</i>efatura, edefter ve earşiv modüllerinde 1 sefere mahsus
+        500 € kurulum ücreti alınır.</div>
+      <div class="textDesc"><i class="material-icons">info</i>eFatura ürünlerinde eFinans özel entegratörüyle
+        çalışılması halinde ilk yıldan sonra ücret alınmayacaktır. ilk yıl fiyatlarına 5000 er kontör dahildir.
+        Sonrasında kullanılacak kontör bedelleri alınan adede göre fiyatlanmaktadır.</div>
     </mat-card>
   </form>
 
