@@ -18,7 +18,7 @@ table {
 
   .totalLabel {
     width: 110px !important;
-    display: inline-block;
+    display: initial;
 }
 
 .totalBar {

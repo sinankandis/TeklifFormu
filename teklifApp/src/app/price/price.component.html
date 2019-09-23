@@ -427,9 +427,16 @@
 
 
             <div class="yearly">
-              <span class="totalLabel">Yıllık Toplam </span> <span class="divid">:</span><span><strong>(
+              <span class="totalLabel">İlk Yıl Toplam </span> <span class="divid">:</span><span><strong>(
                   {{ ( totalpricefinal - (hardwaretotal*12) ) /12  | currency:'EUR'}} x 12 )
                   {{ totalpricefinal - (hardwaretotal*12) | currency:'EUR'}}</strong>
+              </span>
+            </div>
+
+            <div class="cyearly">
+              <span class="totalLabel">D.Eden Yıllarda Toplam </span> <span class="divid">:</span><span><strong>(
+                {{ ( totalpricefinal  - (yearlyfixpricetotal*12) ) / 12  | currency:'EUR'}} x 12 )
+                {{ totalpricefinal - (yearlyfixpricetotal*12)  | currency:'EUR'}}</strong>
               </span>
             </div>
 

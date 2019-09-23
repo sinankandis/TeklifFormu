@@ -64,11 +64,11 @@ export class PriceComponent implements OnInit {
   });
 
   public dataSource: any;
-  path: string = "";
+  path: string = "http://localhost/teklif/";
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
-  totalpricefinal: number;
+  totalpricefinal: number = 0;
   firstprice: number = 0;
   showpriceControl: boolean = true;
   overlayRef: OverlayRef;
@@ -76,7 +76,8 @@ export class PriceComponent implements OnInit {
   hardware: any;
   hardwaretotal: number;
   setupprice: any;
-  setuppricetotal: number;
+  setuppricetotal: number = 0;
+  yearlyfixpricetotal: number = 0;
 
 
   elementdata: PeriodicElement[] = [];
@@ -206,18 +207,33 @@ export class PriceComponent implements OnInit {
 
             }
 
-            let product ="";
-            if(element.singleproduct==true) {
-              product = "( "+element.quantity + " Adet * " + element.price +" € ) " +  this.decimalPipe.transform(element.quantity*element.price) + " €"
-  
+            let product = "";
+            if (element.singleproduct == true) {
+              product = "( " + element.quantity + " Adet * " + element.price + " € ) " + this.decimalPipe.transform(element.quantity * element.price) + " €"
+
             }
 
             total += element.total;
-            html += '<tr><td style="width:50%;"><strong>' + element.productname + '</strong><p>' + element.desc + "<br>"+  product +'<p>' +
+            let pricetext = "";
+            if (element.timesequence == "yearly") {
+              pricetext = "<b>" + ((element.total - hardwareitemtotal) * 12).toFixed(2) + "</b>" + " €/yıl ";
+
+            }
+
+            if (element.timesequence == "yearlyfix") {
+              pricetext = "<b>" + ((element.total - hardwareitemtotal) * 12).toFixed(2) + "</b>" + " €/ilkyıl ";
+
+            }
+
+            else { pricetext = "<b>" + ((element.total - hardwareitemtotal).toFixed(2)) + "</b>" + " €/ay "; }
+
+
+
+            html += '<tr><td style="width:50%;"><strong>' + element.productname + '</strong><p>' + element.desc + "<br>" + product + '<p>' +
               '<p>'  /*fixstring*/ + '<br>' + altgrup + '</p>'
               + '</td>' +
               '<td>' + formdata.roomcount + '</td>' +
-              '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' + discounttext + "<b>" + (element.total - hardwareitemtotal).toFixed(2) + "</b>" + " €/ay " + '</p></tr>';
+              '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' + discounttext + pricetext + '</p></tr>';
           }
         });
 
@@ -264,6 +280,9 @@ export class PriceComponent implements OnInit {
           html += '<tr><td><strong>Kurulum Ücretleri :</strong><p>' + setupprice + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.setuppricetotal + ' € ' + '</strong></td></tr>';
         }
         html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.totalpricefinal - (this.hardwaretotal * 12)) + " € " + '</strong>(' + ((this.totalpricefinal - (this.hardwaretotal * 12)) / 12).toFixed(2) + ' € * 12 )</td></tr>';
+        if (this.yearlyfixpricetotal > 0) {
+          html += '<tr><td><strong>D.Eden Yıllar Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.totalpricefinal - (this.yearlyfixpricetotal * 12)) + " € " + '</strong>(' + ((this.totalpricefinal - (this.yearlyfixpricetotal * 12)) / 12).toFixed(2) + ' € * 12 )</td></tr>';
+        }
         html += '<tr><td><strong>Genel Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(((this.totalpricefinal - (this.hardwaretotal * 12)) + this.hardwaretotal + this.firstprice + this.setuppricetotal)) + " € " + '</strong></td></tr>';
 
         let messagebody = html;
@@ -626,10 +645,20 @@ export class PriceComponent implements OnInit {
       });
 
 
+      let yearlyfixpricetotal = 0;
+      this.dataSource.forEach(element => {
+        if (element.selected == true && element.timesequence == "yearlyfix") {
+          yearlyfixpricetotal += element.total;
+        }
+
+      });
+
+
 
       this.totalpricefinal = (totalprice * 12);
       this.hardwaretotal = hardwaretotal;
       this.firstprice = singleprice;
+      this.yearlyfixpricetotal = yearlyfixpricetotal;
 
 
 
