@@ -64,7 +64,7 @@ export class PriceComponent implements OnInit {
   });
 
   public dataSource: any;
-  path: string = "http://localhost/teklif/";
+  path: string = "";
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
@@ -78,6 +78,7 @@ export class PriceComponent implements OnInit {
   setupprice: any;
   setuppricetotal: number = 0;
   yearlyfixpricetotal: number = 0;
+  yearlyfixsinglepricetotal: number = 0;
 
 
   elementdata: PeriodicElement[] = [];
@@ -141,7 +142,7 @@ export class PriceComponent implements OnInit {
 
 
 
-  teklifGonder() {
+  teklifGonder(process) {
 
 
     if (this.profileForm.valid) {
@@ -149,11 +150,10 @@ export class PriceComponent implements OnInit {
         alert("Teklif Oluşturmak İçin En Az Bir Ürün Seçiniz!")
       }
       else {
-
-
         this.progress();
         let t = new FormData();
         let formdata = this.profileForm.value;
+        t.append('process', process);
         t.append('hotelname', formdata.hotelname);
         t.append('email', formdata.email);
         t.append('phone', formdata.phone);
@@ -216,16 +216,22 @@ export class PriceComponent implements OnInit {
             total += element.total;
             let pricetext = "";
             if (element.timesequence == "yearly") {
-              pricetext = "<b>" + ((element.total - hardwareitemtotal) * 12).toFixed(2) + "</b>" + " €/yıl ";
+              pricetext = "<b>" +this.decimalPipe.transform( ((element.total - hardwareitemtotal) * 12).toFixed(2)) + "</b>" + " €/yıl ";
 
             }
 
             if (element.timesequence == "yearlyfix") {
-              pricetext = "<b>" + ((element.total - hardwareitemtotal) * 12).toFixed(2) + "</b>" + " €/ilkyıl ";
+              pricetext = "<b>" + this.decimalPipe.transform(((element.total - hardwareitemtotal) * 12).toFixed(2)) + "</b>" + " €/ilkyıl ";
 
             }
 
-            else { pricetext = "<b>" + ((element.total - hardwareitemtotal).toFixed(2)) + "</b>" + " €/ay "; }
+
+            if (element.timesequence == "yearlyfixsingle") {
+              pricetext = "<b>" +this.decimalPipe.transform( ((element.total - hardwareitemtotal)).toFixed(2)) + "</b>" + " €/ilkyıl ";
+
+            }
+
+            else { pricetext = "<b>" + this.decimalPipe.transform(((element.total - hardwareitemtotal).toFixed(2))) + "</b>" + " €/ay -- " + this.decimalPipe.transform(((element.total - hardwareitemtotal) *12)) + " €/yıl" }
 
 
 
@@ -240,7 +246,7 @@ export class PriceComponent implements OnInit {
         let ekhizmetler = "";
         this.ekhizmetler.forEach(x => {
           if (x.selected == true && x.firstprice[0].price > 0) {
-            ekhizmetler += 'Hizmet : ' + x.firstprice[0].desc + '  ' + x.firstprice[0].price + ' €' + '<br>';
+            ekhizmetler += 'Hizmet : ' + x.firstprice[0].desc + '  ' + this.decimalPipe.transform(x.firstprice[0].price) + ' €' + '<br>';
           }
         });
 
@@ -248,24 +254,22 @@ export class PriceComponent implements OnInit {
 
         let hardware = "";
         this.hardware.forEach(x => {
-          if (x.selected == true) {
-            let discounttext2 = "";
-            if (x.productgrup[0].discount > 0) {
 
-              discounttext2 = ((x.productgrup[0].productprice * x.productgrup[0].quantity) - (((x.productgrup[0].productprice * x.productgrup[0].quantity) / 100) * x.productgrup[0].discount)).toFixed(2) + " € ( %" + x.productgrup[0].discount + " İndirim )"
-
-            }
-            hardware += x.productgrup[0].productname + "<br>" + ' ( ' + x.productgrup[0].quantity + ' Adet X ' + x.productgrup[0].productprice + ' € ' + ' = ' + (x.productgrup[0].productprice * x.productgrup[0].quantity) + ' € )' + "<br><span>" +
-              discounttext2
-
-              + "</span><hr><br>";
+          let discounttext2 = "";
+          if (x.discount > 0) {
+            discounttext2 = this.decimalPipe.transform(((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2)) + " € ( %" + x.discount + " İndirim )"
           }
+          hardware += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + this.decimalPipe.transform(x.productprice) + ' € ' + ' = ' + this.decimalPipe.transform((x.productprice * x.quantity)) + ' € )' + "<br><span>" +
+            discounttext2
+
+            + "</span><hr><br>";
+
         })
 
 
         let setupprice = "";
         this.setupprice.forEach(x => {
-          setupprice += x.setupdesc + "<br>" + "( " + x.quantity + " * " + x.setupprice + " € )" + x.quantity * x.setupprice + " €";
+          setupprice += x.setupdesc + "<br>" + "( " + x.quantity + " * " + this.decimalPipe.transform(x.setupprice) + " € )" + this.decimalPipe.transform(x.quantity * x.setupprice) + " €";
         });
 
 
@@ -281,22 +285,36 @@ export class PriceComponent implements OnInit {
         }
         html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.totalpricefinal - (this.hardwaretotal * 12)) + " € " + '</strong>(' + ((this.totalpricefinal - (this.hardwaretotal * 12)) / 12).toFixed(2) + ' € * 12 )</td></tr>';
         if (this.yearlyfixpricetotal > 0) {
-          html += '<tr><td><strong>D.Eden Yıllar Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.totalpricefinal - (this.yearlyfixpricetotal * 12)) + " € " + '</strong>(' + ((this.totalpricefinal - (this.yearlyfixpricetotal * 12)) / 12).toFixed(2) + ' € * 12 )</td></tr>';
+          html += '<tr><td><strong>D.Eden Yıllar Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.totalpricefinal - (this.yearlyfixpricetotal * 12) - this.yearlyfixsinglepricetotal) + " € " + '</strong>(' + ((this.totalpricefinal - (this.yearlyfixpricetotal * 12) - this.yearlyfixsinglepricetotal) / 12).toFixed(2) + ' € * 12 )</td></tr>';
         }
         html += '<tr><td><strong>Genel Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(((this.totalpricefinal - (this.hardwaretotal * 12)) + this.hardwaretotal + this.firstprice + this.setuppricetotal)) + " € " + '</strong></td></tr>';
 
         let messagebody = html;
         t.append('offer', messagebody);
         if (this.profileForm.valid) {
-          this.http.post(this.path + "teklifgonder.php", t, { responseType: 'text' }
-          ).subscribe(resp => {
+          this.http.post(this.path + "teklifgonder.php", t, { responseType: 'json' }
+          ).subscribe((resp: any) => {
+            if (resp.html) {
 
-            console.log(resp);
-            if (String(resp).trim() === "success") {
-              alert("Teklifiniz Gönderildi.");
-              this.detachOverlay();
+                   var sourceHTML = resp.html
+                   
+                   var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                   var fileDownload = document.createElement("a");
+                   document.body.appendChild(fileDownload);
+                   fileDownload.href = source;
+                   fileDownload.download = 'teklif.doc';
+                   fileDownload.click();
+                   document.body.removeChild(fileDownload);
+                   this.detachOverlay();
 
 
+
+             } else {
+
+              if (resp.success) {
+                alert("Teklifiniz Gönderildi.");
+                this.detachOverlay();
+              }
             }
           });
         }
@@ -313,13 +331,9 @@ export class PriceComponent implements OnInit {
   changeData(roomcount) {
 
 
-    let totalprice = 0;
-    let totalprice1 = 0;
-    let totalprice2 = 0;
-    let totalprice3 = 0;
 
     if (roomcount <= 100) {
-      if (roomcount < 20) { roomcount = 20 }
+      if (roomcount < 10) { roomcount = 10 }
       this.dataSource = this.dataSource.map(x => {
         let gruptotal = 0;
         if (x.selected == true) {
@@ -401,7 +415,7 @@ export class PriceComponent implements OnInit {
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
         } else {
-          if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
+          if (x.roomprice[0].fixprice < (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2) && x.fixroompricecalculate == true) {
             fixtotal = (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2);
           } else {
             fixtotal = x.roomprice[0].fixprice;
@@ -446,8 +460,6 @@ export class PriceComponent implements OnInit {
           "timesequence": x.timesequence,
           "price": x.price,
           "quantity": x.quantity
-
-
         };
       }
       );
@@ -469,41 +481,23 @@ export class PriceComponent implements OnInit {
         }
 
         let fixtotal = 0;
-
-
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
         } else {
-
-          if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
+          if (x.roomprice[0].fixprice < (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2) + ((roomcount - 200) * x.roomprice[0].priceCase3) && x.fixroompricecalculate == true) {
             fixtotal = (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2) + ((roomcount - 200) * x.roomprice[0].priceCase3);
           } else {
-
             fixtotal = x.roomprice[0].fixprice;
-
           }
-
-
-
         }
 
 
 
-        if (x.roomprice[0].fixprice < ((100 * x.roomprice[0].priceCase1) + (100 * x.roomprice[0].priceCase2) + (roomcount - 200 * x.roomprice[0].priceCase3)) && x.fixroompricecalculate == true) {
-          fixtotal = (100 * x.roomprice[0].priceCase1) + (100 * x.roomprice[0].priceCase2) + ((roomcount - 200) * x.roomprice[0].priceCase3);
-
-
-        } else {
-
-          fixtotal = x.roomprice[0].fixprice;
-
-        }
 
         let totalsub = x.roomprice[0].priceCase1 * 100 + x.roomprice[0].priceCase2 * 100 + x.roomprice[0].priceCase3 * (roomcount - 200);
         let totalfin;
         if (x.fixuse == false) {
           if (x.singleproduct == true) {
-
             totalfin = (x.price * x.quantity) - (((x.price * x.quantity) / 100) * x.discount)
           }
 
@@ -587,7 +581,7 @@ export class PriceComponent implements OnInit {
         if (element.selected == true) {
           element.productgrup.forEach(element2 => {
             if (element2.type == "hardware" && element2.selected == true) {
-              hardware.push(element);
+              hardware.push(element2);
             }
 
           });
@@ -596,15 +590,16 @@ export class PriceComponent implements OnInit {
       });
 
 
+
       this.hardware = hardware;
       let hardwaretotal = 0;
 
-      hardware.forEach(hard => {
-        hard.productgrup.forEach(element => {
-          hardwaretotal += (element.productprice * element.quantity) - (((element.productprice * element.quantity) / 100) * element.discount);
+      hardware.forEach(element => {
 
-        });
+        hardwaretotal += (element.productprice * element.quantity) - (((element.productprice * element.quantity) / 100) * element.discount);
+
       });
+
 
 
       this.dataSource.forEach(element => {
@@ -654,11 +649,21 @@ export class PriceComponent implements OnInit {
       });
 
 
+      let yearlyfixsinglepricetotal = 0;
+      this.dataSource.forEach(element => {
+        if (element.selected == true && element.timesequence == "yearlyfixsingle") {
+          yearlyfixsinglepricetotal += element.total
+        }
 
-      this.totalpricefinal = (totalprice * 12);
+      });
+
+
+
+      this.totalpricefinal = (totalprice * 12) - (yearlyfixsinglepricetotal * 11);
       this.hardwaretotal = hardwaretotal;
       this.firstprice = singleprice;
       this.yearlyfixpricetotal = yearlyfixpricetotal;
+      this.yearlyfixsinglepricetotal = yearlyfixsinglepricetotal
 
 
 
@@ -666,6 +671,20 @@ export class PriceComponent implements OnInit {
 
   }
 
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
 
 
