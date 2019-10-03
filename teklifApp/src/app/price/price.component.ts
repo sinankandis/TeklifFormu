@@ -64,7 +64,7 @@ export class PriceComponent implements OnInit {
   });
 
   public dataSource: any;
-  path: string = "";
+  path: string = "http://localhost/teklif/";
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
@@ -121,10 +121,6 @@ export class PriceComponent implements OnInit {
 
   }
 
-  log() {
-    console.log(this.profileForm.value.sellerEmailCheck);
-
-  }
 
   progress() {
     this.overlayRef = this.overlay.create({
@@ -164,84 +160,171 @@ export class PriceComponent implements OnInit {
         t.append('wantemail', formdata.wantemail);
         t.append('wantphone', formdata.wantphone);
         t.append('sellerEmailCheck', formdata.sellerEmailCheck);
-
-        let html = '';
+        let html ="";
+        let checkdata = this.dataSource.filter(x=> x=> x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
+        if(checkdata.length >0) {
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Adet</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
+          }
         let total = 0;
+        let monthlytotal = 0;
         this.dataSource.forEach(element => {
 
           if (element.selected) {
-            let altgrup = "";
-            element.productgrup.forEach(x => {
-              if (x.selected == true && x.type != "hardware") {
-                let discounttext3 = "";
-                if (x.discount > 0) {
-                  discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " € ( %" + x.discount + " İndirim )"
+            if (!(element.timesequence == "yearlyfix" || element.timesequence == "yearlyfixsingle" || element.timesequence == "yearly")) {
+              let altgrup = "";
+              element.productgrup.forEach(x => {
+                if (x.selected == true && x.type != "hardware") {
+                  let discounttext3 = "";
+                  if (x.discount > 0) {
+                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " € ( %" + x.discount + " İndirim )"
+                  }
+                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + x.productprice + ' € ' + ' = ' + (x.productprice * x.quantity) + ' € )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
                 }
+              });
 
-                altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + x.productprice + ' € ' + ' = ' + (x.productprice * x.quantity) + ' € )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
+
+
+              let fixprice = element.roomprice[0].fixprice;
+              let fixstring = "";
+              if (fixprice > 0) {
+                fixstring = element.firstprice[0].desc + fixprice + ' € ';
               }
-            });
+
+     
+              let discounttext;
+              if (element.discount > 0) {
+                let nodiscountt = (element.total) + ((element.total ) / (100 - element.discount) * element.discount);
+                discounttext = "( İndirim %" + element.discount + " ) <span>" + this.decimalPipe.transform(nodiscountt) + ' €</span>' + "<br>";
+              } else { discounttext = ""; }
+
+              let product = "";
+              if (element.singleproduct == true) {
+                product = "( " + element.quantity + " Adet * " + element.price + " € ) " + this.decimalPipe.transform(element.quantity * element.price) + " €"
+
+              }
+
+              monthlytotal += element.total;
+              let pricetext = "";
+              if (element.timesequence == "yearly") {
+                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " €/yıl ";
+
+              }
+
+              if (element.timesequence == "yearlyfix") {
+                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " €/ilkyıl ";
+
+              }
+
+
+              if (element.timesequence == "yearlyfixsingle") {
+                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " €/ilkyıl ";
+              }
+
+              else { pricetext = "<b>" + this.decimalPipe.transform((element.total /12)) + "</b>" + " €/ay -- " + this.decimalPipe.transform(element.total) + " €/yıl" }
 
 
 
-            let fixprice = element.roomprice[0].fixprice;
-            let fixstring = "";
-            if (fixprice > 0) {
-              fixstring = element.firstprice[0].desc + fixprice + ' € ';
+              html += '<tr><td style="width:50%;"><strong>' + element.productname + '</strong><p>' + element.desc + "<br>" + product + '<p>' +
+                '<p>'  /*fixstring*/ + '<br>' + altgrup + '</p>'
+                + '</td>' +
+                '<td>' + formdata.roomcount + '</td>' +
+                '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' + discounttext + pricetext + '</p></tr>';
             }
 
-            let hardwareitemtotal = 0;
-            element.productgrup.forEach(x => {
-              if (x.type == "hardware" && x.selected == true) { hardwareitemtotal += (x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount) }
-
-            });
-
-            if (hardwareitemtotal == undefined) { hardwareitemtotal = 0; } else { hardwareitemtotal = hardwareitemtotal }
-
-            let discounttext;
-            if (element.discount > 0) {
-              let nodiscountt = (element.total - hardwareitemtotal) + ((element.total - hardwareitemtotal) / (100 - element.discount) * element.discount);
-              discounttext = "( İndirim %" + element.discount + " ) <span>" + nodiscountt.toFixed(2) + ' €</span>' + "<br>";
-            } else {
-              discounttext = "";
-
-            }
-
-            let product = "";
-            if (element.singleproduct == true) {
-              product = "( " + element.quantity + " Adet * " + element.price + " € ) " + this.decimalPipe.transform(element.quantity * element.price) + " €"
-
-            }
-
-            total += element.total;
-            let pricetext = "";
-            if (element.timesequence == "yearly") {
-              pricetext = "<b>" +this.decimalPipe.transform( ((element.total - hardwareitemtotal) * 12).toFixed(2)) + "</b>" + " €/yıl ";
-
-            }
-
-            if (element.timesequence == "yearlyfix") {
-              pricetext = "<b>" + this.decimalPipe.transform(((element.total - hardwareitemtotal) * 12).toFixed(2)) + "</b>" + " €/ilkyıl ";
-
-            }
-
-
-            if (element.timesequence == "yearlyfixsingle") {
-              pricetext = "<b>" +this.decimalPipe.transform( ((element.total - hardwareitemtotal)).toFixed(2)) + "</b>" + " €/ilkyıl ";
-
-            }
-
-            else { pricetext = "<b>" + this.decimalPipe.transform(((element.total - hardwareitemtotal).toFixed(2))) + "</b>" + " €/ay -- " + this.decimalPipe.transform(((element.total - hardwareitemtotal) *12)) + " €/yıl" }
-
-
-
-            html += '<tr><td style="width:50%;"><strong>' + element.productname + '</strong><p>' + element.desc + "<br>" + product + '<p>' +
-              '<p>'  /*fixstring*/ + '<br>' + altgrup + '</p>'
-              + '</td>' +
-              '<td>' + formdata.roomcount + '</td>' +
-              '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' + discounttext + pricetext + '</p></tr>';
           }
+
         });
+
+        if(checkdata.length >0) {
+        html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' +" €" + this.decimalPipe.transform(monthlytotal) +  '</strong></td></tr>';
+        html += '</tbody></table><br><br>';
+         }
+
+         let checkdatafix = this.dataSource.filter(x=> x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
+         if(checkdatafix.length >0) {
+          html += '<div class="heading">İlk Yıl Ücretlendirelecek Ürünler ve Hizmetler</div>';
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Adet</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
+  
+          }
+
+        /* Tek Seferlik ve Sabit Ücterler Toplamı */
+        let fixlytotal = 0;
+        this.dataSource.forEach(element => {
+          if (element.selected) {
+            if ((element.timesequence == "yearlyfix" || element.timesequence == "yearlyfixsingle" || element.timesequence == "yearly")) {
+              let altgrup = "";
+              element.productgrup.forEach(x => {
+                if (x.selected == true && x.type != "hardware") {
+                  let discounttext3 = "";
+                  if (x.discount > 0) {
+                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " € ( %" + x.discount + " İndirim )"
+                  }
+
+                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + x.productprice + ' € ' + ' = ' + (x.productprice * x.quantity) + ' € )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
+                }
+              });
+
+
+
+              let fixprice = element.roomprice[0].fixprice;
+              let fixstring = "";
+              if (fixprice > 0) {
+                fixstring = element.firstprice[0].desc + fixprice + ' € ';
+              }
+
+              let hardwareitemtotal = 0;
+              element.productgrup.forEach(x => {
+                if (x.type == "hardware" && x.selected == true) { hardwareitemtotal += (x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount) }
+
+              });
+
+              if (hardwareitemtotal == undefined) { hardwareitemtotal = 0; } else { hardwareitemtotal = hardwareitemtotal }
+
+              let discounttext;
+              if (element.discount > 0) {
+                let nodiscountt = (element.total - hardwareitemtotal) + ((element.total - hardwareitemtotal) / (100 - element.discount) * element.discount);
+                discounttext = "( İndirim %" + element.discount + " ) <span>" + this.decimalPipe.transform(nodiscountt) + ' €</span>' + "<br>";
+              } else { discounttext = ""; }
+
+              let product = "";
+              if (element.singleproduct == true) {
+                product = "( " + element.quantity + " Adet * " + element.price + " € ) " + this.decimalPipe.transform(element.quantity * element.price) + " €"
+
+              }
+
+
+
+              let pricetext = "";
+              if (element.timesequence == "yearly") {
+                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + "</b>" + " € ";
+                fixlytotal += element.total;
+              }
+
+              if (element.timesequence == "yearlyfix") {
+                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " € " + "</b>";
+                fixlytotal += element.total;              }
+
+
+              if (element.timesequence == "yearlyfixsingle") {
+                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " € " + "</b>";
+                fixlytotal += element.total;
+              }
+
+
+
+
+
+              html += '<tr><td style="width:50%;"><strong>' + element.productname + '</strong><p>' + element.desc + "<br>" + product + '<p>' +
+                '<p>'  /*fixstring*/ + '<br>' + altgrup + '</p>'
+                + '</td>' +
+                '<td>' + formdata.roomcount + '</td>' +
+                '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' + discounttext + pricetext + '</p></tr>';
+            }
+
+          }
+
+        });
+
 
         let ekhizmetler = "";
         this.ekhizmetler.forEach(x => {
@@ -250,44 +333,51 @@ export class PriceComponent implements OnInit {
           }
         });
 
-
-
         let hardware = "";
         this.hardware.forEach(x => {
-
           let discounttext2 = "";
           if (x.discount > 0) {
-            discounttext2 = this.decimalPipe.transform(((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2)) + " € ( %" + x.discount + " İndirim )"
+            discounttext2 = "<b>" + this.decimalPipe.transform(((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2)) + " € ( %" + x.discount + " İndirim )</b>"
           }
           hardware += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + this.decimalPipe.transform(x.productprice) + ' € ' + ' = ' + this.decimalPipe.transform((x.productprice * x.quantity)) + ' € )' + "<br><span>" +
             discounttext2
-
             + "</span><hr><br>";
 
         })
-
 
         let setupprice = "";
         this.setupprice.forEach(x => {
           setupprice += x.setupdesc + "<br>" + "( " + x.quantity + " * " + this.decimalPipe.transform(x.setupprice) + " € )" + this.decimalPipe.transform(x.quantity * x.setupprice) + " €";
         });
 
-
-
         if (hardware) {
-          html += '<tr><td><strong>Donanımlar :</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.hardwaretotal + ' € ' + '</strong></td></tr>';
+          html += '<tr><td><strong>Donanımlar :</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.hardwaretotal) + ' € ' + '</strong></td></tr>';
         }
         if (ekhizmetler) {
-          html += '<tr><td><strong>Ek Hizmetler :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.firstprice + ' € ' + '</strong></td></tr>';
+          html += '<tr><td><strong>Ek Hizmetler :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.firstprice) + ' € ' + '</strong></td></tr>';
         }
         if (setupprice) {
-          html += '<tr><td><strong>Kurulum Ücretleri :</strong><p>' + setupprice + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.setuppricetotal + ' € ' + '</strong></td></tr>';
+          html += '<tr><td><strong>Kurulum Ücretleri :</strong><p>' + setupprice + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.setuppricetotal) + ' € ' + '</strong></td></tr>';
         }
-        html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.totalpricefinal - (this.hardwaretotal * 12)) + " € " + '</strong>(' + ((this.totalpricefinal - (this.hardwaretotal * 12)) / 12).toFixed(2) + ' € * 12 )</td></tr>';
+
+
+        if(checkdatafix.length >0) {
+        html += '<tr><td><strong>Toplam :</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " € " + '</strong></td></tr>';
+        html += '</tbody></table>';
+        }
+
+    
+        html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1"></th><th class="coltab2"></th><th class="coltab3"></th></tr></thead><tbody>';
+
         if (this.yearlyfixpricetotal > 0) {
-          html += '<tr><td><strong>D.Eden Yıllar Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.totalpricefinal - (this.yearlyfixpricetotal * 12) - this.yearlyfixsinglepricetotal) + " € " + '</strong>(' + ((this.totalpricefinal - (this.yearlyfixpricetotal * 12) - this.yearlyfixsinglepricetotal) / 12).toFixed(2) + ' € * 12 )</td></tr>';
+          html += '<tr><td><strong>Devam Eden Yıllarda Ödenecek Ücretler Toplamı :</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal)  + " € "+ '</td></tr>';
         }
-        html += '<tr><td><strong>Genel Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(((this.totalpricefinal - (this.hardwaretotal * 12)) + this.hardwaretotal + this.firstprice + this.setuppricetotal)) + " € " + '</strong></td></tr>';
+        html += '<tr><td><strong>Genel Toplam :</strong></td><td>---</td>' + '<td class="totals"><strong>' +  this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal) )  + " €"
+          " ( " + this.decimalPipe.transform((fixlytotal  + this.firstprice + this.setuppricetotal))  + " €" +
+          " + "+ this.decimalPipe.transform((monthlytotal)) + " € )" +
+          '</strong></td></tr>';
+          html +="</tbody></table>";
+      
 
         let messagebody = html;
         t.append('offer', messagebody);
@@ -296,23 +386,23 @@ export class PriceComponent implements OnInit {
           ).subscribe((resp: any) => {
             if (resp.html) {
 
-                   var sourceHTML = resp.html
-                   
-                   var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-                   var fileDownload = document.createElement("a");
-                   document.body.appendChild(fileDownload);
-                   fileDownload.href = source;
-                   fileDownload.download = 'teklif.doc';
-                   fileDownload.click();
-                   document.body.removeChild(fileDownload);
-                   this.detachOverlay();
+              var sourceHTML = resp.html
+
+              var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+              var fileDownload = document.createElement("a");
+              document.body.appendChild(fileDownload);
+              fileDownload.href = source;
+              fileDownload.download = 'teklif.doc';
+              fileDownload.click();
+              document.body.removeChild(fileDownload);
+              this.detachOverlay();
 
 
 
-             } else {
+            } else {
 
               if (resp.success) {
-                alert("Teklifiniz Gönderildi.");
+                alert("Teklifiniz Gönderildi.Teklif Detayları e-posta ile iletilmiştir.");
                 this.detachOverlay();
               }
             }
@@ -339,12 +429,16 @@ export class PriceComponent implements OnInit {
         if (x.selected == true) {
           x.productgrup.forEach(y => {
             if (y.selected == true) {
-              gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+              if(y.time=="monthly") {
+              gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount))*12;
+            } else {  gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+            }
             }
           });
         }
 
         let fixtotal = 0;
+
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
         } else {
@@ -356,21 +450,30 @@ export class PriceComponent implements OnInit {
           }
         }
 
+
+
+
         if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
-          fixtotal = (roomcount * x.roomprice[0].priceCase1);
-        } else {
-          fixtotal = x.roomprice[0].fixprice;
-        }
+            fixtotal = (roomcount * x.roomprice[0].priceCase1);
+        } 
+        else {
+               fixtotal = x.roomprice[0].fixprice;
+             }
+
         let totalsub = x.roomprice[0].priceCase1 * roomcount;
         let totalfin;
         if (x.fixuse == false) {
           if (x.singleproduct == true) {
             totalfin = (x.price * x.quantity) - (((x.price * x.quantity) / 100) * x.discount)
           } else {
-            totalfin = totalsub - ((totalsub / 100) * x.discount)
+            totalfin = (totalsub - ((totalsub / 100) * x.discount) ) *12;
           }
         } else {
+          if(x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") {
           totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
+          } else {
+            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) *12) + gruptotal
+          }
         }
 
 
@@ -404,7 +507,10 @@ export class PriceComponent implements OnInit {
         if (x.selected == true) {
           x.productgrup.forEach(y => {
             if (y.selected == true) {
-              gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+              if(y.time=="monthly") {
+              gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount))*12;
+            } else {  gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+            }
             }
           });
         }
@@ -435,10 +541,14 @@ export class PriceComponent implements OnInit {
           if (x.singleproduct == true) {
             totalfin = (x.price * x.quantity) - (((x.price * x.quantity) / 100) * x.discount)
           } else {
-            totalfin = totalsub - ((totalsub / 100) * x.discount)
+            totalfin = (totalsub - ((totalsub / 100) * x.discount) ) *12;
           }
         } else {
+          if(x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") {
           totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
+          } else {
+            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) *12) + gruptotal
+          }
         }
 
 
@@ -475,7 +585,10 @@ export class PriceComponent implements OnInit {
         if (x.selected == true) {
           x.productgrup.forEach(y => {
             if (y.selected == true) {
-              gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+              if(y.time=="monthly") {
+              gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount))*12;
+            } else {  gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+            }
             }
           });
         }
@@ -499,15 +612,15 @@ export class PriceComponent implements OnInit {
         if (x.fixuse == false) {
           if (x.singleproduct == true) {
             totalfin = (x.price * x.quantity) - (((x.price * x.quantity) / 100) * x.discount)
+          } else {
+            totalfin = (totalsub - ((totalsub / 100) * x.discount) ) *12;
           }
-
-          else {
-            totalfin = totalsub - ((totalsub / 100) * x.discount)
-          }
-        }
-
-        else {
+        } else {
+          if(x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") {
           totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
+          } else {
+            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) *12) + gruptotal
+          }
         }
 
         return {
@@ -659,7 +772,7 @@ export class PriceComponent implements OnInit {
 
 
 
-      this.totalpricefinal = (totalprice * 12) - (yearlyfixsinglepricetotal * 11);
+      this.totalpricefinal = totalprice;
       this.hardwaretotal = hardwaretotal;
       this.firstprice = singleprice;
       this.yearlyfixpricetotal = yearlyfixpricetotal;

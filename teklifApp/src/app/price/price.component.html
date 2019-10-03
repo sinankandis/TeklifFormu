@@ -12,10 +12,12 @@
     <button style="margin-bottom: 10px;" [routerLink]="['/']" (click)="logout();" mat-raised-button color="primary"><i
         class="material-icons">person</i> Logout</button>
 
-        
-        <button  (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder('word');" style="margin-bottom: 10px;margin-left: 5px;"  mat-raised-button color="primary"><i
-          class="material-icons">insert_drive_file
-        </i> Word Export</button>
+
+    <button
+      (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder('word');"
+      style="margin-bottom: 10px;margin-left: 5px;" mat-raised-button color="primary"><i
+        class="material-icons">insert_drive_file
+      </i> Word Export</button>
   </ng-container>
 
   <form [formGroup]="profileForm" class="example-form">
@@ -246,7 +248,7 @@
             <th style="width: 10%;">Seç</th>
             <th>Ürün Adı</th>
             <th *ngIf="userservice.login">İndirim %</th>
-            <th style="width: 10%;text-align: end;">Total</th>
+            <th style="width: 15%;text-align: end;">Total</th>
           </tr>
         </thead>
         <tbody>
@@ -282,9 +284,8 @@
                 <td style="text-align: end;">
                   <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'EUR'}}</span></ng-container>
                   <ng-container *ngIf="item.selected && this.showpriceControl == false">
-                    <span>
-
-                      <strong>{{item.total | currency : 'EUR'}}</strong></span>
+                    <span><b>{{item.total | currency : 'EUR'}}</b> / yıl</span>
+                    <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix')"><strong style="color: yellowgreen;">{{item.total /12| currency : 'EUR'}}</strong> / ay</div>
                   </ng-container>
 
 
@@ -300,9 +301,8 @@
                 <td style="text-align: end;">
                   <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'EUR'}}</span></ng-container>
                   <ng-container *ngIf="item.selected">
-                    <span>
-
-                      <strong>{{item.total | currency : 'EUR'}}</strong></span>
+                        <span><b>{{item.total | currency : 'EUR'}}</b></span>
+                        <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix')"><strong style="color: yellowgreen;">{{item.total /12| currency : 'EUR'}}</strong> / ay</div>
                   </ng-container>
                 </td>
               </ng-container>
@@ -388,70 +388,44 @@
         <div fxFlex="50" fxFlex.xs="100">
           <div class="totalBar">
 
-            <div *ngIf="hardware">
-              <div style="font-weight: 700">Donanım</div>
-              <ng-container *ngFor="let x of hardware">
-          
-                  <div *ngIf="x.selected && x.productprice > 0">
-                    <span>{{x.productname}} ( {{ x.quantity }} Adet x
-                      {{x.productprice -((x.productprice/100) * x.discount) | currency:'EUR'}} )
-                      <b>
-                        {{ (x.productprice * x.quantity) - (((x.productprice/100) * x.discount) * x.quantity) | currency:'EUR'}}</b>
-                    </span>
-                  </div>
-
-        
-
-              </ng-container>
-              <hr>
-            </div>
 
             <div *ngIf="ekhizmetler">
               <div style="font-weight: 700">Ek Hizmetler</div>
               <ng-container *ngFor="let item of ekhizmetler">
                 <ng-container *ngFor="let x of item.firstprice">
                   <div *ngIf="item.selected == true  && x.price>0">
-                    <span>{{x.desc}} <b>{{ x.price | currency:'EUR'}}</b></span>
+                    <span>{{x.desc}} {{ x.price | currency:'EUR'}}</span>
                   </div>
-
                 </ng-container>
               </ng-container>
+              <b style="padding: 10px">Toplam {{firstprice | currency:'EUR'}}</b>
               <hr>
             </div>
-
 
             <div *ngIf="setupprice">
               <div style="font-weight: 700">Kurulum Ücretleri</div>
               <ng-container *ngFor="let x of setupprice">
                 <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice | currency:'EUR'}} )
-                  <b>{{ x.quantity * x.setupprice | currency:'EUR'}}</b><br></span>
-
+                  {{ x.quantity * x.setupprice | currency:'EUR'}}<br></span>
               </ng-container>
+              <b style="    padding: 10px"> Toplam {{setuppricetotal | currency:'EUR'}}</b>
               <hr>
             </div>
 
-
-
-
-
-            <div class="yearly">
-              <span class="totalLabel">İlk Yıl Toplam </span> <span class="divid">:</span><span><strong>(
-                  {{ ( totalpricefinal - (hardwaretotal*12) ) /12  | currency:'EUR'}} x 12 )
-                  {{ totalpricefinal - (hardwaretotal*12) | currency:'EUR'}}</strong>
-              </span>
-            </div>
-
-            <div class="cyearly">
-              <span class="totalLabel">D.Eden Yıllarda Toplam </span> <span class="divid">:</span><span><strong>(
-                {{ ( totalpricefinal  - (yearlyfixpricetotal*12) - (yearlyfixsinglepricetotal) ) / 12  | currency:'EUR'}} x 12 )
-                {{ totalpricefinal - (yearlyfixpricetotal*12)  - (yearlyfixsinglepricetotal) | currency:'EUR'}}</strong>
-              </span>
-            </div>
-
             <div class="generaly">
+              <span class="totalLabel">Ek Hizmetler ve Kurulum Ücretleri Toplamı </span> <span
+                class="divid">:</span><span><strong>{{setuppricetotal + firstprice | currency:'EUR'}}</strong></span>
+            </div>
 
+
+            <hr>
+            <div class="generaly">
+              <span class="totalLabel">Toplam </span> <span
+                class="divid">:</span><span><strong>{{ totalpricefinal | currency:'EUR'}}</strong></span>
+            </div>
+            <div class="generaly">
               <span class="totalLabel">Genel Toplam </span> <span
-                class="divid">:</span><span><strong>{{ ( totalpricefinal - (hardwaretotal*12) ) + firstprice + hardwaretotal + setuppricetotal | currency:'EUR'}}</strong></span>
+                class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal | currency:'EUR'}}</strong></span>
             </div>
 
           </div>
