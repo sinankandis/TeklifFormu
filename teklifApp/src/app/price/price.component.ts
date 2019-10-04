@@ -163,7 +163,7 @@ export class PriceComponent implements OnInit {
         let html ="";
         let checkdata = this.dataSource.filter(x=> x=> x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
         if(checkdata.length >0) {
-          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Adet</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Oda Sayısı</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
           }
         let total = 0;
         let monthlytotal = 0;
@@ -194,7 +194,7 @@ export class PriceComponent implements OnInit {
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total) + ((element.total ) / (100 - element.discount) * element.discount);
-                discounttext = "( İndirim %" + element.discount + " ) <span>" + this.decimalPipe.transform(nodiscountt) + ' €</span>' + "<br>";
+                discounttext = "( İndirim %" + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' €</span>' + "<br>";
               } else { discounttext = ""; }
 
               let product = "";
@@ -243,7 +243,7 @@ export class PriceComponent implements OnInit {
          let checkdatafix = this.dataSource.filter(x=> x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
          if(checkdatafix.length >0) {
           html += '<div class="heading">İlk Yıl Ücretlendirelecek Ürünler ve Hizmetler</div>';
-          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Adet</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Oda Sayısı</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
   
           }
 
@@ -283,7 +283,7 @@ export class PriceComponent implements OnInit {
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total - hardwareitemtotal) + ((element.total - hardwareitemtotal) / (100 - element.discount) * element.discount);
-                discounttext = "( İndirim %" + element.discount + " ) <span>" + this.decimalPipe.transform(nodiscountt) + ' €</span>' + "<br>";
+                discounttext = "( İndirim %" + element.discount + " ) "+ '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' €</span>' + "<br>";
               } else { discounttext = ""; }
 
               let product = "";
