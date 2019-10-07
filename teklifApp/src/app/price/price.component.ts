@@ -161,7 +161,7 @@ export class PriceComponent implements OnInit {
         t.append('wantphone', formdata.wantphone);
         t.append('sellerEmailCheck', formdata.sellerEmailCheck);
         let html ="";
-        let checkdata = this.dataSource.filter(x=> x=> x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
+        let checkdata = this.dataSource.filter(x=> x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
         if(checkdata.length >0) {
           html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Oda Sayısı</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
           }
@@ -235,7 +235,7 @@ export class PriceComponent implements OnInit {
 
         });
 
-        if(checkdata.length >0) {
+        if(checkdata.length > 0) {
         html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' +" €" + this.decimalPipe.transform(monthlytotal) +  '</strong></td></tr>';
         html += '</tbody></table><br><br>';
          }
