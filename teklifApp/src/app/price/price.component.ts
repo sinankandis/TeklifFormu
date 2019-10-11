@@ -163,6 +163,7 @@ export class PriceComponent implements OnInit {
         let html ="";
         let checkdata = this.dataSource.filter(x=> x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
         if(checkdata.length >0) {
+          html += '<div class="heading">Yıllık Ücretlendirelecek Yazılım Ürünleri</div>';
           html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Oda Sayısı</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
           }
         let total = 0;
@@ -242,7 +243,7 @@ export class PriceComponent implements OnInit {
 
          let checkdatafix = this.dataSource.filter(x=> x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
          if(checkdatafix.length >0) {
-          html += '<div class="heading">İlk Yıl Ücretlendirelecek Ürünler ve Hizmetler</div>';
+          html += '<div class="heading">Tek Sefer Ücretlendirelecek Ürünler</div>';
           html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Oda Sayısı</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
   
           }

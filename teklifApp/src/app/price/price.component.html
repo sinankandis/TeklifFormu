@@ -284,8 +284,10 @@
                 <td style="text-align: end;">
                   <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'EUR'}}</span></ng-container>
                   <ng-container *ngIf="item.selected && this.showpriceControl == false">
-                    <span><b>{{item.total | currency : 'EUR'}}</b> / yıl</span>
-                    <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix')"><strong style="color: yellowgreen;">{{item.total /12| currency : 'EUR'}}</strong> / ay</div>
+                    <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><strong style="color: yellowgreen;">{{item.total /12| currency : 'EUR'}}</strong> / ay</div>
+                    <span *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'EUR'}}</b> / yıl</span>
+                    <span *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'EUR'}}</b></span>
+
                   </ng-container>
 
 
@@ -301,8 +303,10 @@
                 <td style="text-align: end;">
                   <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'EUR'}}</span></ng-container>
                   <ng-container *ngIf="item.selected">
-                        <span><b>{{item.total | currency : 'EUR'}}</b></span>
-                        <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix')"><strong style="color: yellowgreen;">{{item.total /12| currency : 'EUR'}}</strong> / ay</div>
+                      <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><strong style="color: yellowgreen;">{{item.total /12| currency : 'EUR'}}</strong> / ay</div>
+                      <span *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'EUR'}}</b> / yıl</span>
+                      <span *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'EUR'}}</b></span>
+  
                   </ng-container>
                 </td>
               </ng-container>
