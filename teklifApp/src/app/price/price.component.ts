@@ -64,7 +64,7 @@ export class PriceComponent implements OnInit {
   });
 
   public dataSource: any;
-  path: string = "http://localhost/teklif/";
+  path: string = "";
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
@@ -106,7 +106,7 @@ export class PriceComponent implements OnInit {
 
 
 
-    this.http.get(this.path + "pricelist.php").subscribe(resp => {
+    this.http.get(this.path + "pricelist-en.php").subscribe(resp => {
       this.dataSource = this.elementdata = resp as any;
       console.log(this.dataSource);
     });
@@ -143,7 +143,7 @@ export class PriceComponent implements OnInit {
 
     if (this.profileForm.valid) {
       if (this.dataSource.filter(x => x.selected == true).length <= 0) {
-        alert("Teklif Oluşturmak İçin En Az Bir Ürün Seçiniz!")
+        alert("Select at least one product to create an offer!")
       }
       else {
         this.progress();
@@ -163,8 +163,8 @@ export class PriceComponent implements OnInit {
         let html ="";
         let checkdata = this.dataSource.filter(x=> x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
         if(checkdata.length >0) {
-          html += '<div class="heading">Yıllık Ücretlendirelecek Yazılım Ürünleri</div>';
-          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Oda Sayısı</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
+          html += '<div class="heading">Annually Charged Software</div>';
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Products/Explanation</th><th class="coltab2">Room Count</th><th class="coltab3">T.Price (£)</th></tr></thead><tbody>';
           }
         let total = 0;
         let monthlytotal = 0;
@@ -177,9 +177,9 @@ export class PriceComponent implements OnInit {
                 if (x.selected == true && x.type != "hardware") {
                   let discounttext3 = "";
                   if (x.discount > 0) {
-                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " € ( %" + x.discount + " İndirim )"
+                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " £ ( %" + x.discount + " Discount )"
                   }
-                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + x.productprice + ' € ' + ' = ' + (x.productprice * x.quantity) + ' € )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
+                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Quantity X ' + x.productprice + ' £ ' + ' = ' + (x.productprice * x.quantity) + ' £ )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
                 }
               });
 
@@ -188,40 +188,40 @@ export class PriceComponent implements OnInit {
               let fixprice = element.roomprice[0].fixprice;
               let fixstring = "";
               if (fixprice > 0) {
-                fixstring = element.firstprice[0].desc + fixprice + ' € ';
+                fixstring = element.firstprice[0].desc + fixprice + ' £ ';
               }
 
      
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total) + ((element.total ) / (100 - element.discount) * element.discount);
-                discounttext = "( İndirim %" + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' €</span>' + "<br>";
+                discounttext = "( Discount %" + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' £</span>' + "<br>";
               } else { discounttext = ""; }
 
               let product = "";
               if (element.singleproduct == true) {
-                product = "( " + element.quantity + " Adet * " + element.price + " € ) " + this.decimalPipe.transform(element.quantity * element.price) + " €"
+                product = "( " + element.quantity + " Quantity * " + element.price + " £ ) " + this.decimalPipe.transform(element.quantity * element.price) + " £"
 
               }
 
               monthlytotal += element.total;
               let pricetext = "";
               if (element.timesequence == "yearly") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " €/yıl ";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " £/yearly ";
 
               }
 
               if (element.timesequence == "yearlyfix") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " €/ilkyıl ";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " £/ilkyıl ";
 
               }
 
 
               if (element.timesequence == "yearlyfixsingle") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " €/ilkyıl ";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " £/ilkyıl ";
               }
 
-              else { pricetext = "<b>" + this.decimalPipe.transform((element.total /12)) + "</b>" + " €/ay -- " + this.decimalPipe.transform(element.total) + " €/yıl" }
+              else { pricetext = "<b>" + this.decimalPipe.transform((element.total /12)) + "</b>" + " £/monthly" + "<br>" + this.decimalPipe.transform(element.total) + " £/yearly" }
 
 
 
@@ -237,14 +237,14 @@ export class PriceComponent implements OnInit {
         });
 
         if(checkdata.length > 0) {
-        html += '<tr><td><strong>Yıllık Toplam :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' +" €" + this.decimalPipe.transform(monthlytotal) +  '</strong></td></tr>';
+        html += '<tr><td><strong>Yearly Total:</strong></td><td></td>' + '<td style="text-align: right;"><strong>' +" £" + this.decimalPipe.transform(monthlytotal) +  '</strong></td></tr>';
         html += '</tbody></table><br><br>';
          }
 
          let checkdatafix = this.dataSource.filter(x=> x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
          if(checkdatafix.length >0) {
-          html += '<div class="heading">Tek Sefer Ücretlendirelecek Ürünler</div>';
-          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Yazılım Ürünleri/Açıklama</th><th class="coltab2">Oda Sayısı</th><th class="coltab3">T.Fiyat (€)</th></tr></thead><tbody>';
+          html += '<div class="heading">Products Charged Once</div>';
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Products/Explanation</th><th class="coltab2">Room Count</th><th class="coltab3">T.Price (£)</th></tr></thead><tbody>';
   
           }
 
@@ -258,10 +258,10 @@ export class PriceComponent implements OnInit {
                 if (x.selected == true && x.type != "hardware") {
                   let discounttext3 = "";
                   if (x.discount > 0) {
-                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " € ( %" + x.discount + " İndirim )"
+                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " £ ( %" + x.discount + " Discount )"
                   }
 
-                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + x.productprice + ' € ' + ' = ' + (x.productprice * x.quantity) + ' € )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
+                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Quantity X ' + x.productprice + ' £ ' + ' = ' + (x.productprice * x.quantity) + ' £ )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
                 }
               });
 
@@ -270,7 +270,7 @@ export class PriceComponent implements OnInit {
               let fixprice = element.roomprice[0].fixprice;
               let fixstring = "";
               if (fixprice > 0) {
-                fixstring = element.firstprice[0].desc + fixprice + ' € ';
+                fixstring = element.firstprice[0].desc + fixprice + ' £ ';
               }
 
               let hardwareitemtotal = 0;
@@ -284,12 +284,12 @@ export class PriceComponent implements OnInit {
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total - hardwareitemtotal) + ((element.total - hardwareitemtotal) / (100 - element.discount) * element.discount);
-                discounttext = "( İndirim %" + element.discount + " ) "+ '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' €</span>' + "<br>";
+                discounttext = "( Discount %" + element.discount + " ) "+ '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' £</span>' + "<br>";
               } else { discounttext = ""; }
 
               let product = "";
               if (element.singleproduct == true) {
-                product = "( " + element.quantity + " Adet * " + element.price + " € ) " + this.decimalPipe.transform(element.quantity * element.price) + " €"
+                product = "( " + element.quantity + " Quantity * " + element.price + " £ ) " + this.decimalPipe.transform(element.quantity * element.price) + " £"
 
               }
 
@@ -297,17 +297,17 @@ export class PriceComponent implements OnInit {
 
               let pricetext = "";
               if (element.timesequence == "yearly") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + "</b>" + " € ";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + "</b>" + " £ ";
                 fixlytotal += element.total;
               }
 
               if (element.timesequence == "yearlyfix") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " € " + "</b>";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " £ " + "</b>";
                 fixlytotal += element.total;              }
 
 
               if (element.timesequence == "yearlyfixsingle") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " € " + "</b>";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " £ " + "</b>";
                 fixlytotal += element.total;
               }
 
@@ -330,7 +330,7 @@ export class PriceComponent implements OnInit {
         let ekhizmetler = "";
         this.ekhizmetler.forEach(x => {
           if (x.selected == true && x.firstprice[0].price > 0) {
-            ekhizmetler += 'Hizmet : ' + x.firstprice[0].desc + '  ' + this.decimalPipe.transform(x.firstprice[0].price) + ' €' + '<br>';
+            ekhizmetler += 'Service : ' + x.firstprice[0].desc + '  ' + this.decimalPipe.transform(x.firstprice[0].price) + ' £' + '<br>';
           }
         });
 
@@ -338,9 +338,9 @@ export class PriceComponent implements OnInit {
         this.hardware.forEach(x => {
           let discounttext2 = "";
           if (x.discount > 0) {
-            discounttext2 = "<b>" + this.decimalPipe.transform(((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2)) + " € ( %" + x.discount + " İndirim )</b>"
+            discounttext2 = "<b>" + this.decimalPipe.transform(((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2)) + " £ ( %" + x.discount + " Discount )</b>"
           }
-          hardware += x.productname + "<br>" + ' ( ' + x.quantity + ' Adet X ' + this.decimalPipe.transform(x.productprice) + ' € ' + ' = ' + this.decimalPipe.transform((x.productprice * x.quantity)) + ' € )' + "<br><span>" +
+          hardware += x.productname + "<br>" + ' ( ' + x.quantity + ' Quantity X ' + this.decimalPipe.transform(x.productprice) + ' £ ' + ' = ' + this.decimalPipe.transform((x.productprice * x.quantity)) + ' £ )' + "<br><span>" +
             discounttext2
             + "</span><hr><br>";
 
@@ -348,22 +348,22 @@ export class PriceComponent implements OnInit {
 
         let setupprice = "";
         this.setupprice.forEach(x => {
-          setupprice += x.setupdesc + "<br>" + "( " + x.quantity + " * " + this.decimalPipe.transform(x.setupprice) + " € )" + this.decimalPipe.transform(x.quantity * x.setupprice) + " €";
+          setupprice += x.setupdesc + "<br>" + "( " + x.quantity + " * " + this.decimalPipe.transform(x.setupprice) + " £ )" + this.decimalPipe.transform(x.quantity * x.setupprice) + " £";
         });
 
         if (hardware) {
-          html += '<tr><td><strong>Donanımlar :</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.hardwaretotal) + ' € ' + '</strong></td></tr>';
+          html += '<tr><td><strong>Hardwares :</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.hardwaretotal) + ' £ ' + '</strong></td></tr>';
         }
         if (ekhizmetler) {
-          html += '<tr><td><strong>Ek Hizmetler :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.firstprice) + ' € ' + '</strong></td></tr>';
+          html += '<tr><td><strong>Additional services :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.firstprice) + ' £ ' + '</strong></td></tr>';
         }
         if (setupprice) {
-          html += '<tr><td><strong>Kurulum Ücretleri :</strong><p>' + setupprice + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.setuppricetotal) + ' € ' + '</strong></td></tr>';
+          html += '<tr><td><strong>Setup Prices :</strong><p>' + setupprice + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.setuppricetotal) + ' £ ' + '</strong></td></tr>';
         }
 
 
         if(checkdatafix.length >0) {
-        html += '<tr><td><strong>Toplam :</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " € " + '</strong></td></tr>';
+        html += '<tr><td><strong>Total :</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " £ " + '</strong></td></tr>';
         html += '</tbody></table>';
         }
 
@@ -371,11 +371,11 @@ export class PriceComponent implements OnInit {
         html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1"></th><th class="coltab2"></th><th class="coltab3"></th></tr></thead><tbody>';
 
         if (this.yearlyfixpricetotal > 0) {
-          html += '<tr><td><strong>Devam Eden Yıllarda Ödenecek Ücretler Toplamı :</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal)  + " € "+ '</td></tr>';
+          html += '<tr><td><strong>Total Fees Payable in Ongoing Years :</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal)  + " £ "+ '</td></tr>';
         }
-        html += '<tr><td><strong>Genel Toplam :</strong></td><td>---</td>' + '<td class="totals"><strong>' +  this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal) )  + " €"
-          " ( " + this.decimalPipe.transform((fixlytotal  + this.firstprice + this.setuppricetotal))  + " €" +
-          " + "+ this.decimalPipe.transform((monthlytotal)) + " € )" +
+        html += '<tr><td><strong>Grand Total:</strong></td><td>---</td>' + '<td class="totals"><strong>' +  this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal) )  + " £"
+          " ( " + this.decimalPipe.transform((fixlytotal  + this.firstprice + this.setuppricetotal))  + " £" +
+          " + "+ this.decimalPipe.transform((monthlytotal)) + " £ )" +
           '</strong></td></tr>';
           html +="</tbody></table>";
       
@@ -383,7 +383,7 @@ export class PriceComponent implements OnInit {
         let messagebody = html;
         t.append('offer', messagebody);
         if (this.profileForm.valid) {
-          this.http.post(this.path + "teklifgonder.php", t, { responseType: 'json' }
+          this.http.post(this.path + "teklifgonder-en.php", t, { responseType: 'json' }
           ).subscribe((resp: any) => {
             if (resp.html) {
 
@@ -403,7 +403,7 @@ export class PriceComponent implements OnInit {
             } else {
 
               if (resp.success) {
-                alert("Teklifiniz Gönderildi.Teklif Detayları e-posta ile iletilmiştir.");
+                alert("Your Price Offer Sent. Please Check Your Email.");
                 this.detachOverlay();
               }
             }
@@ -414,7 +414,7 @@ export class PriceComponent implements OnInit {
 
 
       }
-    } else { alert("Lütfen Tüm Alanları Doldurunuz") }
+    } else { alert("Please fill all fields") }
   }
 
 
