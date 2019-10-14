@@ -163,8 +163,8 @@ export class PriceComponent implements OnInit {
         let html ="";
         let checkdata = this.dataSource.filter(x=> x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
         if(checkdata.length >0) {
-          html += '<div class="heading">Annually Charged Software</div>';
-          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Products/Explanation</th><th class="coltab2">Room Count</th><th class="coltab3">T.Price (£)</th></tr></thead><tbody>';
+          html += '<div class="heading">Annually Charged Software Products</div>';
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Products/Explanation</th><th class="coltab2">Room Count</th><th class="coltab3">Price (£)</th></tr></thead><tbody>';
           }
         let total = 0;
         let monthlytotal = 0;
@@ -244,7 +244,7 @@ export class PriceComponent implements OnInit {
          let checkdatafix = this.dataSource.filter(x=> x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
          if(checkdatafix.length >0) {
           html += '<div class="heading">Products Charged Once</div>';
-          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Products/Explanation</th><th class="coltab2">Room Count</th><th class="coltab3">T.Price (£)</th></tr></thead><tbody>';
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Products/Explanation</th><th class="coltab2">Room Count</th><th class="coltab3">Price (£)</th></tr></thead><tbody>';
   
           }
 
@@ -363,7 +363,7 @@ export class PriceComponent implements OnInit {
 
 
         if(checkdatafix.length >0) {
-        html += '<tr><td><strong>Total :</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " £ " + '</strong></td></tr>';
+        html += '<tr><td><strong>Total:</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " £ " + '</strong></td></tr>';
         html += '</tbody></table>';
         }
 
@@ -371,7 +371,7 @@ export class PriceComponent implements OnInit {
         html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1"></th><th class="coltab2"></th><th class="coltab3"></th></tr></thead><tbody>';
 
         if (this.yearlyfixpricetotal > 0) {
-          html += '<tr><td><strong>Total Fees Payable in Ongoing Years :</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal)  + " £ "+ '</td></tr>';
+          html += '<tr><td><strong>Total Fees Payable for Ongoing Years:</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal)  + " £ "+ '</td></tr>';
         }
         html += '<tr><td><strong>Grand Total:</strong></td><td>---</td>' + '<td class="totals"><strong>' +  this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal) )  + " £"
           " ( " + this.decimalPipe.transform((fixlytotal  + this.firstprice + this.setuppricetotal))  + " £" +
