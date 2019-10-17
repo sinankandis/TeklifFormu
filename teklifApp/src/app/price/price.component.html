@@ -261,6 +261,7 @@
                   [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected"></mat-checkbox>
               </td>
               <td><span><b>{{item.productname}}</b>
+
                   <ng-container *ngIf="item.selected==true && item.singleproduct==true ">
                     <div class="singleproduct">
                       <label class="singleproductlabel">Ürün Adedi</label>
@@ -270,6 +271,28 @@
                         type="number" min="0" value="0" class="productinput" matInput>
                     </div>
                   </ng-container>
+
+                  <ng-container *ngIf="item.selected==true && item.userpricecal==true ">
+
+                    <div style="background: whitesmoke;
+                    padding: 10px;
+                    border-radius: 5px;margin-top:10px;">
+                    <b>{{item.userlabel}}</b>
+                      <mat-radio-group
+                        aria-labelledby="example-radio-group-label"
+                        (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                        class="example-radio-group"  [(ngModel)]="item.userbarems.selected"   [ngModelOptions]="{standalone: true}" >
+                        <mat-radio-button 
+                         
+                          class="example-radio-button" *ngFor="let users of item.userbarems" [value]="users"  >
+                          {{users.name}}  
+                        </mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+
+                  </ng-container>
+
+
                   <p class="desctext" [innerHTML]="item.desc"></p>
                 </span></td>
               <td style="text-align:center;" *ngIf="userservice.login">

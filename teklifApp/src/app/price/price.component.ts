@@ -224,9 +224,20 @@ export class PriceComponent implements OnInit {
               else { pricetext = "<b>" + this.decimalPipe.transform((element.total / 12)) + "</b>" + " €/ay -- " + this.decimalPipe.transform(element.total) + " €/yıl" }
 
 
+              
+              let usertext = "";
+              if (element.hasOwnProperty('userbarems') && element.userbarems) {
+                if( element.userbarems.selected) {
+                let selected = element.userbarems.selected;
+                usertext = selected.name;
+                } 
+              }
+
+
+
 
               html += '<tr><td style="width:50%;"><strong>' + element.productname + '</strong><p>' + element.desc + "<br>" + product + '<p>' +
-                '<p>'  /*fixstring*/ + '<br>' + altgrup + '</p>'
+              '<p>'  /*fixstring*/ + '<br>' + altgrup + usertext + '</p>'
                 + '</td>' +
                 '<td>' + formdata.roomcount + '</td>' +
                 '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' + discounttext + pricetext + '</p></tr>';
@@ -313,6 +324,7 @@ export class PriceComponent implements OnInit {
               }
 
 
+              
 
 
 
@@ -489,6 +501,20 @@ export class PriceComponent implements OnInit {
           }
         }
 
+        let userprice = 0;
+        if (x.hasOwnProperty('userbarems') && x.userbarems) {
+          if( x.userbarems.selected) {
+          let selected = x.userbarems.selected;
+          userprice = selected.userprice;
+          } 
+        }
+
+   
+
+
+
+
+
 
         return {
           'fixuse': x.fixuse,
@@ -497,7 +523,7 @@ export class PriceComponent implements OnInit {
           'roomprice': x.roomprice,
           'productgrup': x.productgrup,
           'gruptotal': gruptotal,
-          'total': totalfin,
+          'total': totalfin + userprice,
           'selected': x.selected,
           'desc': x.desc,
           'firstprice': x.firstprice,
@@ -506,7 +532,13 @@ export class PriceComponent implements OnInit {
           "singleproduct": x.singleproduct,
           "timesequence": x.timesequence,
           "price": x.price,
-          "quantity": x.quantity
+          "quantity": x.quantity,
+          "userpricecal": x.userpricecal,
+          "userlabel":x.userlabel,
+          "usercount": x.usercount,
+          "userlimit": x.userlimit,
+          "usermaxlimit": x.usermaxlimit,
+          "userbarems": x.userbarems
 
         };
       }
@@ -577,6 +609,20 @@ export class PriceComponent implements OnInit {
         }
 
 
+        let userprice = 0;
+        if (x.hasOwnProperty('userbarems') && x.userbarems) {
+          if( x.userbarems.selected) {
+          let selected = x.userbarems.selected;
+          userprice = selected.userprice;
+          } 
+        }
+
+   
+
+
+
+
+
 
         return {
           'fixuse': x.fixuse,
@@ -585,7 +631,7 @@ export class PriceComponent implements OnInit {
           'roomprice': x.roomprice,
           'productgrup': x.productgrup,
           'gruptotal': gruptotal,
-          'total': totalfin,
+          'total': totalfin + userprice,
           'selected': x.selected,
           'desc': x.desc,
           'firstprice': x.firstprice,
@@ -594,7 +640,13 @@ export class PriceComponent implements OnInit {
           "singleproduct": x.singleproduct,
           "timesequence": x.timesequence,
           "price": x.price,
-          "quantity": x.quantity
+          "quantity": x.quantity,
+          "userpricecal": x.userpricecal,
+          "userlabel":x.userlabel,
+          "usercount": x.usercount,
+          "userlimit": x.userlimit,
+          "usermaxlimit": x.usermaxlimit,
+          "userbarems": x.userbarems
         };
       }
       );
@@ -657,6 +709,20 @@ export class PriceComponent implements OnInit {
             totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) * 12) + gruptotal
           }
         }
+        let userprice = 0;
+        if (x.hasOwnProperty('userbarems') && x.userbarems) {
+          if( x.userbarems.selected) {
+          let selected = x.userbarems.selected;
+          userprice = selected.userprice;
+          } 
+        }
+
+   
+
+
+
+
+
 
         return {
           'fixuse': x.fixuse,
@@ -665,7 +731,7 @@ export class PriceComponent implements OnInit {
           'roomprice': x.roomprice,
           'productgrup': x.productgrup,
           'gruptotal': gruptotal,
-          'total': totalfin,
+          'total': totalfin + userprice,
           'selected': x.selected,
           'desc': x.desc,
           'firstprice': x.firstprice,
@@ -674,9 +740,13 @@ export class PriceComponent implements OnInit {
           "singleproduct": x.singleproduct,
           "timesequence": x.timesequence,
           "price": x.price,
-          "quantity": x.quantity
-
-
+          "quantity": x.quantity,
+          "userpricecal": x.userpricecal,
+          "userlabel":x.userlabel,
+          "usercount": x.usercount,
+          "userlimit": x.userlimit,
+          "usermaxlimit": x.usermaxlimit,
+          "userbarems": x.userbarems
 
         };
       }
