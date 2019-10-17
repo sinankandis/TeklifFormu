@@ -11,6 +11,7 @@ import { UserService } from '../admin/User.service';
 import { element } from 'protractor';
 import { group } from '@angular/animations';
 import { zip } from 'rxjs';
+import { MatRadioChange } from '@angular/material/radio';
 
 
 
@@ -160,12 +161,12 @@ export class PriceComponent implements OnInit {
         t.append('wantemail', formdata.wantemail);
         t.append('wantphone', formdata.wantphone);
         t.append('sellerEmailCheck', formdata.sellerEmailCheck);
-        let html ="";
-        let checkdata = this.dataSource.filter(x=> x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
-        if(checkdata.length >0) {
+        let html = "";
+        let checkdata = this.dataSource.filter(x => x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly"));
+        if (checkdata.length > 0) {
           html += '<div class="heading">Annually Charged Software Products</div>';
           html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Products/Explanation</th><th class="coltab2">Room Count</th><th class="coltab3">Price (£)</th></tr></thead><tbody>';
-          }
+        }
         let total = 0;
         let monthlytotal = 0;
         this.dataSource.forEach(element => {
@@ -191,10 +192,10 @@ export class PriceComponent implements OnInit {
                 fixstring = element.firstprice[0].desc + fixprice + ' £ ';
               }
 
-     
+
               let discounttext;
               if (element.discount > 0) {
-                let nodiscountt = (element.total) + ((element.total ) / (100 - element.discount) * element.discount);
+                let nodiscountt = (element.total) + ((element.total) / (100 - element.discount) * element.discount);
                 discounttext = "( Discount %" + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' £</span>' + "<br>";
               } else { discounttext = ""; }
 
@@ -221,12 +222,21 @@ export class PriceComponent implements OnInit {
                 pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " £/ilkyıl ";
               }
 
-              else { pricetext = "<b>" + this.decimalPipe.transform((element.total /12)) + "</b>" + " £/monthly" + "<br>" + this.decimalPipe.transform(element.total) + " £/yearly" }
+              else { pricetext = "<b>" + this.decimalPipe.transform((element.total / 12)) + "</b>" + " £/monthly" + "<br>" + this.decimalPipe.transform(element.total) + " £/yearly" }
+
+              let usertext = "";
+              if (element.hasOwnProperty('userbarems') && element.userbarems) {
+                if( element.userbarems.selected) {
+                let selected = element.userbarems.selected;
+                usertext = selected.name;
+                } 
+              }
 
 
 
               html += '<tr><td style="width:50%;"><strong>' + element.productname + '</strong><p>' + element.desc + "<br>" + product + '<p>' +
-                '<p>'  /*fixstring*/ + '<br>' + altgrup + '</p>'
+                '<p>'  /*fixstring*/ + '<br>' + altgrup + usertext + '</p>'
+
                 + '</td>' +
                 '<td>' + formdata.roomcount + '</td>' +
                 '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' + discounttext + pricetext + '</p></tr>';
@@ -236,17 +246,17 @@ export class PriceComponent implements OnInit {
 
         });
 
-        if(checkdata.length > 0) {
-        html += '<tr><td><strong>Yearly Total:</strong></td><td></td>' + '<td style="text-align: right;"><strong>' +" £" + this.decimalPipe.transform(monthlytotal) +  '</strong></td></tr>';
-        html += '</tbody></table><br><br>';
-         }
+        if (checkdata.length > 0) {
+          html += '<tr><td><strong>Yearly Total:</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + " £" + this.decimalPipe.transform(monthlytotal) + '</strong></td></tr>';
+          html += '</tbody></table><br><br>';
+        }
 
-         let checkdatafix = this.dataSource.filter(x=> x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") );
-         if(checkdatafix.length >0) {
+        let checkdatafix = this.dataSource.filter(x => x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly"));
+        if (checkdatafix.length > 0) {
           html += '<div class="heading">Products Charged Once</div>';
           html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">Products/Explanation</th><th class="coltab2">Room Count</th><th class="coltab3">Price (£)</th></tr></thead><tbody>';
-  
-          }
+
+        }
 
         /* Tek Seferlik ve Sabit Ücterler Toplamı */
         let fixlytotal = 0;
@@ -284,7 +294,7 @@ export class PriceComponent implements OnInit {
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total - hardwareitemtotal) + ((element.total - hardwareitemtotal) / (100 - element.discount) * element.discount);
-                discounttext = "( Discount %" + element.discount + " ) "+ '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' £</span>' + "<br>";
+                discounttext = "( Discount %" + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' £</span>' + "<br>";
               } else { discounttext = ""; }
 
               let product = "";
@@ -303,7 +313,8 @@ export class PriceComponent implements OnInit {
 
               if (element.timesequence == "yearlyfix") {
                 pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " £ " + "</b>";
-                fixlytotal += element.total;              }
+                fixlytotal += element.total;
+              }
 
 
               if (element.timesequence == "yearlyfixsingle") {
@@ -362,23 +373,23 @@ export class PriceComponent implements OnInit {
         }
 
 
-        if(checkdatafix.length >0) {
-        html += '<tr><td><strong>Total:</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " £ " + '</strong></td></tr>';
-        html += '</tbody></table>';
+        if (checkdatafix.length > 0) {
+          html += '<tr><td><strong>Total:</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " £ " + '</strong></td></tr>';
+          html += '</tbody></table>';
         }
 
-    
+
         html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1"></th><th class="coltab2"></th><th class="coltab3"></th></tr></thead><tbody>';
 
         if (this.yearlyfixpricetotal > 0) {
-          html += '<tr><td><strong>Total Fees Payable for Ongoing Years:</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal)  + " £ "+ '</td></tr>';
+          html += '<tr><td><strong>Total Fees Payable for Ongoing Years:</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal) + " £ " + '</td></tr>';
         }
-        html += '<tr><td><strong>Grand Total:</strong></td><td>---</td>' + '<td class="totals"><strong>' +  this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal) )  + " £"
-          " ( " + this.decimalPipe.transform((fixlytotal  + this.firstprice + this.setuppricetotal))  + " £" +
-          " + "+ this.decimalPipe.transform((monthlytotal)) + " £ )" +
+        html += '<tr><td><strong>Grand Total:</strong></td><td>---</td>' + '<td class="totals"><strong>' + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal)) + " £"
+        " ( " + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal)) + " £" +
+          " + " + this.decimalPipe.transform((monthlytotal)) + " £ )" +
           '</strong></td></tr>';
-          html +="</tbody></table>";
-      
+        html += "</tbody></table>";
+
 
         let messagebody = html;
         t.append('offer', messagebody);
@@ -430,10 +441,11 @@ export class PriceComponent implements OnInit {
         if (x.selected == true) {
           x.productgrup.forEach(y => {
             if (y.selected == true) {
-              if(y.time=="monthly") {
-              gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount))*12;
-            } else {  gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
-            }
+              if (y.time == "monthly") {
+                gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount)) * 12;
+              } else {
+                gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+              }
             }
           });
         }
@@ -455,11 +467,11 @@ export class PriceComponent implements OnInit {
 
 
         if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
-            fixtotal = (roomcount * x.roomprice[0].priceCase1);
-        } 
+          fixtotal = (roomcount * x.roomprice[0].priceCase1);
+        }
         else {
-               fixtotal = x.roomprice[0].fixprice;
-             }
+          fixtotal = x.roomprice[0].fixprice;
+        }
 
         let totalsub = x.roomprice[0].priceCase1 * roomcount;
         let totalfin;
@@ -467,15 +479,39 @@ export class PriceComponent implements OnInit {
           if (x.singleproduct == true) {
             totalfin = (x.price * x.quantity) - (((x.price * x.quantity) / 100) * x.discount)
           } else {
-            totalfin = (totalsub - ((totalsub / 100) * x.discount) ) *12;
+            totalfin = (totalsub - ((totalsub / 100) * x.discount)) * 12;
           }
         } else {
-          if(x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") {
-          totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
-          } else {
-            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) *12) + gruptotal
+
+          if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate != true) {
+            totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
+          }
+          else if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate == true) {
+            if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
+              fixtotal = totalsub;
+            }
+
+            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount))) + gruptotal
+
+          }
+          else {
+            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) * 12) + gruptotal
           }
         }
+
+        let userprice = 0;
+        if (x.hasOwnProperty('userbarems') && x.userbarems) {
+          if( x.userbarems.selected) {
+          let selected = x.userbarems.selected;
+          userprice = selected.userprice;
+          } 
+        }
+
+   
+
+
+
+
 
 
         return {
@@ -485,7 +521,7 @@ export class PriceComponent implements OnInit {
           'roomprice': x.roomprice,
           'productgrup': x.productgrup,
           'gruptotal': gruptotal,
-          'total': totalfin,
+          'total': totalfin + userprice,
           'selected': x.selected,
           'desc': x.desc,
           'firstprice': x.firstprice,
@@ -494,7 +530,13 @@ export class PriceComponent implements OnInit {
           "singleproduct": x.singleproduct,
           "timesequence": x.timesequence,
           "price": x.price,
-          "quantity": x.quantity
+          "quantity": x.quantity,
+          "userpricecal": x.userpricecal,
+          "usercount": x.usercount,
+          "userlimit": x.userlimit,
+          "usermaxlimit": x.usermaxlimit,
+          "userbarems": x.userbarems
+
 
         };
       }
@@ -508,22 +550,24 @@ export class PriceComponent implements OnInit {
         if (x.selected == true) {
           x.productgrup.forEach(y => {
             if (y.selected == true) {
-              if(y.time=="monthly") {
-              gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount))*12;
-            } else {  gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
-            }
+              if (y.time == "monthly") {
+                gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount)) * 12;
+              } else {
+                gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+              }
             }
           });
         }
 
 
         let fixtotal = 0;
+        let totalsub = (x.roomprice[0].priceCase1 * 100) + (x.roomprice[0].priceCase2 * (roomcount - 100));
 
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
         } else {
-          if (x.roomprice[0].fixprice < (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2) && x.fixroompricecalculate == true) {
-            fixtotal = (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2);
+          if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
+            fixtotal = totalsub;
           } else {
             fixtotal = x.roomprice[0].fixprice;
           }
@@ -531,25 +575,43 @@ export class PriceComponent implements OnInit {
 
 
 
-        if (x.roomprice[0].fixprice < ((100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2)) && x.fixroompricecalculate == true) {
-          fixtotal = (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2);
+        if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
+          fixtotal = totalsub;
         } else {
           fixtotal = x.roomprice[0].fixprice;
         }
-        let totalsub = x.roomprice[0].priceCase1 * 100 + x.roomprice[0].priceCase2 * (roomcount - 100);
         let totalfin;
         if (x.fixuse == false) {
           if (x.singleproduct == true) {
             totalfin = (x.price * x.quantity) - (((x.price * x.quantity) / 100) * x.discount)
           } else {
-            totalfin = (totalsub - ((totalsub / 100) * x.discount) ) *12;
+            totalfin = (totalsub - ((totalsub / 100) * x.discount)) * 12;
           }
         } else {
-          if(x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") {
-          totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
-          } else {
-            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) *12) + gruptotal
+
+          if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate != true) {
+            totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
           }
+          else if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate == true) {
+            if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
+              fixtotal = totalsub;
+            }
+
+            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount))) + gruptotal
+
+          }
+          else {
+            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) * 12) + gruptotal
+          }
+
+        }
+
+        let userprice = 0;
+        if (x.hasOwnProperty('userbarems') && x.userbarems) {
+          if( x.userbarems.selected) {
+          let selected = x.userbarems.selected;
+          userprice = selected.userprice;
+          } 
         }
 
 
@@ -561,7 +623,7 @@ export class PriceComponent implements OnInit {
           'roomprice': x.roomprice,
           'productgrup': x.productgrup,
           'gruptotal': gruptotal,
-          'total': totalfin,
+          'total': totalfin + userprice,
           'selected': x.selected,
           'desc': x.desc,
           'firstprice': x.firstprice,
@@ -570,7 +632,15 @@ export class PriceComponent implements OnInit {
           "singleproduct": x.singleproduct,
           "timesequence": x.timesequence,
           "price": x.price,
-          "quantity": x.quantity
+          "quantity": x.quantity,
+          "userpricecal": x.userpricecal,
+          "usercount": x.usercount,
+          "userlimit": x.userlimit,
+          "usermaxlimit": x.usermaxlimit,
+          "userbarems": x.userbarems,
+
+
+
         };
       }
       );
@@ -586,20 +656,22 @@ export class PriceComponent implements OnInit {
         if (x.selected == true) {
           x.productgrup.forEach(y => {
             if (y.selected == true) {
-              if(y.time=="monthly") {
-              gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount))*12;
-            } else {  gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
-            }
+              if (y.time == "monthly") {
+                gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount)) * 12;
+              } else {
+                gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+              }
             }
           });
         }
 
+        let totalsub = (x.roomprice[0].priceCase1 * 100) + (x.roomprice[0].priceCase2 * 100) + (x.roomprice[0].priceCase3 * (roomcount - 200));
         let fixtotal = 0;
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
         } else {
-          if (x.roomprice[0].fixprice < (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2) + ((roomcount - 200) * x.roomprice[0].priceCase3) && x.fixroompricecalculate == true) {
-            fixtotal = (100 * x.roomprice[0].priceCase1) + ((roomcount - 100) * x.roomprice[0].priceCase2) + ((roomcount - 200) * x.roomprice[0].priceCase3);
+          if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
+            fixtotal = totalsub;
           } else {
             fixtotal = x.roomprice[0].fixprice;
           }
@@ -608,20 +680,36 @@ export class PriceComponent implements OnInit {
 
 
 
-        let totalsub = x.roomprice[0].priceCase1 * 100 + x.roomprice[0].priceCase2 * 100 + x.roomprice[0].priceCase3 * (roomcount - 200);
         let totalfin;
         if (x.fixuse == false) {
           if (x.singleproduct == true) {
             totalfin = (x.price * x.quantity) - (((x.price * x.quantity) / 100) * x.discount)
           } else {
-            totalfin = (totalsub - ((totalsub / 100) * x.discount) ) *12;
+            totalfin = (totalsub - ((totalsub / 100) * x.discount)) * 12;
           }
         } else {
-          if(x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") {
-          totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
-          } else {
-            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) *12) + gruptotal
+          if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate != true) {
+            totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
           }
+          else if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate == true) {
+            if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
+              fixtotal = totalsub;
+            }
+
+            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount))) + gruptotal
+
+          }
+          else {
+            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) * 12) + gruptotal
+          }
+        }
+
+        let userprice = 0;
+        if (x.hasOwnProperty('userbarems') && x.userbarems) {
+          if( x.userbarems.selected) {
+          let selected = x.userbarems.selected;
+          userprice = selected.userprice;
+          } 
         }
 
         return {
@@ -631,7 +719,7 @@ export class PriceComponent implements OnInit {
           'roomprice': x.roomprice,
           'productgrup': x.productgrup,
           'gruptotal': gruptotal,
-          'total': totalfin,
+          'total': totalfin + userprice,
           'selected': x.selected,
           'desc': x.desc,
           'firstprice': x.firstprice,
@@ -640,7 +728,12 @@ export class PriceComponent implements OnInit {
           "singleproduct": x.singleproduct,
           "timesequence": x.timesequence,
           "price": x.price,
-          "quantity": x.quantity
+          "quantity": x.quantity,
+          "userpricecal": x.userpricecal,
+          "usercount": x.usercount,
+          "userlimit": x.userlimit,
+          "usermaxlimit": x.usermaxlimit,
+          "userbarems": x.userbarems
 
 
 
@@ -650,7 +743,6 @@ export class PriceComponent implements OnInit {
 
     }
   }
-
 
   showControl() {
     if (this.profileForm.valid) {
@@ -784,9 +876,6 @@ export class PriceComponent implements OnInit {
     } else { this.totalpricefinal = 0; this.hardwaretotal = 0; }
 
   }
-
-
-
 
 
 

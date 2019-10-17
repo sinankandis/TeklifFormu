@@ -114,3 +114,23 @@ table {
   color:white;
   margin-right:10px;
 }
+
+.usercss {
+
+  margin-left: 25px;
+    margin-right: 10px;
+    color: #f44336;
+    font-weight: 700;
+}
+
+.userBadge {
+  align-items: center;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.example-radio-button {
+  width:100%;
+  margin-top:5px;
+}

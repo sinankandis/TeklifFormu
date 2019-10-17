@@ -21,6 +21,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminComponent } from './admin/admin.component';
 import { PriceComponent } from './price/price.component';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import 'hammerjs';
 
 
 
