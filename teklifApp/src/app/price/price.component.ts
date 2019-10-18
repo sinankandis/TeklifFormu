@@ -384,10 +384,13 @@ export class PriceComponent implements OnInit {
         if (this.yearlyfixpricetotal > 0) {
           html += '<tr><td><strong>Total Fees Payable for Ongoing Years:</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal) + " £ " + '</td></tr>';
         }
+
+     
         html += '<tr><td><strong>Grand Total:</strong></td><td>---</td>' + '<td class="totals"><strong>' + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal)) + " £"
         " ( " + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal)) + " £" +
           " + " + this.decimalPipe.transform((monthlytotal)) + " £ )" +
           '</strong></td></tr>';
+
         html += "</tbody></table>";
 
 
@@ -451,13 +454,14 @@ export class PriceComponent implements OnInit {
         }
 
         let fixtotal = 0;
+        let totalsub = x.roomprice[0].priceCase1 * roomcount;
 
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
         } else {
 
-          if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
-            fixtotal = (roomcount * x.roomprice[0].priceCase1);
+          if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
+            fixtotal = totalsub;
           } else {
             fixtotal = x.roomprice[0].fixprice;
           }
@@ -466,14 +470,14 @@ export class PriceComponent implements OnInit {
 
 
 
-        if (x.roomprice[0].fixprice < (roomcount * x.roomprice[0].priceCase1) && x.fixroompricecalculate == true) {
-          fixtotal = (roomcount * x.roomprice[0].priceCase1);
+        if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
+          fixtotal = totalsub;
         }
         else {
           fixtotal = x.roomprice[0].fixprice;
         }
 
-        let totalsub = x.roomprice[0].priceCase1 * roomcount;
+
         let totalfin;
         if (x.fixuse == false) {
           if (x.singleproduct == true) {
@@ -532,6 +536,7 @@ export class PriceComponent implements OnInit {
           "price": x.price,
           "quantity": x.quantity,
           "userpricecal": x.userpricecal,
+          "userlabel" : x.userlabel,
           "usercount": x.usercount,
           "userlimit": x.userlimit,
           "usermaxlimit": x.usermaxlimit,
@@ -634,6 +639,7 @@ export class PriceComponent implements OnInit {
           "price": x.price,
           "quantity": x.quantity,
           "userpricecal": x.userpricecal,
+          "userlabel" : x.userlabel,
           "usercount": x.usercount,
           "userlimit": x.userlimit,
           "usermaxlimit": x.usermaxlimit,
@@ -730,6 +736,7 @@ export class PriceComponent implements OnInit {
           "price": x.price,
           "quantity": x.quantity,
           "userpricecal": x.userpricecal,
+          "userlabel" : x.userlabel,
           "usercount": x.usercount,
           "userlimit": x.userlimit,
           "usermaxlimit": x.usermaxlimit,

@@ -24,7 +24,7 @@
 
     <mat-card class="Section">
 
-      <h1 style="text-align: center;font-family: sans-serif;">EasyPMS Price List</h1>
+      <h1 style="text-align: center;font-family: sans-serif;">EasyPMS Price Offer</h1>
 
       <ng-container *ngFor="let item of userservice.userdata">
         <div fxLayout="row wrap" fxLayout.xs="row wrap">
@@ -58,7 +58,8 @@
             <mat-form-field appearance="outline" class="example-full-width">
               <mat-label>Authorized Name and Surname</mat-label>
               <mat-icon matSuffix>account_circle</mat-icon>
-              <input type="text" formControlName="authorized" matInput placeholder="Authorized Name and Surname" value="">
+              <input type="text" formControlName="authorized" matInput placeholder="Authorized Name and Surname"
+                value="">
             </mat-form-field>
           </div>
 
@@ -152,7 +153,8 @@
             <mat-form-field appearance="outline" class="example-full-width">
               <mat-label>Authorized Name and Surname</mat-label>
               <mat-icon matSuffix>account_circle</mat-icon>
-              <input type="text" formControlName="authorized" matInput placeholder="Authorized Name and Surname" value="">
+              <input type="text" formControlName="authorized" matInput placeholder="Authorized Name and Surname"
+                value="">
             </mat-form-field>
           </div>
 
@@ -190,7 +192,7 @@
           </div>
 
 
-   
+
 
 
 
@@ -213,14 +215,16 @@
 
     <mat-card class="Section">
 
+
+
+
       <div fxLayout="row wrap" style="margin-bottom:10px;font-weight: 700;">
 
 
         <div fxFlex="80" fxFlex.xs="100" style="    align-items: center;
         vertical-align: middle;
         display: flex;">
-          Please select the modules you want and click the create offer button.
-
+          Add options by clicking select checkbox
         </div>
 
 
@@ -239,12 +243,73 @@
 
       </div>
 
+
+      <div fxLayout="row" fxLayout.xs="row wrap" style="margin-bottom: 10px;">
+
+        <div fxFlex="30" fxFlex.xs="100" style="margin: auto;">
+
+          <div class="buttonBar" style="margin-top: 15px;">
+            <button
+              (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder('');"
+              mat-raised-button color="warn">Create Offer and Send as Email</button>
+            <!--<button mat-raised-button color="primary" [disabled]="offerCount" (click)="teklifGonder();">Teklif
+                  İste</button>-->
+          </div>
+        </div>
+        <div fxFlex="70" fxFlex.xs="100">
+          <div class="totalBar">
+
+
+            <div *ngIf="firstprice > 0">
+              <div style="font-weight: 700">Services</div>
+              <ng-container *ngFor="let item of ekhizmetler">
+                <ng-container *ngFor="let x of item.firstprice">
+                  <div *ngIf="item.selected == true  && x.price>0">
+                    <span>{{x.desc}} {{ x.price | currency:'GBP'}}</span>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <b style="padding: 10px">Total {{firstprice | currency:'GBP'}}</b>
+              <hr>
+            </div>
+
+            <div *ngIf="setuppricetotal > 0 ">
+              <div style="font-weight: 700">Setup Price</div>
+              <ng-container *ngFor="let x of setupprice">
+                <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice | currency:'GBP'}} )
+                  {{ x.quantity * x.setupprice | currency:'GBP'}}<br></span>
+              </ng-container>
+              <b style="    padding: 10px"> Total {{setuppricetotal | currency:'GBP'}}</b>
+              <hr>
+            </div>
+
+            <div class="generaly" *ngIf="setuppricetotal + firstprice > 0">
+              <span class="totalLabel">Additional Services and Installation Fees Total</span> <span class="divid">
+                :</span><span><strong>{{setuppricetotal + firstprice | currency:'GBP'}}</strong></span>
+              <hr>
+            </div>
+
+
+
+            <div class="generaly">
+              <span class="totalLabel">Total </span> <span
+                class="divid">:</span><span><strong>{{ totalpricefinal | currency:'GBP'}}</strong></span>
+            </div>
+            <div class="generaly" *ngIf="firstprice + setuppricetotal > 0">
+              <span class="totalLabel">Grand Total </span> <span
+                class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal | currency:'GBP'}}</strong></span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
       <table>
         <thead>
           <tr>
             <th style="width: 10%;">Select</th>
-            <th>Product Name	</th>
-            <th *ngIf="userservice.login">Discount  %</th>
+            <th>Product Name </th>
+            <th *ngIf="userservice.login">Discount %</th>
             <th style="width: 15%;text-align: end;">Total</th>
           </tr>
         </thead>
@@ -273,22 +338,21 @@
                     <div style="background: whitesmoke;
                     padding: 10px;
                     border-radius: 5px;margin-top:10px;">
-                    <b>Please Select Your Number of Employees</b>
-                      <mat-radio-group
-                        aria-labelledby="example-radio-group-label"
+                      <b>{{item.userlabel}}</b>
+                      <mat-radio-group aria-labelledby="example-radio-group-label"
                         (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
-                        class="example-radio-group"  [(ngModel)]="item.userbarems.selected"   [ngModelOptions]="{standalone: true}" >
-                        <mat-radio-button 
-                         
-                          class="example-radio-button" *ngFor="let users of item.userbarems" [value]="users"  >
-                          {{users.name}}  
+                        class="example-radio-group" [(ngModel)]="item.userbarems.selected"
+                        [ngModelOptions]="{standalone: true}">
+                        <mat-radio-button class="example-radio-button" *ngFor="let users of item.userbarems"
+                          [value]="users">
+                          {{users.name}}
                         </mat-radio-button>
                       </mat-radio-group>
                     </div>
 
                   </ng-container>
 
-                  
+
                   <p class="desctext" [innerHTML]="item.desc"></p>
                 </span></td>
               <td style="text-align:center;" *ngIf="userservice.login">
@@ -303,9 +367,14 @@
                 <td class="pricess" style="text-align: end;">
                   <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'GBP'}}</span></ng-container>
                   <ng-container *ngIf="item.selected && this.showpriceControl == false">
-                    <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><strong style="color: yellowgreen;">{{item.total /12| currency : 'GBP'}}</strong> / monthly</div>
-                    <span *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'GBP'}}</b> / yearly</span>
-                    <span *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'GBP'}}</b></span>
+                    <div
+                      *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')">
+                      <strong style="color: yellowgreen;">{{item.total /12| currency : 'GBP'}}</strong> / monthly</div>
+                    <span
+                      *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'GBP'}}</b>
+                      / yearly</span>
+                    <span
+                      *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'GBP'}}</b></span>
 
                   </ng-container>
 
@@ -319,13 +388,18 @@
 
               <ng-container *ngIf="userservice.login">
 
-                <td class="pricess"  style="text-align: end;">
+                <td class="pricess" style="text-align: end;">
                   <ng-container *ngIf="!item.selected"><span>{{0  | currency : 'GBP'}}</span></ng-container>
                   <ng-container *ngIf="item.selected">
-                      <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><strong style="color: yellowgreen;">{{item.total /12| currency : 'GBP'}}</strong> / monthly</div>
-                      <span *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'GBP'}}</b> / yearly</span>
-                      <span *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'GBP'}}</b></span>
-  
+                    <div
+                      *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')">
+                      <strong style="color: yellowgreen;">{{item.total /12| currency : 'GBP'}}</strong> / monthly</div>
+                    <span
+                      *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'GBP'}}</b>
+                      / yearly</span>
+                    <span
+                      *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : 'GBP'}}</b></span>
+
                   </ng-container>
                 </td>
               </ng-container>
@@ -342,7 +416,7 @@
                     <table>
                       <thead>
                         <th>Select</th>
-                        <th style="width:50%;">Product Name	</th>
+                        <th style="width:50%;">Product Name </th>
                         <th style="width:15%;">Quantity</th>
                         <th *ngIf="userservice.login">Discount %</th>
 
@@ -412,7 +486,7 @@
           <div class="totalBar">
 
 
-            <div *ngIf="ekhizmetler">
+            <div *ngIf="firstprice > 0 ">
               <div style="font-weight: 700">Services</div>
               <ng-container *ngFor="let item of ekhizmetler">
                 <ng-container *ngFor="let x of item.firstprice">
@@ -425,7 +499,7 @@
               <hr>
             </div>
 
-            <div *ngIf="setupprice">
+            <div *ngIf="setuppricetotal > 0">
               <div style="font-weight: 700">Setup Price</div>
               <ng-container *ngFor="let x of setupprice">
                 <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice | currency:'GBP'}} )
@@ -435,18 +509,19 @@
               <hr>
             </div>
 
-            <div class="generaly">
-              <span class="totalLabel">Additional Services and Installation Fees Total</span> <span
-                class="divid"> :</span><span><strong>{{setuppricetotal + firstprice | currency:'GBP'}}</strong></span>
+            <div class="generaly" *ngIf="setuppricetotal + firstprice >0">
+              <span class="totalLabel">Additional Services and Installation Fees Total</span> <span class="divid">
+                :</span><span><strong>{{setuppricetotal + firstprice | currency:'GBP'}}</strong></span>
+              <hr>
             </div>
 
 
-            <hr>
+
             <div class="generaly">
               <span class="totalLabel">Total </span> <span
                 class="divid">:</span><span><strong>{{ totalpricefinal | currency:'GBP'}}</strong></span>
             </div>
-            <div class="generaly">
+            <div class="generaly" *ngIf="firstprice + setuppricetotal > 0">
               <span class="totalLabel">Grand Total </span> <span
                 class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal | currency:'GBP'}}</strong></span>
             </div>
@@ -454,7 +529,8 @@
           </div>
         </div>
       </div>
-      <div class="textDesc"><i class="material-icons">info</i>This price includes maintenance, servers, backups, and updates.
+      <div class="textDesc"><i class="material-icons">info</i>This price includes maintenance, servers, backups, and
+        updates.
       </div>
     </mat-card>
   </form>

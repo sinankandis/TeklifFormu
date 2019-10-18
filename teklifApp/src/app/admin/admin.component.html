@@ -1,36 +1,35 @@
-
 <form [formGroup]="loginForm" class="example-form">
-<div class="container">
-
-  <mat-card>
-
-    <img src="https://www.elektraotel.com/wp-content/uploads/2019/05/elektraweblogo.png">
-
-    <div fxLayout="row wrap" fxLayout.xs="row wrap">
-      <div fxFlex="100" fxFlex.xs="100">
-        <mat-form-field appearance="outline" class="example-full-width">
-          <mat-label>E-mail</mat-label>
-          <mat-icon matSuffix>business</mat-icon>
-          <input formControlName="email" matInput value="">
-        </mat-form-field>
-      </div>
-
-      <div fxFlex="100" fxFlex.xs="100">
-        <mat-form-field appearance="outline" class="example-full-width">
-          <mat-label>Password</mat-label>
-          <mat-icon matSuffix>business</mat-icon>
-          <input type="password" formControlName="password" matInput value="">
-        </mat-form-field>
-      </div>
-
-      <div fxFlex="100" style="text-align:center;" fxFlex.xs="100">
-    
-        <button (click)="onSubmit();" mat-raised-button color="primary">Login</button>
-
-      </div>
-
-      </div>
-</mat-card>
-</div>
-
-</form>
+  <div class="container">
+  
+    <mat-card>
+  
+      <img src="https://www.easypms.com/easypmslogo.png">
+  
+      <div fxLayout="row wrap" fxLayout.xs="row wrap">
+        <div fxFlex="100" fxFlex.xs="100">
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>E-mail</mat-label>
+            <mat-icon matSuffix>business</mat-icon>
+            <input formControlName="email" matInput value="">
+          </mat-form-field>
+        </div>
+  
+        <div fxFlex="100" fxFlex.xs="100">
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Password</mat-label>
+            <mat-icon matSuffix>business</mat-icon>
+            <input type="password" formControlName="password" matInput value="">
+          </mat-form-field>
+        </div>
+  
+        <div fxFlex="100" style="text-align:center;" fxFlex.xs="100">
+      
+          <button (click)="onSubmit();" mat-raised-button color="primary">Login</button>
+  
+        </div>
+  
+        </div>
+  </mat-card>
+  </div>
+  
+  </form>
