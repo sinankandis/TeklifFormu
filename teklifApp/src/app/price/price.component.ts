@@ -12,6 +12,7 @@ import { element } from 'protractor';
 import { group } from '@angular/animations';
 import { zip } from 'rxjs';
 import { MatRadioChange } from '@angular/material/radio';
+import { async } from 'q';
 
 
 
@@ -65,6 +66,7 @@ export class PriceComponent implements OnInit {
   });
 
   public dataSource: any;
+  public Config: any;
   path: string = "";
   roomCount: number = 0;
   alertmessage: string;
@@ -80,6 +82,10 @@ export class PriceComponent implements OnInit {
   setuppricetotal: number = 0;
   yearlyfixpricetotal: number = 0;
   yearlyfixsinglepricetotal: number = 0;
+  public CroomCount1 :number =500;
+  public CroomCount2 : number=1000;
+  public CroomCount3 :number=1500;
+  public Cminroomcount :number = 10;
 
 
   elementdata: PeriodicElement[] = [];
@@ -104,16 +110,26 @@ export class PriceComponent implements OnInit {
 
 
 
+    
 
 
 
-    this.http.get(this.path + "pricelist-en.php").subscribe(resp => {
+      this.http.get(this.path + "pricelist-en.php").subscribe(resp => {
       this.dataSource = this.elementdata = resp as any;
-      console.log(this.dataSource);
+      
+    //this.CroomCount1 = this.Config.Croomcount1;
+    //this.CroomCount2 = this.Config.Croomcount2;
+    //this.CroomCount3 = this.Config.Croomcount3;
+    //this.Cminroomcount = this.Config.Cminroomcount;
     });
+    
     this.total(0);
 
+
+
   }
+
+
 
   logout() {
     this.userservice.login = false;
@@ -437,8 +453,8 @@ export class PriceComponent implements OnInit {
 
 
 
-    if (roomcount <= 100) {
-      if (roomcount < 10) { roomcount = 10 }
+    if (roomcount <= this.CroomCount1) {
+      if (roomcount < this.Cminroomcount) { roomcount = 10 }
       this.dataSource = this.dataSource.map(x => {
         let gruptotal = 0;
         if (x.selected == true) {
@@ -549,7 +565,7 @@ export class PriceComponent implements OnInit {
     }
 
 
-    if (roomcount >= 101 && roomcount <= 200) {
+    if (roomcount >= (this.CroomCount1 +1)  && roomcount <= this.CroomCount2) {
       this.dataSource = this.dataSource.map(x => {
         let gruptotal = 0;
         if (x.selected == true) {
@@ -566,7 +582,7 @@ export class PriceComponent implements OnInit {
 
 
         let fixtotal = 0;
-        let totalsub = (x.roomprice[0].priceCase1 * 100) + (x.roomprice[0].priceCase2 * (roomcount - 100));
+        let totalsub = (x.roomprice[0].priceCase1 * this.CroomCount1) + (x.roomprice[0].priceCase2 * (roomcount - this.CroomCount1));
 
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
@@ -655,7 +671,7 @@ export class PriceComponent implements OnInit {
 
 
 
-    if (roomcount > 200) {
+    if (roomcount > this.CroomCount2) {
 
       this.dataSource = this.dataSource.map(x => {
         let gruptotal = 0;
@@ -671,7 +687,7 @@ export class PriceComponent implements OnInit {
           });
         }
 
-        let totalsub = (x.roomprice[0].priceCase1 * 100) + (x.roomprice[0].priceCase2 * 100) + (x.roomprice[0].priceCase3 * (roomcount - 200));
+        let totalsub = (x.roomprice[0].priceCase1 * this.CroomCount1) + (x.roomprice[0].priceCase2 * (this.CroomCount2 - this.CroomCount1)) + (x.roomprice[0].priceCase3 * (roomcount - this.CroomCount2));
         let fixtotal = 0;
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
