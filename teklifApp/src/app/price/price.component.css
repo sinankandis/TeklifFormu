@@ -134,3 +134,11 @@ table {
   width:100%;
   margin-top:5px;
 }
+
+.langlabel {
+  display: flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.langImg {margin-right: 10px;}
