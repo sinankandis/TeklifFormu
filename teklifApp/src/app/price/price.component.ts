@@ -71,8 +71,10 @@ export class PriceComponent implements OnInit {
 
   public dataSource: any;
   public Config: any;
-  path: string = "http://localhost/teklif/";
-  currentLang: string = "tr";
+  path: string = "";
+  currentLang: string = "en";
+  currencycode : string ="£";
+  currencyprefix : string ="GBP";
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
@@ -91,7 +93,6 @@ export class PriceComponent implements OnInit {
   langtrans: any;
   public CroomCount1: number = 500;
   public CroomCount2: number = 1000;
-  public CroomCount3: number = 1500;
   public Cminroomcount: number = 10;
 
 
@@ -111,6 +112,8 @@ export class PriceComponent implements OnInit {
     this.dataSource = this.tempData[0][this.currentLang];
 
   }
+
+
 
 
   ngOnInit() {
@@ -193,7 +196,7 @@ export class PriceComponent implements OnInit {
         let checkdata = this.dataSource.filter(x => x.selected && !(x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly"));
         if (checkdata.length > 0) {
           html += '<div class="heading">' + trans.annualycharged + '</div>';
-          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' + trans.productexplaniton + '</th><th class="coltab2">' + trans.roomcount + '</th><th class="coltab3">' + trans.price + ' (£)</th></tr></thead><tbody>';
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' + trans.productexplaniton + '</th><th class="coltab2">' + trans.roomcount + '</th><th class="coltab3">' + trans.price + ' (' + this.currencycode+ ')</th></tr></thead><tbody>';
         }
         let total = 0;
         let monthlytotal = 0;
@@ -206,9 +209,9 @@ export class PriceComponent implements OnInit {
                 if (x.selected == true && x.type != "hardware") {
                   let discounttext3 = "";
                   if (x.discount > 0) {
-                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " £ ( %" + x.discount + " " + trans.discountraw + " )"
+                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " " + this.currencycode+ " ( %" + x.discount + " " + trans.discountraw + " )"
                   }
-                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Quantity X ' + x.productprice + ' £ ' + ' = ' + (x.productprice * x.quantity) + ' £ )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
+                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' Quantity X ' + x.productprice + ' ' + this.currencycode+ ' ' + ' = ' + (x.productprice * x.quantity) + ' ' + this.currencycode+ ' )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
                 }
               });
 
@@ -217,40 +220,40 @@ export class PriceComponent implements OnInit {
               let fixprice = element.roomprice[0].fixprice;
               let fixstring = "";
               if (fixprice > 0) {
-                fixstring = element.firstprice[0].desc + fixprice + ' £ ';
+                fixstring = element.firstprice[0].desc + fixprice + ' ' + this.currencycode+ ' ';
               }
 
 
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total) + ((element.total) / (100 - element.discount) * element.discount);
-                discounttext = "( " + trans.discount + " " + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' £</span>' + "<br>";
+                discounttext = "( " + trans.discount + " " + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' ' + this.currencycode+ '</span>' + "<br>";
               } else { discounttext = ""; }
 
               let product = "";
               if (element.singleproduct == true) {
-                product = "( " + element.quantity + " " + trans.quantity + " * " + element.price + " £ ) " + this.decimalPipe.transform(element.quantity * element.price) + " £"
+                product = "( " + element.quantity + " " + trans.quantity + " * " + element.price + " " + this.currencycode+ " ) " + this.decimalPipe.transform(element.quantity * element.price) + " " + this.currencycode+ ""
 
               }
 
               monthlytotal += element.total;
               let pricetext = "";
               if (element.timesequence == "yearly") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " £/" + trans.year + "";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " " + this.currencycode+ "/" + trans.year + "";
 
               }
 
               if (element.timesequence == "yearlyfix") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " £/ilkyıl ";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " " + this.currencycode+ "/ilkyıl ";
 
               }
 
 
               if (element.timesequence == "yearlyfixsingle") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " £/ilkyıl ";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total) + "</b>" + " " + this.currencycode+ "/ilkyıl ";
               }
 
-              else { pricetext = "<b>" + this.decimalPipe.transform((element.total / 12)) + "</b>" + " £/" + trans.monthly + "<br>" + this.decimalPipe.transform(element.total) + " £/" + trans.year }
+              else { pricetext = "<b>" + this.decimalPipe.transform((element.total / 12)) + "</b>" + " " + this.currencycode+ "/" + trans.monthly + "<br>" + this.decimalPipe.transform(element.total) + " " + this.currencycode+ "/" + trans.year }
 
               let usertext = "";
               if (element.hasOwnProperty('userbarems') && element.userbarems) {
@@ -275,14 +278,14 @@ export class PriceComponent implements OnInit {
         });
 
         if (checkdata.length > 0) {
-          html += '<tr><td><strong>' + trans.yearlytotal + ' :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + " £" + this.decimalPipe.transform(monthlytotal) + '</strong></td></tr>';
+          html += '<tr><td><strong>' + trans.yearlytotal + ' :</strong></td><td></td>' + '<td style="text-align: right;"><strong>' + " " + this.currencycode+ "" + this.decimalPipe.transform(monthlytotal) + '</strong></td></tr>';
           html += '</tbody></table><br><br>';
         }
 
         let checkdatafix = this.dataSource.filter(x => x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly"));
         if (checkdatafix.length > 0) {
           html += '<div class="heading">' + trans.productchargedronce + '</div>';
-          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' + trans.productexplaniton + '</th><th class="coltab2">' + trans.roomcount + '</th><th class="coltab3">' + trans.price + ' (£)</th></tr></thead><tbody>';
+          html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' + trans.productexplaniton + '</th><th class="coltab2">' + trans.roomcount + '</th><th class="coltab3">' + trans.price + ' (' + this.currencycode+ ')</th></tr></thead><tbody>';
 
         }
 
@@ -296,10 +299,10 @@ export class PriceComponent implements OnInit {
                 if (x.selected == true && x.type != "hardware") {
                   let discounttext3 = "";
                   if (x.discount > 0) {
-                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " £ ( %" + x.discount + " " + trans.discountraw + " )"
+                    discounttext3 = ((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2) + " " + this.currencycode+ " ( %" + x.discount + " " + trans.discountraw + " )"
                   }
 
-                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' ' + trans.quantity + ' X ' + x.productprice + ' £ ' + ' = ' + (x.productprice * x.quantity) + ' £ )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
+                  altgrup += x.productname + "<br>" + ' ( ' + x.quantity + ' ' + trans.quantity + ' X ' + x.productprice + ' ' + this.currencycode+ ' ' + ' = ' + (x.productprice * x.quantity) + ' ' + this.currencycode+ ' )' + '<br><b><span>' + discounttext3 + "</span></b><hr>";
                 }
               });
 
@@ -308,7 +311,7 @@ export class PriceComponent implements OnInit {
               let fixprice = element.roomprice[0].fixprice;
               let fixstring = "";
               if (fixprice > 0) {
-                fixstring = element.firstprice[0].desc + fixprice + ' £ ';
+                fixstring = element.firstprice[0].desc + fixprice + ' ' + this.currencycode+ ' ';
               }
 
               let hardwareitemtotal = 0;
@@ -322,12 +325,12 @@ export class PriceComponent implements OnInit {
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total - hardwareitemtotal) + ((element.total - hardwareitemtotal) / (100 - element.discount) * element.discount);
-                discounttext = "(" + trans.discountraw + " %" + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' £</span>' + "<br>";
+                discounttext = "(" + trans.discountraw + " %" + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' ' + this.currencycode+ '</span>' + "<br>";
               } else { discounttext = ""; }
 
               let product = "";
               if (element.singleproduct == true) {
-                product = "( " + element.quantity + " " + trans.quantity + " * " + element.price + " £ ) " + this.decimalPipe.transform(element.quantity * element.price) + " £"
+                product = "( " + element.quantity + " " + trans.quantity + " * " + element.price + " " + this.currencycode+ " ) " + this.decimalPipe.transform(element.quantity * element.price) + " " + this.currencycode+ ""
 
               }
 
@@ -335,18 +338,18 @@ export class PriceComponent implements OnInit {
 
               let pricetext = "";
               if (element.timesequence == "yearly") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + "</b>" + " £ ";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + "</b>" + " " + this.currencycode+ "" ;
                 fixlytotal += element.total;
               }
 
               if (element.timesequence == "yearlyfix") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " £ " + "</b>";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " " + this.currencycode+ " " + "</b>";
                 fixlytotal += element.total;
               }
 
 
               if (element.timesequence == "yearlyfixsingle") {
-                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " £ " + "</b>";
+                pricetext = "<b>" + this.decimalPipe.transform(element.total - hardwareitemtotal) + " " + this.currencycode+ " " + "</b>";
                 fixlytotal += element.total;
               }
 
@@ -369,7 +372,7 @@ export class PriceComponent implements OnInit {
         let ekhizmetler = "";
         this.ekhizmetler.forEach(x => {
           if (x.selected == true && x.firstprice[0].price > 0) {
-            ekhizmetler += trans.services + ' : ' + x.firstprice[0].desc + '  ' + this.decimalPipe.transform(x.firstprice[0].price) + ' £' + '<br>';
+            ekhizmetler += trans.services + ' : ' + x.firstprice[0].desc + '  ' + this.decimalPipe.transform(x.firstprice[0].price) + ' ' + this.currencycode+ '' + '<br>';
           }
         });
 
@@ -377,9 +380,9 @@ export class PriceComponent implements OnInit {
         this.hardware.forEach(x => {
           let discounttext2 = "";
           if (x.discount > 0) {
-            discounttext2 = "<b>" + this.decimalPipe.transform(((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2)) + " £ ( %" + x.discount + " " + trans.discountraw + " )</b>"
+            discounttext2 = "<b>" + this.decimalPipe.transform(((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2)) + " " + this.currencycode+ " ( %" + x.discount + " " + trans.discountraw + " )</b>"
           }
-          hardware += x.productname + "<br>" + ' ( ' + x.quantity + ' Quantity X ' + this.decimalPipe.transform(x.productprice) + ' £ ' + ' = ' + this.decimalPipe.transform((x.productprice * x.quantity)) + ' £ )' + "<br><span>" +
+          hardware += x.productname + "<br>" + ' ( ' + x.quantity + ' Quantity X ' + this.decimalPipe.transform(x.productprice) + ' ' + this.currencycode+ ' ' + ' = ' + this.decimalPipe.transform((x.productprice * x.quantity)) + ' ' + this.currencycode+ ' )' + "<br><span>" +
             discounttext2
             + "</span><hr><br>";
 
@@ -387,22 +390,22 @@ export class PriceComponent implements OnInit {
 
         let setupprice = "";
         this.setupprice.forEach(x => {
-          setupprice += x.setupdesc + "<br>" + "( " + x.quantity + " * " + this.decimalPipe.transform(x.setupprice) + " £ )" + this.decimalPipe.transform(x.quantity * x.setupprice) + " £";
+          setupprice += x.setupdesc + "<br>" + "( " + x.quantity + " * " + this.decimalPipe.transform(x.setupprice) + " " + this.currencycode+ " )" + this.decimalPipe.transform(x.quantity * x.setupprice) + " " + this.currencycode+ "";
         });
 
         if (hardware) {
-          html += '<tr><td><strong>' + trans.hardwares + ':</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.hardwaretotal) + ' £ ' + '</strong></td></tr>';
+          html += '<tr><td><strong>' + trans.hardwares + ':</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.hardwaretotal) + ' ' + this.currencycode+ ' ' + '</strong></td></tr>';
         }
         if (ekhizmetler) {
-          html += '<tr><td><strong>' + trans.additionalservices + ' :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.firstprice) + ' £ ' + '</strong></td></tr>';
+          html += '<tr><td><strong>' + trans.additionalservices + ' :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.firstprice) + ' ' + this.currencycode+ ' ' + '</strong></td></tr>';
         }
         if (setupprice) {
-          html += '<tr><td><strong>Setup Prices :</strong><p>' + setupprice + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.setuppricetotal) + ' £ ' + '</strong></td></tr>';
+          html += '<tr><td><strong>' + trans.setupprices + ':</strong><p>' + setupprice + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.setuppricetotal) + ' ' + this.currencycode+ ' ' + '</strong></td></tr>';
         }
 
 
         if (checkdatafix.length > 0) {
-          html += '<tr><td><strong>' + trans.total + ':</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " £ " + '</strong></td></tr>';
+          html += '<tr><td><strong>' + trans.total + ':</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " " + this.currencycode + " " + '</strong></td></tr>';
           html += '</tbody></table>';
         }
 
@@ -410,13 +413,13 @@ export class PriceComponent implements OnInit {
         html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1"></th><th class="coltab2"></th><th class="coltab3"></th></tr></thead><tbody>';
 
         if (this.yearlyfixpricetotal > 0) {
-          html += '<tr><td><strong>' + trans.totalfeespayable + ':</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal) + " £ " + '</td></tr>';
+          html += '<tr><td><strong>' + trans.totalfeespayable + ':</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal) + " " + this.currencycode +  "</td></tr>";
         }
 
 
-        html += '<tr><td><strong>' + trans.grandtotal + ':</strong></td><td>---</td>' + '<td class="totals"><strong>' + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal)) + " £"
-        " ( " + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal)) + " £" +
-          " + " + this.decimalPipe.transform((monthlytotal)) + " £ )" +
+        html += '<tr><td><strong>' + trans.grandtotal + ':</strong></td><td>---</td>' + '<td class="totals"><strong>' + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal)) + " " + this.currencycode+ ""
+        " ( " + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal)) + " " + this.currencycode+ "" +
+          " + " + this.decimalPipe.transform((monthlytotal)) + " " + this.currencycode+ " )" +
           '</strong></td></tr>';
 
         html += "</tbody></table>";
