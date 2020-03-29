@@ -8,6 +8,7 @@ export class UserService implements CanActivate  {
   constructor(private router : Router) { }
   login : boolean =false;
   public userdata : any;
+  public userinfo : any;
 
 
   canActivate(next:ActivatedRouteSnapshot,state:RouterStateSnapshot):boolean {

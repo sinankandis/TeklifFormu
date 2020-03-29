@@ -10,9 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+  message: string;
 
 
-  constructor(private http : HttpClient,private service : UserService,private router : Router) { }
+  constructor(private http: HttpClient, private service: UserService, private router: Router) { }
 
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),
@@ -23,16 +24,20 @@ export class AdminComponent implements OnInit {
   onSubmit() {
 
     if (this.loginForm.valid) {
-      this.http.post("http://localhost/teklif/login.php",this.loginForm.value).subscribe(resp=>{
-        let data = [];
-        data.push(resp);
-        this.service.userdata = data;
-       if(data[0].email !="" && data[0].email !=null ) {
-         this.service.login = true;
-         this.router.navigate([""]);
-        } 
+      this.http.post("login.php", this.loginForm.value).subscribe(resp => {
+        if (resp == false) {
+          this.message = "Please Check Your Information";
+        } else {
+          this.service.userinfo = this.loginForm.value;
+          let data = [];
+          data.push(resp);
+          this.service.userdata = data;
+          if (data[0].email != "" && data[0].email != null) {
+            this.service.login = true;
+            this.router.navigate([""]);
+          }
+        }
       }
-
       );
 
     }
