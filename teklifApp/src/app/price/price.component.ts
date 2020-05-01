@@ -92,7 +92,7 @@ export class PriceComponent implements OnInit {
   lang: any;
   langtrans: any;
   public CroomCount1: number = 50;
-  public CroomCount2: number = 200;
+  public CroomCount2: number = 400;
   public Cminroomcount: number = 10;
 
 
