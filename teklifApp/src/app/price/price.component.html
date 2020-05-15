@@ -599,3 +599,16 @@
 <ng-template #progressTpl>
   <mat-spinner></mat-spinner>
 </ng-template>
+
+
+<div class="callMe" *ngIf="close==true">
+  <div class="CallMeArea">
+    <div class="Calltext">Özel Fiyatlar İçin Bizi Arayın</div>
+    <div class="callnumber"><a href="tel:+908507770444">
+      <span class="material-icons">phone</span>+90 850 777 0 444</a></div>
+      <button class="callmeClose" (click)="closeCall();" #closeButton mat-mini-fab color="warn">
+        <span class="material-icons">close</span>
+      </button>
+  </div>
+
+</div>

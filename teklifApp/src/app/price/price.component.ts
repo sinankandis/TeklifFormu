@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ɵConsole, ViewContainerRef, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ɵConsole, ViewContainerRef, ViewChild, TemplateRef, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
@@ -38,6 +38,7 @@ export interface PeriodicElement {
 export class PriceComponent implements OnInit {
   @ViewChild('progressTpl', { read: TemplateRef, static: true }) progressTpl: TemplateRef<any>;
   @ViewChild('menu', { read: HTMLElement, static: true }) menu: HTMLElement;
+  close: boolean = false;
   tempData: any;
 
   constructor(
@@ -198,12 +199,16 @@ export class PriceComponent implements OnInit {
 
   teklifGonder(process, message?) {
 
+
     let trans = this.langtrans[0];
     if (this.profileForm.valid) {
       if (this.dataSource.filter(x => x.selected == true).length <= 0) {
         alert(message);
       }
       else {
+
+        let formdata = this.profileForm.value;
+      
         this.progress();
         let offerusername = "";
         let offerpassword = "";
@@ -213,7 +218,6 @@ export class PriceComponent implements OnInit {
         }
 
         let t = new FormData();
-        let formdata = this.profileForm.value;
         t.append('process', process);
         t.append('hotelname', formdata.hotelname);
         t.append('email', formdata.email);
@@ -497,6 +501,12 @@ export class PriceComponent implements OnInit {
               if (resp.success) {
                 alert(trans.succesoffer);
                 this.detachOverlay();
+
+                if (formdata.roomcount > 50) {
+                  this.close = true;
+                }
+
+
               }
             }
           });
@@ -508,6 +518,7 @@ export class PriceComponent implements OnInit {
       }
     } else { alert(trans.fillallfields); }
   }
+
 
 
 
@@ -1005,9 +1016,14 @@ export class PriceComponent implements OnInit {
 
   }
 
+  closeCall() {
+    this.close = false;
+  }
 
 
 }
+
+
 
 
 

@@ -49,6 +49,7 @@ table {
     max-width: 970px;
     margin-left: 15%;
     margin-right: 15%;
+    margin: auto;
   }
 }
 
@@ -118,4 +119,55 @@ table {
 .example-radio-button {
   width:100%;
   margin-top:5px;
+}
+
+.callMe {
+  position: fixed;
+  top: 0;
+  background: #534d4d94;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+}
+
+@media (max-width:720px) {
+  .CallMeArea {
+     width: 80%;
+  }
+  .callnumber a{
+    font-size: 25px;
+
+  }
+}
+
+.CallMeArea {
+  background: white;
+  padding: 15px;
+  font-size: 30px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.callnumber a {
+  text-decoration: none;
+  color: yellowgreen;
+  font-size: 35px;
+  line-height: 70px;
+}
+
+.callnumber .material-icons {
+  font-size: 35px;
+}
+
+.callmeClose {
+  position: absolute;
+  right: -15px;
+  top: -20px;
 }
