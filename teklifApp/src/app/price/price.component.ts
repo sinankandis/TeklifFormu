@@ -94,7 +94,7 @@ export class PriceComponent implements OnInit {
   langtrans: any;
   public CroomCount1: number = 50;
   public CroomCount2: number = 400;
-  public Cminroomcount: number = 10;
+  public Cminroomcount: number = 40; /* Minumum Oda Sayısı */
 
 
   elementdata: PeriodicElement[] = [];
@@ -208,7 +208,7 @@ export class PriceComponent implements OnInit {
       else {
 
         let formdata = this.profileForm.value;
-      
+
         this.progress();
         let offerusername = "";
         let offerpassword = "";
@@ -322,11 +322,35 @@ export class PriceComponent implements OnInit {
           html += '</tbody></table><br><br>';
         }
 
+        let ekhizmetler = "";
+        this.ekhizmetler.forEach(x => {
+          if (x.selected == true && x.firstprice[0].price > 0) {
+            ekhizmetler += trans.services + ' : ' + x.firstprice[0].desc + '  ' + this.decimalPipe.transform(x.firstprice[0].price) + ' ' + this.currencycode + '<br>';
+          }
+        });
+
+        let hardware = "";
+        this.hardware.forEach(x => {
+          let discounttext2 = "";
+          if (x.discount > 0) {
+            discounttext2 = "<b>" + this.decimalPipe.transform(((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2)) + " " + this.currencycode + " ( %" + x.discount + " " + trans.discountraw + " )</b>"
+          }
+          hardware += x.productname + "<br>" + ' ( ' + x.quantity + ' Quantity X ' + this.decimalPipe.transform(x.productprice) + ' ' + this.currencycode + ' ' + ' = ' + this.decimalPipe.transform((x.productprice * x.quantity)) + ' ' + this.currencycode + ' )' + "<br><span>" +
+            discounttext2
+            + "</span><hr><br>";
+
+        })
+
+        let setupprice = "";
+        this.setupprice.forEach(x => {
+          setupprice += x.setupdesc + "<br>" + "( " + x.quantity + " * " + this.decimalPipe.transform(x.setupprice) + " " + this.currencycode + " )" + this.decimalPipe.transform(x.quantity * x.setupprice) + " " + this.currencycode + "";
+        });
+
+
         let checkdatafix = this.dataSource.filter(x => x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly"));
-        if (checkdatafix.length > 0) {
+        if (checkdatafix.length > 0 || this.ekhizmetler.length > 0 || this.hardware.length > 0 || this.setupprice.length > 0) {
           html += '<div class="heading">' + trans.productchargedronce + '</div>';
           html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' + trans.productexplaniton + '</th><th class="coltab2">' + trans.roomcount + '</th><th class="coltab3">' + trans.price + ' (' + this.currencycode + ')</th></tr></thead><tbody>';
-
         }
 
         /* Tek Seferlik ve Sabit Ücterler Toplamı */
@@ -409,42 +433,20 @@ export class PriceComponent implements OnInit {
         });
 
 
-        let ekhizmetler = "";
-        this.ekhizmetler.forEach(x => {
-          if (x.selected == true && x.firstprice[0].price > 0) {
-            ekhizmetler += trans.services + ' : ' + x.firstprice[0].desc + '  ' + this.decimalPipe.transform(x.firstprice[0].price) + ' ' + this.currencycode + '' + '<br>';
-          }
-        });
-
-        let hardware = "";
-        this.hardware.forEach(x => {
-          let discounttext2 = "";
-          if (x.discount > 0) {
-            discounttext2 = "<b>" + this.decimalPipe.transform(((x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount)).toFixed(2)) + " " + this.currencycode + " ( %" + x.discount + " " + trans.discountraw + " )</b>"
-          }
-          hardware += x.productname + "<br>" + ' ( ' + x.quantity + ' Quantity X ' + this.decimalPipe.transform(x.productprice) + ' ' + this.currencycode + ' ' + ' = ' + this.decimalPipe.transform((x.productprice * x.quantity)) + ' ' + this.currencycode + ' )' + "<br><span>" +
-            discounttext2
-            + "</span><hr><br>";
-
-        })
-
-        let setupprice = "";
-        this.setupprice.forEach(x => {
-          setupprice += x.setupdesc + "<br>" + "( " + x.quantity + " * " + this.decimalPipe.transform(x.setupprice) + " " + this.currencycode + " )" + this.decimalPipe.transform(x.quantity * x.setupprice) + " " + this.currencycode + "";
-        });
 
         if (hardware) {
           html += '<tr><td><strong>' + trans.hardwares + ':</strong><p>' + hardware + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.hardwaretotal) + ' ' + this.currencycode + ' ' + '</strong></td></tr>';
         }
         if (ekhizmetler) {
-          html += '<tr><td><strong>' + trans.additionalservices + ' :</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.firstprice) + ' ' + this.currencycode + ' ' + '</strong></td></tr>';
+          html += '<tr><td><strong>' + trans.additionalservices + ':</strong><p>' + ekhizmetler + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.firstprice) + ' ' + this.currencycode + ' ' + '</strong></td></tr>';
+
         }
         if (setupprice) {
           html += '<tr><td><strong>' + trans.setupprices + ':</strong><p>' + setupprice + '</p></td><td></td>' + '<td style="text-align: right;"><strong>' + this.decimalPipe.transform(this.setuppricetotal) + ' ' + this.currencycode + ' ' + '</strong></td></tr>';
         }
 
 
-        if (checkdatafix.length > 0) {
+        if (checkdatafix.length > 0 || this.ekhizmetler.length > 0 || this.hardware.length > 0 || this.setupprice.length > 0) {
           html += '<tr><td><strong>' + trans.total + ':</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " " + this.currencycode + " " + '</strong></td></tr>';
           html += '</tbody></table>';
         }
@@ -525,7 +527,7 @@ export class PriceComponent implements OnInit {
   changeData(roomcount) {
 
     if (roomcount <= this.CroomCount1) {
-      if (roomcount < this.Cminroomcount) { roomcount = 10 }
+      if (roomcount < this.Cminroomcount) { roomcount = 40 }
       this.dataSource = this.dataSource.map(x => {
         let gruptotal = 0;
         if (x.selected == true) {
@@ -627,7 +629,9 @@ export class PriceComponent implements OnInit {
           "usercount": x.usercount,
           "userlimit": x.userlimit,
           "usermaxlimit": x.usermaxlimit,
-          "userbarems": x.userbarems
+          "userbarems": x.userbarems,
+          "efatura": x.efatura,
+          "maxprice": x.maxprice
 
 
         };
@@ -731,6 +735,8 @@ export class PriceComponent implements OnInit {
           "userlimit": x.userlimit,
           "usermaxlimit": x.usermaxlimit,
           "userbarems": x.userbarems,
+          "efatura": x.efatura,
+          "maxprice": x.maxprice
 
 
 
@@ -827,7 +833,9 @@ export class PriceComponent implements OnInit {
           "usercount": x.usercount,
           "userlimit": x.userlimit,
           "usermaxlimit": x.usermaxlimit,
-          "userbarems": x.userbarems
+          "userbarems": x.userbarems,
+          "efatura": x.efatura,
+          "maxprice": x.maxprice
 
 
 
@@ -836,8 +844,27 @@ export class PriceComponent implements OnInit {
       );
 
     }
-  }
 
+    let efatura = this.dataSource.filter(x => x.efatura == 1)
+    let earsiv = this.dataSource.filter(x => x.efatura == 2)
+
+    if (efatura[0].selected == true && earsiv[0].selected) {
+      this.dataSource.filter(x => x.efatura == 3)[0].price = 0;
+      this.dataSource.filter(x => x.efatura == 3)[0].total = 0;
+
+    }
+
+
+    this.dataSource.forEach(element => {
+      if (element.total > element.maxprice) {
+        element.total = element.maxprice;
+      }
+
+    });
+
+
+
+  }
   showControl() {
     if (this.profileForm.valid) {
       if (this.dataSource.filter(x => x.selected == true).length > 0) {
