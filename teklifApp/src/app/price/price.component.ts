@@ -531,6 +531,11 @@ export class PriceComponent implements OnInit {
       this.dataSource = this.dataSource.map(x => {
         let gruptotal = 0;
         if (x.selected == true) {
+          if(x.minroom >0 ) {
+            roomcount = x.minroom;
+          } else {
+            roomcount = 40;
+          }
           x.productgrup.forEach(y => {
             if (y.selected == true) {
               if (y.time == "monthly") {
@@ -631,7 +636,8 @@ export class PriceComponent implements OnInit {
           "usermaxlimit": x.usermaxlimit,
           "userbarems": x.userbarems,
           "efatura": x.efatura,
-          "maxprice": x.maxprice
+          "maxprice": x.maxprice,
+          "minroom":x.minroom
 
 
         };
@@ -736,7 +742,8 @@ export class PriceComponent implements OnInit {
           "usermaxlimit": x.usermaxlimit,
           "userbarems": x.userbarems,
           "efatura": x.efatura,
-          "maxprice": x.maxprice
+          "maxprice": x.maxprice,
+          "minroom":x.minroom
 
 
 
@@ -835,7 +842,8 @@ export class PriceComponent implements OnInit {
           "usermaxlimit": x.usermaxlimit,
           "userbarems": x.userbarems,
           "efatura": x.efatura,
-          "maxprice": x.maxprice
+          "maxprice": x.maxprice,
+          "minroom":x.minroom
 
 
 
@@ -851,7 +859,6 @@ export class PriceComponent implements OnInit {
     if (efatura[0].selected == true && earsiv[0].selected) {
       this.dataSource.filter(x => x.efatura == 3)[0].price = 0;
       this.dataSource.filter(x => x.efatura == 3)[0].total = 0;
-
     }
 
 
