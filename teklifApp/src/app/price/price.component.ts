@@ -525,17 +525,21 @@ export class PriceComponent implements OnInit {
 
 
   changeData(roomcount) {
-
+    let temp = roomcount
     if (roomcount <= this.CroomCount1) {
-      if (roomcount < this.Cminroomcount) { roomcount = 40 }
       this.dataSource = this.dataSource.map(x => {
         let gruptotal = 0;
         if (x.selected == true) {
-          if(x.minroom >0 ) {
-            roomcount = x.minroom;
+          if (x.minroomstatus == true) {
+            if (roomcount < x.minroom) { roomcount = x.minroom } else {
+
+            }
           } else {
-            roomcount = 40;
+            if (roomcount < this.Cminroomcount) { roomcount = 40 }
           }
+
+
+
           x.productgrup.forEach(y => {
             if (y.selected == true) {
               if (y.time == "monthly") {
@@ -637,7 +641,8 @@ export class PriceComponent implements OnInit {
           "userbarems": x.userbarems,
           "efatura": x.efatura,
           "maxprice": x.maxprice,
-          "minroom":x.minroom
+          "minroom": x.minroom,
+          "minroomstatus": x.minroomstatus
 
 
         };
@@ -743,7 +748,8 @@ export class PriceComponent implements OnInit {
           "userbarems": x.userbarems,
           "efatura": x.efatura,
           "maxprice": x.maxprice,
-          "minroom":x.minroom
+          "minroom": x.minroom,
+          "minroomstatus": x.minroomstatus
 
 
 
@@ -843,7 +849,8 @@ export class PriceComponent implements OnInit {
           "userbarems": x.userbarems,
           "efatura": x.efatura,
           "maxprice": x.maxprice,
-          "minroom":x.minroom
+          "minroom": x.minroom,
+          "minroomstatus": x.minroomstatus
 
 
 
