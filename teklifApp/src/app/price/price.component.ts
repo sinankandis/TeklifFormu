@@ -72,7 +72,7 @@ export class PriceComponent implements OnInit {
 
   public dataSource: any;
   public Config: any;
-  path: string = "";
+  path: string = "http://localhost/teklif/";
   currentLang: string = "tr";
   currencycode: string = "€";
   currencyprefix: string = "EUR";
@@ -454,9 +454,9 @@ export class PriceComponent implements OnInit {
 
         html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1"></th><th class="coltab2"></th><th class="coltab3"></th></tr></thead><tbody>';
 
-        if (this.yearlyfixpricetotal > 0) {
-          html += '<tr><td><strong>' + trans.totalfeespayable + ':</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal) + " " + this.currencycode + "</td></tr>";
-        }
+        /*   if (this.yearlyfixpricetotal > 0) {
+            html += '<tr><td><strong>' + trans.totalfeespayable + ':</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal) + " " + this.currencycode + "</td></tr>";
+          } */
 
 
         html += '<tr><td><strong>' + trans.grandtotal + ':</strong></td><td>---</td>' + '<td class="totals"><strong>' + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal)) + " " + this.currencycode + ""
@@ -528,16 +528,20 @@ export class PriceComponent implements OnInit {
     let temp = roomcount
     if (roomcount <= this.CroomCount1) {
       this.dataSource = this.dataSource.map(x => {
+
+
+
+
         let gruptotal = 0;
         if (x.selected == true) {
+
+
           if (x.minroomstatus == true) {
             if (roomcount < x.minroom) { roomcount = x.minroom } else {
-
             }
           } else {
             if (roomcount < this.Cminroomcount) { roomcount = 40 }
           }
-
 
 
           x.productgrup.forEach(y => {
@@ -642,6 +646,7 @@ export class PriceComponent implements OnInit {
           "efatura": x.efatura,
           "maxprice": x.maxprice,
           "minroom": x.minroom,
+          "maxroom": x.maxroom,
           "minroomstatus": x.minroomstatus
 
 
@@ -653,8 +658,26 @@ export class PriceComponent implements OnInit {
 
     if (roomcount >= (this.CroomCount1 + 1) && roomcount <= this.CroomCount2) {
       this.dataSource = this.dataSource.map(x => {
+
+
+        let temproom;
         let gruptotal = 0;
         if (x.selected == true) {
+
+          if (x.maxroom) {
+            if (roomcount > x.maxroom) {
+              temproom = x.maxroom;
+            }
+            else {
+              temproom = roomcount;
+            }
+          }
+          else {
+            temproom = roomcount;
+          }
+
+        
+
           x.productgrup.forEach(y => {
             if (y.selected == true) {
               if (y.time == "monthly") {
@@ -668,7 +691,7 @@ export class PriceComponent implements OnInit {
 
 
         let fixtotal = 0;
-        let totalsub = (x.roomprice[0].priceCase1 * this.CroomCount1) + (x.roomprice[0].priceCase2 * (roomcount - this.CroomCount1));
+        let totalsub = (x.roomprice[0].priceCase1 * this.CroomCount1) + (x.roomprice[0].priceCase2 * (temproom - this.CroomCount1));
 
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
@@ -749,6 +772,7 @@ export class PriceComponent implements OnInit {
           "efatura": x.efatura,
           "maxprice": x.maxprice,
           "minroom": x.minroom,
+          "maxroom": x.maxroom,
           "minroomstatus": x.minroomstatus
 
 
@@ -764,8 +788,21 @@ export class PriceComponent implements OnInit {
     if (roomcount > this.CroomCount2) {
 
       this.dataSource = this.dataSource.map(x => {
+        let temproom;
         let gruptotal = 0;
         if (x.selected == true) {
+
+          if (x.maxroom) {
+            if (roomcount > x.maxroom) {
+              temproom = x.maxroom;
+            }
+            else {
+              temproom = roomcount;
+            }
+          }
+          else {
+            temproom = roomcount;
+          }
           x.productgrup.forEach(y => {
             if (y.selected == true) {
               if (y.time == "monthly") {
@@ -777,7 +814,7 @@ export class PriceComponent implements OnInit {
           });
         }
 
-        let totalsub = (x.roomprice[0].priceCase1 * this.CroomCount1) + (x.roomprice[0].priceCase2 * (this.CroomCount2 - this.CroomCount1)) + (x.roomprice[0].priceCase3 * (roomcount - this.CroomCount2));
+        let totalsub = (x.roomprice[0].priceCase1 * this.CroomCount1) + (x.roomprice[0].priceCase2 * (this.CroomCount2 - this.CroomCount1)) + (x.roomprice[0].priceCase3 * (temproom - this.CroomCount2));
         let fixtotal = 0;
         if (roomcount <= 1 && x.fixuse == true) {
           fixtotal = x.roomprice[0].fixprice;
@@ -850,6 +887,7 @@ export class PriceComponent implements OnInit {
           "efatura": x.efatura,
           "maxprice": x.maxprice,
           "minroom": x.minroom,
+          "maxroom": x.maxroom,
           "minroomstatus": x.minroomstatus
 
 
