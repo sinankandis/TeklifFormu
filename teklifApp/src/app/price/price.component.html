@@ -341,11 +341,11 @@
 
               <div class="generaly">
                 <span class="totalLabel">{{trans.total}} </span> <span
-                  class="divid">:</span><span><strong>{{ totalpricefinal | currency:currencyprefix}}</strong></span>
+                  class="divid">:</span><span><strong>{{ totalpricefinal + hardwaretotal | currency:currencyprefix}}</strong></span>
               </div>
               <div class="generaly" *ngIf="firstprice + setuppricetotal > 0">
                 <span class="totalLabel">{{trans.grandtotal}} </span> <span
-                  class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal | currency:currencyprefix}}</strong></span>
+                  class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal + hardwaretotal| currency:currencyprefix}}</strong></span>
               </div>
 
             </div>
@@ -364,6 +364,7 @@
           <tbody>
 
             <ng-container *ngFor="let item of dataSource">
+
               <tr>
                 <td style="text-align: center;">
                   <mat-checkbox
@@ -501,7 +502,7 @@
 
 
                               <td style="text-align: end;">
-                                {{ (x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount) | currency : currencyprefix}}
+                                {{ (x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount) | currency : currencyprefix}} <ng-container *ngIf="x.time=='monthly'"> / {{trans.monthly}}</ng-container>
                               </td>
                             </tr>
                           </ng-container>
@@ -570,11 +571,11 @@
 
               <div class="generaly">
                 <span class="totalLabel">{{trans.total}} </span> <span
-                  class="divid">:</span><span><strong>{{ totalpricefinal | currency:currencyprefix}}</strong></span>
+                  class="divid">:</span><span><strong>{{ totalpricefinal + hardwaretotal | currency:currencyprefix}}</strong></span>
               </div>
               <div class="generaly" *ngIf="firstprice + setuppricetotal > 0">
                 <span class="totalLabel">{{trans.grandtotal}} </span> <span
-                  class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal | currency:currencyprefix}}</strong></span>
+                  class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal + hardwaretotal | currency:currencyprefix}}</strong></span>
               </div>
 
             </div>

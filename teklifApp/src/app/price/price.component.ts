@@ -72,7 +72,7 @@ export class PriceComponent implements OnInit {
 
   public dataSource: any;
   public Config: any;
-  path: string = "http://localhost/teklif/";
+  path: string = "";
   currentLang: string = "tr";
   currencycode: string = "€";
   currencyprefix: string = "EUR";
@@ -348,6 +348,8 @@ export class PriceComponent implements OnInit {
 
 
         let checkdatafix = this.dataSource.filter(x => x.selected && (x.timesequence == "yearlyfix" || x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly"));
+       
+      
         if (checkdatafix.length > 0 || this.ekhizmetler.length > 0 || this.hardware.length > 0 || this.setupprice.length > 0) {
           html += '<div class="heading">' + trans.productchargedronce + '</div>';
           html += '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' + trans.productexplaniton + '</th><th class="coltab2">' + trans.roomcount + '</th><th class="coltab3">' + trans.price + ' (' + this.currencycode + ')</th></tr></thead><tbody>';
@@ -447,7 +449,7 @@ export class PriceComponent implements OnInit {
 
 
         if (checkdatafix.length > 0 || this.ekhizmetler.length > 0 || this.hardware.length > 0 || this.setupprice.length > 0) {
-          html += '<tr><td><strong>' + trans.total + ':</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice)) + " " + this.currencycode + " " + '</strong></td></tr>';
+          html += '<tr><td><strong>' + trans.total + ':</strong></td><td></td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform((fixlytotal + this.setuppricetotal + this.firstprice + this.hardwaretotal)) + " " + this.currencycode + " " + '</strong></td></tr>';
           html += '</tbody></table>';
         }
 
@@ -459,7 +461,7 @@ export class PriceComponent implements OnInit {
           } */
 
 
-        html += '<tr><td><strong>' + trans.grandtotal + ':</strong></td><td>---</td>' + '<td class="totals"><strong>' + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal)) + " " + this.currencycode + ""
+        html += '<tr><td><strong>' + trans.grandtotal + ':</strong></td><td>---</td>' + '<td class="totals"><strong>' + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal + monthlytotal + this.hardwaretotal)) + " " + this.currencycode + ""
         " ( " + this.decimalPipe.transform((fixlytotal + this.firstprice + this.setuppricetotal)) + " " + this.currencycode + "" +
           " + " + this.decimalPipe.transform((monthlytotal)) + " " + this.currencycode + " )" +
           '</strong></td></tr>';
@@ -676,7 +678,7 @@ export class PriceComponent implements OnInit {
             temproom = roomcount;
           }
 
-        
+
 
           x.productgrup.forEach(y => {
             if (y.selected == true) {
@@ -898,13 +900,24 @@ export class PriceComponent implements OnInit {
 
     }
 
-    let efatura = this.dataSource.filter(x => x.efatura == 1)
+/*     let efatura = this.dataSource.filter(x => x.efatura == 1)
     let earsiv = this.dataSource.filter(x => x.efatura == 2)
 
     if (efatura[0].selected == true && earsiv[0].selected) {
       this.dataSource.filter(x => x.efatura == 3)[0].price = 0;
       this.dataSource.filter(x => x.efatura == 3)[0].total = 0;
     }
+ */
+
+
+let web = this.dataSource.filter(x => x.id == 1);
+
+if (web[0].selected == true ) {
+  this.dataSource.filter(x => x.id == 145)[0].price = 0;
+  this.dataSource.filter(x => x.id == 145)[0].total = 0;
+  this.dataSource.filter(x => x.id == 146)[0].price = 0;
+  this.dataSource.filter(x => x.id == 146)[0].total = 0;
+}
 
 
     this.dataSource.forEach(element => {
@@ -961,7 +974,7 @@ export class PriceComponent implements OnInit {
         }
       }
     });
-    this.ekhizmetler = ekhizmetler;
+    this.ekhizmetler = [];
 
 
 
