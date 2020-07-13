@@ -72,7 +72,7 @@ export class PriceComponent implements OnInit {
 
   public dataSource: any;
   public Config: any;
-  path: string = "";
+  path: string = "http://localhost/teklif/";
   currentLang: string = "tr";
   currencycode: string = "€";
   currencyprefix: string = "EUR";
@@ -611,7 +611,7 @@ export class PriceComponent implements OnInit {
         if (x.hasOwnProperty('userbarems') && x.userbarems) {
           if (x.userbarems.selected) {
             let selected = x.userbarems.selected;
-            userprice = selected.userprice;
+            userprice = (totalfin*selected.userprice) - totalfin;
           }
         }
 
@@ -742,7 +742,7 @@ export class PriceComponent implements OnInit {
         if (x.hasOwnProperty('userbarems') && x.userbarems) {
           if (x.userbarems.selected) {
             let selected = x.userbarems.selected;
-            userprice = selected.userprice;
+            userprice = (totalfin*selected.userprice) - totalfin;
           }
         }
 
@@ -859,7 +859,7 @@ export class PriceComponent implements OnInit {
         if (x.hasOwnProperty('userbarems') && x.userbarems) {
           if (x.userbarems.selected) {
             let selected = x.userbarems.selected;
-            userprice = selected.userprice;
+            userprice = (totalfin*selected.userprice) - totalfin;
           }
         }
 
