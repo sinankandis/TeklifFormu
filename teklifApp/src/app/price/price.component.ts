@@ -487,7 +487,9 @@ export class PriceComponent implements OnInit {
           ).subscribe((resp: any) => {
             if (resp.html) {
 
+        
               var sourceHTML = resp.html
+              console.log(sourceHTML)
 
               var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
               var fileDownload = document.createElement("a");
