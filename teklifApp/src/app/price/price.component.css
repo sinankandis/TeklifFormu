@@ -171,3 +171,10 @@ table {
   right: -15px;
   top: -20px;
 }
+
+
+.heading td {
+  font-weight: 700;
+  background: linear-gradient(45deg, #f44336, white);
+  color: white;
+}

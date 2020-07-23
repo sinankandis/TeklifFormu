@@ -364,6 +364,11 @@
           <tbody>
 
             <ng-container *ngFor="let item of dataSource">
+            <ng-container *ngIf="item.pass==true">
+              <tr class="heading"><td colspan="5">{{item.head}}</td></tr>
+            </ng-container>
+
+            <ng-container *ngIf="item.pass !=true">
 
               <tr>
                 <td style="text-align: center;">
@@ -518,6 +523,7 @@
               </ng-container>
 
             </ng-container>
+          </ng-container>
 
           </tbody>
         </table>
