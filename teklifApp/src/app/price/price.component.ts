@@ -267,6 +267,7 @@ export class PriceComponent implements OnInit {
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total) + ((element.total) / (100 - element.discount) * element.discount);
+                if(isNaN(nodiscountt)==true) {nodiscountt=0;}
                 discounttext = "( " + trans.discount + " " + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' ' + this.currencycode + '</span>' + "<br>";
               } else { discounttext = ""; }
 
@@ -811,112 +812,113 @@ export class PriceComponent implements OnInit {
         let gruptotal = 0;
         if (x.pass != true) {
 
-        if (x.selected == true) {
+          if (x.selected == true) {
 
-          if (x.maxroom) {
-            if (roomcount > x.maxroom) {
-              temproom = x.maxroom;
+            if (x.maxroom) {
+              if (roomcount > x.maxroom) {
+                temproom = x.maxroom;
+              }
+              else {
+                temproom = roomcount;
+              }
             }
             else {
               temproom = roomcount;
             }
-          }
-          else {
-            temproom = roomcount;
-          }
-          x.productgrup.forEach(y => {
-            if (y.selected == true) {
-              if (y.time == "monthly") {
-                gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount)) * 12;
-              } else {
-                gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+            x.productgrup.forEach(y => {
+              if (y.selected == true) {
+                if (y.time == "monthly") {
+                  gruptotal += ((y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount)) * 12;
+                } else {
+                  gruptotal += (y.quantity * y.productprice) - (((y.quantity * y.productprice) / 100) * y.discount);
+                }
               }
-            }
-          });
-        }
+            });
+          }
 
-        let totalsub = (x.roomprice[0].priceCase1 * this.CroomCount1) + (x.roomprice[0].priceCase2 * (this.CroomCount2 - this.CroomCount1)) + (x.roomprice[0].priceCase3 * (temproom - this.CroomCount2));
-        let fixtotal = 0;
-        if (roomcount <= 1 && x.fixuse == true) {
-          fixtotal = x.roomprice[0].fixprice;
-        } else {
-          if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
-            fixtotal = totalsub;
-          } else {
+          let totalsub = (x.roomprice[0].priceCase1 * this.CroomCount1) + (x.roomprice[0].priceCase2 * (this.CroomCount2 - this.CroomCount1)) + (x.roomprice[0].priceCase3 * (temproom - this.CroomCount2));
+          let fixtotal = 0;
+          if (roomcount <= 1 && x.fixuse == true) {
             fixtotal = x.roomprice[0].fixprice;
-          }
-        }
-
-
-
-
-        let totalfin;
-        if (x.fixuse == false) {
-          if (x.singleproduct == true) {
-            totalfin = (x.price * x.quantity) - (((x.price * x.quantity) / 100) * x.discount)
           } else {
-            totalfin = (totalsub - ((totalsub / 100) * x.discount)) * 12;
-          }
-        } else {
-          if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate != true) {
-            totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
-          }
-          else if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate == true) {
             if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
               fixtotal = totalsub;
+            } else {
+              fixtotal = x.roomprice[0].fixprice;
             }
-
-            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount))) + gruptotal
-
           }
-          else {
-            totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) * 12) + gruptotal
+
+
+
+
+          let totalfin;
+          if (x.fixuse == false) {
+            if (x.singleproduct == true) {
+              totalfin = (x.price * x.quantity) - (((x.price * x.quantity) / 100) * x.discount)
+            } else {
+              totalfin = (totalsub - ((totalsub / 100) * x.discount)) * 12;
+            }
+          } else {
+            if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate != true) {
+              totalfin = (fixtotal - ((fixtotal / 100) * x.discount)) + gruptotal
+            }
+            else if ((x.timesequence == "yearlyfixsingle" || x.timesequence == "yearly") && x.fixroompricecalculate == true) {
+              if (x.roomprice[0].fixprice < totalsub && x.fixroompricecalculate == true) {
+                fixtotal = totalsub;
+              }
+
+              totalfin = ((fixtotal - ((fixtotal / 100) * x.discount))) + gruptotal
+
+            }
+            else {
+              totalfin = ((fixtotal - ((fixtotal / 100) * x.discount)) * 12) + gruptotal
+            }
           }
-        }
 
-        let userprice = 0;
-        if (x.hasOwnProperty('userbarems') && x.userbarems) {
-          if (x.userbarems.selected) {
-            let selected = x.userbarems.selected;
-            userprice = (totalfin * selected.userprice) - totalfin;
+          let userprice = 0;
+          if (x.hasOwnProperty('userbarems') && x.userbarems) {
+            if (x.userbarems.selected) {
+              let selected = x.userbarems.selected;
+              userprice = (totalfin * selected.userprice) - totalfin;
+            }
           }
-        }
 
-        return {
-          'fixuse': x.fixuse,
-          'id': x.id,
-          'productname': x.productname,
-          'roomprice': x.roomprice,
-          'productgrup': x.productgrup,
-          'gruptotal': gruptotal,
-          'total': totalfin + userprice,
-          'selected': x.selected,
-          'desc': x.desc,
-          'firstprice': x.firstprice,
-          'fixroompricecalculate': x.fixroompricecalculate,
-          'discount': x.discount,
-          "singleproduct": x.singleproduct,
-          "timesequence": x.timesequence,
-          "price": x.price,
-          "quantity": x.quantity,
-          "userpricecal": x.userpricecal,
-          "userlabel": x.userlabel,
-          "usercount": x.usercount,
-          "userlimit": x.userlimit,
-          "usermaxlimit": x.usermaxlimit,
-          "userbarems": x.userbarems,
-          "efatura": x.efatura,
-          "maxprice": x.maxprice,
-          "minroom": x.minroom,
-          "maxroom": x.maxroom,
-          "minroomstatus": x.minroomstatus
-
-
-
-        }; } else {
           return {
-            "head":x.head,
-            "pass":x.pass
+            'fixuse': x.fixuse,
+            'id': x.id,
+            'productname': x.productname,
+            'roomprice': x.roomprice,
+            'productgrup': x.productgrup,
+            'gruptotal': gruptotal,
+            'total': totalfin + userprice,
+            'selected': x.selected,
+            'desc': x.desc,
+            'firstprice': x.firstprice,
+            'fixroompricecalculate': x.fixroompricecalculate,
+            'discount': x.discount,
+            "singleproduct": x.singleproduct,
+            "timesequence": x.timesequence,
+            "price": x.price,
+            "quantity": x.quantity,
+            "userpricecal": x.userpricecal,
+            "userlabel": x.userlabel,
+            "usercount": x.usercount,
+            "userlimit": x.userlimit,
+            "usermaxlimit": x.usermaxlimit,
+            "userbarems": x.userbarems,
+            "efatura": x.efatura,
+            "maxprice": x.maxprice,
+            "minroom": x.minroom,
+            "maxroom": x.maxroom,
+            "minroomstatus": x.minroomstatus
+
+
+
+          };
+        } else {
+          return {
+            "head": x.head,
+            "pass": x.pass
           }
         }
       }
@@ -990,15 +992,15 @@ export class PriceComponent implements OnInit {
 
     this.dataSource.forEach(element => {
 
-      if(element.pass !=true) {
-      if (element.selected == true) {
+      if (element.pass != true) {
+        if (element.selected == true) {
 
-        if (element.firstprice[0].grupid != grupid1) {
-          ekhizmetler.push(element);
-          grupid1 = element.firstprice[0].grupid;
+          if (element.firstprice[0].grupid != grupid1) {
+            ekhizmetler.push(element);
+            grupid1 = element.firstprice[0].grupid;
+          }
         }
       }
-    }
     });
     this.ekhizmetler = [];
 
@@ -1008,15 +1010,15 @@ export class PriceComponent implements OnInit {
 
 
     this.dataSource.forEach(element => {
-      if(element.pass !=true) {
-      if (element.selected == true) {
-        element.productgrup.forEach(element2 => {
-          if (element2.type == "hardware" && element2.selected == true) {
-            hardware.push(element2);
-          }
+      if (element.pass != true) {
+        if (element.selected == true) {
+          element.productgrup.forEach(element2 => {
+            if (element2.type == "hardware" && element2.selected == true) {
+              hardware.push(element2);
+            }
 
-        });
-      }
+          });
+        }
       }
     });
 
@@ -1034,15 +1036,16 @@ export class PriceComponent implements OnInit {
 
 
     this.dataSource.forEach(element => {
-      if(element.pass !=true) {
-      element.productgrup.forEach(x => {
-        if (x.selected == true && x.type != "hardware") {
-          if (x.setupprice > 0 && x.quantitycross == true && x.selected == true) {
-            setupprice.push(x);
-          }
+      if (element.pass != true) {
+        element.productgrup.forEach(x => {
+          if (x.selected == true && x.type != "hardware") {
+            if (x.setupprice > 0 && x.quantitycross == true && x.selected == true) {
+              setupprice.push(x);
+            }
 
-        }
-      }) }
+          }
+        })
+      }
     });
 
     this.setupprice = setupprice;
@@ -1059,38 +1062,38 @@ export class PriceComponent implements OnInit {
 
 
     this.dataSource.forEach(element => {
-      if(element.pass !=true) {
-      if (element.selected == true) {
+      if (element.pass != true) {
+        if (element.selected == true) {
 
-        if (element.firstprice[0].grupid != grupid) {
-          singleprice += element.firstprice[0].price;
-          grupid = element.firstprice[0].grupid;
+          if (element.firstprice[0].grupid != grupid) {
+            singleprice += element.firstprice[0].price;
+            grupid = element.firstprice[0].grupid;
+          }
+          totalprice += element.total;
+
         }
-        totalprice += element.total;
-
       }
-    }
     });
 
 
     let yearlyfixpricetotal = 0;
     this.dataSource.forEach(element => {
-      if(element.pass !=true) {
-      if (element.selected == true && element.timesequence == "yearlyfix") {
-        yearlyfixpricetotal += element.total;
+      if (element.pass != true) {
+        if (element.selected == true && element.timesequence == "yearlyfix") {
+          yearlyfixpricetotal += element.total;
+        }
       }
-    }
 
     });
 
 
     let yearlyfixsinglepricetotal = 0;
     this.dataSource.forEach(element => {
-      if(element.pass !=true) {
-      if (element.selected == true && element.timesequence == "yearlyfixsingle") {
-        yearlyfixsinglepricetotal += element.total
+      if (element.pass != true) {
+        if (element.selected == true && element.timesequence == "yearlyfixsingle") {
+          yearlyfixsinglepricetotal += element.total
+        }
       }
-    }
 
     });
 
