@@ -392,6 +392,7 @@ export class PriceComponent implements OnInit {
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total - hardwareitemtotal) + ((element.total - hardwareitemtotal) / (100 - element.discount) * element.discount);
+                if(isNaN(nodiscountt)==true) {nodiscountt=0;}
                 discounttext = "(" + trans.discountraw + " %" + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' ' + this.currencycode + '</span>' + "<br>";
               } else { discounttext = ""; }
 
@@ -936,14 +937,19 @@ export class PriceComponent implements OnInit {
      */
 
 
-    let web = this.dataSource.filter(x => x.id == 1);
+    let web = this.dataSource.filter(x => x.id == 1 || x.id ==185 || x.id==186 );
 
-    if (web[0].selected == true) {
-      this.dataSource.filter(x => x.id == 145)[0].price = 0;
-      this.dataSource.filter(x => x.id == 145)[0].total = 0;
-      this.dataSource.filter(x => x.id == 146)[0].price = 0;
-      this.dataSource.filter(x => x.id == 146)[0].total = 0;
-    }
+      web.forEach(element => {
+        if (element.selected == true) {
+          this.dataSource.filter(x => x.id == 145)[0].price = 0;
+          this.dataSource.filter(x => x.id == 145)[0].total = 0;
+          this.dataSource.filter(x => x.id == 146)[0].price = 0;
+          this.dataSource.filter(x => x.id == 146)[0].total = 0;
+        }
+        
+      });
+
+   
 
 
     this.dataSource.forEach(element => {
