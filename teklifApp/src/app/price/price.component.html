@@ -373,7 +373,7 @@
               <tr>
                 <td style="text-align: center;">
                   <mat-checkbox
-                    (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                    (change)="changeData(profileForm.get('roomcount').value,item.id);total(profileForm.get('roomcount').value);"
                     [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected"></mat-checkbox>
                 </td>
                 <td><span><b>{{item.productname}}</b>

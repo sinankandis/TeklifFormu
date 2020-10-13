@@ -267,7 +267,7 @@ export class PriceComponent implements OnInit {
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total) + ((element.total) / (100 - element.discount) * element.discount);
-                if(isNaN(nodiscountt)==true) {nodiscountt=0;}
+                if (isNaN(nodiscountt) == true) { nodiscountt = 0; }
                 discounttext = "( " + trans.discount + " " + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' ' + this.currencycode + '</span>' + "<br>";
               } else { discounttext = ""; }
 
@@ -392,7 +392,7 @@ export class PriceComponent implements OnInit {
               let discounttext;
               if (element.discount > 0) {
                 let nodiscountt = (element.total - hardwareitemtotal) + ((element.total - hardwareitemtotal) / (100 - element.discount) * element.discount);
-                if(isNaN(nodiscountt)==true) {nodiscountt=0;}
+                if (isNaN(nodiscountt) == true) { nodiscountt = 0; }
                 discounttext = "(" + trans.discountraw + " %" + element.discount + " ) " + '<span class="discountpricecss">' + this.decimalPipe.transform(nodiscountt.toFixed(2)) + ' ' + this.currencycode + '</span>' + "<br>";
               } else { discounttext = ""; }
 
@@ -530,10 +530,49 @@ export class PriceComponent implements OnInit {
 
 
 
-  changeData(roomcount) {
+  changeData(roomcount,id?) {
+
+    if(id==1) {
+      this.dataSource.filter(x=> x.id==185)[0].selected = false;
+      this.dataSource.filter(x=> x.id==186)[0].selected = false;
+    }
+
+    if(id==185) {
+      this.dataSource.filter(x=> x.id==1)[0].selected = false;
+      this.dataSource.filter(x=> x.id==186)[0].selected = false;
+    }
+
+    if(id==186) {
+      this.dataSource.filter(x=> x.id==185)[0].selected = false;
+      this.dataSource.filter(x=> x.id==1)[0].selected = false;
+    }
+
+
+    let bolencheck;
+    if (this.dataSource.filter(x => x.id == 185)[0].selected == true) {
+      bolencheck = true;
+    } else {
+      bolencheck = false;
+    }
+
     let temp = roomcount
     if (roomcount <= this.CroomCount1) {
       this.dataSource = this.dataSource.map(x => {
+
+        let bolen =1;
+        let maxroom;
+        if (bolencheck == true && x.producttip == "modul") {
+          bolen = 2;
+          x.maxroom = x.defaultmaxroom * 2;
+        } 
+        
+        if (bolencheck == false && x.producttip == "modul") {
+          bolen = 1;
+          x.maxroom = x.defaultmaxroom;
+        }
+        
+        
+
 
         let gruptotal = 0;
 
@@ -621,19 +660,14 @@ export class PriceComponent implements OnInit {
 
 
 
-
-
-
-
-
           return {
             'fixuse': x.fixuse,
             'id': x.id,
             'productname': x.productname,
             'roomprice': x.roomprice,
             'productgrup': x.productgrup,
-            'gruptotal': gruptotal,
-            'total': totalfin + userprice,
+            'gruptotal': gruptotal / bolen,
+            'total': (totalfin + userprice) / bolen,
             'selected': x.selected,
             'desc': x.desc,
             'firstprice': x.firstprice,
@@ -641,7 +675,7 @@ export class PriceComponent implements OnInit {
             'discount': x.discount,
             "singleproduct": x.singleproduct,
             "timesequence": x.timesequence,
-            "price": x.price,
+            "price": x.price / bolen,
             "quantity": x.quantity,
             "userpricecal": x.userpricecal,
             "userlabel": x.userlabel,
@@ -653,8 +687,9 @@ export class PriceComponent implements OnInit {
             "maxprice": x.maxprice,
             "minroom": x.minroom,
             "maxroom": x.maxroom,
-            "minroomstatus": x.minroomstatus
-
+            "minroomstatus": x.minroomstatus,
+            "producttip": x.producttip,
+            "defaultmaxroom": x.defaultmaxroom
 
           };
         } else {
@@ -671,6 +706,19 @@ export class PriceComponent implements OnInit {
 
     if (roomcount >= (this.CroomCount1 + 1) && roomcount <= this.CroomCount2) {
       this.dataSource = this.dataSource.map(x => {
+
+        let bolen =1;
+
+        if (bolencheck == true && x.producttip == "modul") {
+          bolen = 2;
+          x.maxroom = x.defaultmaxroom * 2;
+        } 
+        
+        if (bolencheck == false && x.producttip == "modul") {
+          bolen = 1;
+          x.maxroom = x.defaultmaxroom;
+        }
+        
 
 
         let temproom;
@@ -760,15 +808,14 @@ export class PriceComponent implements OnInit {
           }
 
 
-
           return {
             'fixuse': x.fixuse,
             'id': x.id,
             'productname': x.productname,
             'roomprice': x.roomprice,
             'productgrup': x.productgrup,
-            'gruptotal': gruptotal,
-            'total': totalfin + userprice,
+            'gruptotal': gruptotal / bolen,
+            'total': (totalfin + userprice) / bolen,
             'selected': x.selected,
             'desc': x.desc,
             'firstprice': x.firstprice,
@@ -776,7 +823,7 @@ export class PriceComponent implements OnInit {
             'discount': x.discount,
             "singleproduct": x.singleproduct,
             "timesequence": x.timesequence,
-            "price": x.price,
+            "price": x.price / bolen,
             "quantity": x.quantity,
             "userpricecal": x.userpricecal,
             "userlabel": x.userlabel,
@@ -788,9 +835,9 @@ export class PriceComponent implements OnInit {
             "maxprice": x.maxprice,
             "minroom": x.minroom,
             "maxroom": x.maxroom,
-            "minroomstatus": x.minroomstatus
-
-
+            "minroomstatus": x.minroomstatus,
+            "producttip": x.producttip,
+            "defaultmaxroom": x.defaultmaxroom
 
           };
         } else {
@@ -809,6 +856,20 @@ export class PriceComponent implements OnInit {
     if (roomcount > this.CroomCount2) {
 
       this.dataSource = this.dataSource.map(x => {
+
+        let bolen =1;
+        let maxroom;
+        if (bolencheck == true && x.producttip == "modul") {
+          bolen = 2;
+          x.maxroom = x.defaultmaxroom * 2;
+        } 
+        
+        if (bolencheck == false && x.producttip == "modul") {
+          bolen = 1;
+          x.maxroom = x.defaultmaxroom;
+        }
+
+
         let temproom;
         let gruptotal = 0;
         if (x.pass != true) {
@@ -884,14 +945,16 @@ export class PriceComponent implements OnInit {
             }
           }
 
+
+
           return {
             'fixuse': x.fixuse,
             'id': x.id,
             'productname': x.productname,
             'roomprice': x.roomprice,
             'productgrup': x.productgrup,
-            'gruptotal': gruptotal,
-            'total': totalfin + userprice,
+            'gruptotal': gruptotal / bolen,
+            'total': (totalfin + userprice) / bolen,
             'selected': x.selected,
             'desc': x.desc,
             'firstprice': x.firstprice,
@@ -899,7 +962,7 @@ export class PriceComponent implements OnInit {
             'discount': x.discount,
             "singleproduct": x.singleproduct,
             "timesequence": x.timesequence,
-            "price": x.price,
+            "price": x.price / bolen,
             "quantity": x.quantity,
             "userpricecal": x.userpricecal,
             "userlabel": x.userlabel,
@@ -911,9 +974,9 @@ export class PriceComponent implements OnInit {
             "maxprice": x.maxprice,
             "minroom": x.minroom,
             "maxroom": x.maxroom,
-            "minroomstatus": x.minroomstatus
-
-
+            "minroomstatus": x.minroomstatus,
+            "producttip": x.producttip,
+            "defaultmaxroom": x.defaultmaxroom
 
           };
         } else {
@@ -937,19 +1000,19 @@ export class PriceComponent implements OnInit {
      */
 
 
-    let web = this.dataSource.filter(x => x.id == 1 || x.id ==185 || x.id==186 );
+    let web = this.dataSource.filter(x => x.id == 1 || x.id == 185 || x.id == 186);
 
-      web.forEach(element => {
-        if (element.selected == true) {
-          this.dataSource.filter(x => x.id == 145)[0].price = 0;
-          this.dataSource.filter(x => x.id == 145)[0].total = 0;
-          this.dataSource.filter(x => x.id == 146)[0].price = 0;
-          this.dataSource.filter(x => x.id == 146)[0].total = 0;
-        }
-        
-      });
+    web.forEach(element => {
+      if (element.selected == true) {
+        this.dataSource.filter(x => x.id == 145)[0].price = 0;
+        this.dataSource.filter(x => x.id == 145)[0].total = 0;
+        this.dataSource.filter(x => x.id == 146)[0].price = 0;
+        this.dataSource.filter(x => x.id == 146)[0].total = 0;
+      }
 
-   
+    });
+
+
 
 
     this.dataSource.forEach(element => {
@@ -959,6 +1022,7 @@ export class PriceComponent implements OnInit {
 
     });
 
+    console.log(this.dataSource)
 
 
   }
