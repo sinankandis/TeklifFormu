@@ -113,7 +113,7 @@ export class PriceComponent implements OnInit {
     var mapForm = document.createElement("form");
     mapForm.target = "_blank";
     mapForm.method = "POST"; // or "post" if appropriate
-    mapForm.action = "https://elektraotel.com/teklifapp/admin//tekliflist.php";
+    mapForm.action = "https://www.elektraweb.com/teklifapp/admin//tekliflist.php";
 
     var mapInput = document.createElement("input");
     mapInput.type = "hidden";
