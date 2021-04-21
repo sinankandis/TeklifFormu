@@ -119,7 +119,7 @@
 
 
 
-            <div fxFlex="50" fxFlex.xs="50">
+            <div fxFlex="50" fxFlex.xs="100">
 
               <mat-form-field appearance="outline" class="example-full-width">
                 <mat-label>{{trans.salesmanager}}</mat-label>
@@ -212,7 +212,7 @@
 
 
 
-            <div fxFlex="50" fxFlex.xs="50" style="display:none;">
+            <div fxFlex="50" fxFlex.xs="100" style="display:none;">
 
               <mat-form-field appearance="outline" class="example-full-width">
                 <mat-label>{{trans.salesmanager}}</mat-label>
@@ -245,7 +245,6 @@
 
 
             <div fxFlex="50" fxFlex.xs="100" style="display:none;">
-
               <mat-form-field appearance="outline" class="example-full-width">
                 <mat-label>{{trans.salesmanagerphone}}</mat-label>
                 <mat-icon matSuffix>phone</mat-icon>
@@ -269,16 +268,29 @@
         <div fxLayout="row wrap" style="margin-bottom:10px;font-weight: 700;">
 
 
-          <div fxFlex="80" fxFlex.xs="100" style="    align-items: center;
-        vertical-align: middle;
-        display: flex;">
-            {{trans.modulstext}}
+        
+
+          <div *ngIf="!userservice.login" fxFlex="80" fxFlex.xs="100" style="    align-items: center;
+          vertical-align: middle;
+          display: flex;">
+              {{trans.modulstext}}
+            </div>
+
+            <div *ngIf="userservice.login" fxFlex="60" fxFlex.xs="100" style="    align-items: center;
+            vertical-align: middle;
+            display: flex;">
+                {{trans.modulstext}}
+              </div>
+
+          <div fxFlex="20" fxFlex.xs="100" *ngIf="userservice.login" >
+            <mat-form-field appearance="outline" class="example-full-width">
+              <mat-label>{{trans.setdiscount}}</mat-label>
+              <mat-icon matSuffix>get_app</mat-icon>
+              <input (keyup)="setDiscount($event);changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" min="0" type="number" matInput>
+            </mat-form-field>
           </div>
 
-
-
           <div fxFlex="20" fxFlex.xs="100">
-
             <mat-form-field appearance="outline" class="example-full-width">
               <mat-label>{{trans.roomcount}}</mat-label>
               <mat-icon matSuffix>business</mat-icon>
@@ -286,8 +298,10 @@
                 (keyup)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
                 formControlName="roomcount">
             </mat-form-field>
-
           </div>
+
+
+         
 
         </div>
 
