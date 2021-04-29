@@ -308,9 +308,11 @@ export class PriceComponent implements OnInit {
                 let nodiscountt =
                   element.total +
                   (element.total / (100 - element.discount)) * element.discount;
-                if (isNaN(nodiscountt) == true) {
-                  nodiscountt = 0;
-                }
+                    if (isFinite(nodiscountt) == false) {
+                          nodiscountt = 0;
+                    }
+
+               
                 discounttext =
                   "( " +
                   trans.discount +
@@ -627,7 +629,7 @@ export class PriceComponent implements OnInit {
                   ((element.total - hardwareitemtotal) /
                     (100 - element.discount)) *
                     element.discount;
-                if (isNaN(nodiscountt) == true) {
+                if (isFinite(nodiscountt) == false) {
                   nodiscountt = 0;
                 }
                 discounttext =
