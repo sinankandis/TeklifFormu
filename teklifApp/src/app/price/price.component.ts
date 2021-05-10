@@ -69,7 +69,7 @@ export class PriceComponent implements OnInit {
 
   public dataSource: any;
   public Config: any;
-  path: string = "";
+  path: string = "http://localhost/teklif/";
   currentLang: string = "tr";
   currencycode: string = "€";
   currencyprefix: string = "EUR";
@@ -89,7 +89,7 @@ export class PriceComponent implements OnInit {
   yearlyfixsinglepricetotal: number = 0;
   lang: any;
   langtrans: any;
-  public CroomCount1: number = 50;
+  public CroomCount1: number = 40;
   public CroomCount2: number = 400;
   public Cminroomcount: number = 40; /* Minumum Oda Sayısı */
 
@@ -885,6 +885,8 @@ export class PriceComponent implements OnInit {
   }
 
   changeData(roomcount, id?) {
+
+
     if (id == 1) {
       this.dataSource.filter((x) => x.id == 185)[0].selected = false;
       this.dataSource.filter((x) => x.id == 186)[0].selected = false;
@@ -907,11 +909,10 @@ export class PriceComponent implements OnInit {
       bolencheck = false;
     }
 
-    let temp = roomcount;
+    let temproomCount = roomcount;
     if (roomcount <= this.CroomCount1) {
       this.dataSource = this.dataSource.map((x) => {
         let bolen = 1;
-        let maxroom;
         if (bolencheck == true && x.producttip == "modul") {
           bolen = 2;
           x.maxroom = x.defaultmaxroom * 2;
@@ -927,15 +928,18 @@ export class PriceComponent implements OnInit {
         if (x.pass != true) {
           if (x.selected == true) {
             if (x.minroomstatus == true) {
-              if (roomcount < x.minroom) {
-                roomcount = x.minroom;
+              if (temproomCount < x.minroom) {
+                    roomcount = x.minroom;
               } else {
+               roomcount = temproomCount;
+        
               }
             } else {
               if (roomcount < this.Cminroomcount) {
-                roomcount = 40;
+                   roomcount = this.Cminroomcount;
               }
             }
+
 
             x.productgrup.forEach((y) => {
               if (y.selected == true) {
@@ -1015,14 +1019,29 @@ export class PriceComponent implements OnInit {
 
           let userprice = 0;
           if (x.hasOwnProperty("userbarems") && x.userbarems) {
+            
             if (x.userbarems.selected) {
               let selected = x.userbarems.selected;
+              if(totalfin <= x.minprice) {
+                 totalfin  = x.minprice;
+              }
               userprice = totalfin * selected.userprice - totalfin;
+
             }
           }
 
           if (totalfin < 0) {
-            totalfin = 0;
+               totalfin = 0;
+          }
+
+         let FinalTotal = (totalfin + userprice) / bolen;
+          if(FinalTotal < x.minprice) {
+               FinalTotal = x.minprice
+          }
+
+
+          if(x.userpricecal ==true && roomcount<this.Cminroomcount) {
+            FinalTotal = (totalfin + userprice);
           }
 
           return {
@@ -1032,7 +1051,7 @@ export class PriceComponent implements OnInit {
             roomprice: x.roomprice,
             productgrup: x.productgrup,
             gruptotal: gruptotal / bolen,
-            total: (totalfin + userprice) / bolen,
+            total: FinalTotal,
             selected: x.selected,
             desc: x.desc,
             firstprice: x.firstprice,
@@ -1055,6 +1074,7 @@ export class PriceComponent implements OnInit {
             minroomstatus: x.minroomstatus,
             producttip: x.producttip,
             defaultmaxroom: x.defaultmaxroom,
+            minprice : x.minprice
           };
         } else {
           return {
@@ -1181,6 +1201,13 @@ export class PriceComponent implements OnInit {
           if (totalfin < 0) {
             totalfin = 0;
           }
+
+          let FinalTotal = (totalfin + userprice) / bolen;
+          if(FinalTotal< x.minprice) {
+            FinalTotal = x.minprice
+          }
+
+
           return {
             fixuse: x.fixuse,
             id: x.id,
@@ -1188,7 +1215,7 @@ export class PriceComponent implements OnInit {
             roomprice: x.roomprice,
             productgrup: x.productgrup,
             gruptotal: gruptotal / bolen,
-            total: (totalfin + userprice) / bolen,
+            total: FinalTotal,
             selected: x.selected,
             desc: x.desc,
             firstprice: x.firstprice,
@@ -1211,6 +1238,8 @@ export class PriceComponent implements OnInit {
             minroomstatus: x.minroomstatus,
             producttip: x.producttip,
             defaultmaxroom: x.defaultmaxroom,
+            minprice : x.minprice
+
           };
         } else {
           return {
@@ -1328,6 +1357,13 @@ export class PriceComponent implements OnInit {
           if (totalfin < 0) {
             totalfin = 0;
           }
+
+          let FinalTotal = (totalfin + userprice) / bolen;
+          if(FinalTotal< x.minprice) {
+            FinalTotal = x.minprice
+          }
+
+
           return {
             fixuse: x.fixuse,
             id: x.id,
@@ -1335,7 +1371,7 @@ export class PriceComponent implements OnInit {
             roomprice: x.roomprice,
             productgrup: x.productgrup,
             gruptotal: gruptotal / bolen,
-            total: (totalfin + userprice) / bolen,
+            total: FinalTotal,
             selected: x.selected,
             desc: x.desc,
             firstprice: x.firstprice,
@@ -1358,6 +1394,8 @@ export class PriceComponent implements OnInit {
             minroomstatus: x.minroomstatus,
             producttip: x.producttip,
             defaultmaxroom: x.defaultmaxroom,
+            minprice : x.minprice
+
           };
         } else {
           return {
@@ -1394,6 +1432,8 @@ export class PriceComponent implements OnInit {
         element.total = element.maxprice;
       }
     });
+
+    console.log(this.dataSource);
   }
 
   showControl() {
