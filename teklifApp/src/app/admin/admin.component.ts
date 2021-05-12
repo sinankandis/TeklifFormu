@@ -24,7 +24,7 @@ export class AdminComponent implements OnInit {
   onSubmit() {
 
     if (this.loginForm.valid) {
-      this.http.post("http://localhost/teklif/login.php", this.loginForm.value).subscribe(resp => {
+      this.http.post("login.php", this.loginForm.value).subscribe(resp => {
         if (resp == false) {
           this.message = "Please Check Your Information";
         } else {

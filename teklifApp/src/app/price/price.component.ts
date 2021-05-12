@@ -69,7 +69,7 @@ export class PriceComponent implements OnInit {
 
   public dataSource: any;
   public Config: any;
-  path: string = "http://localhost/teklif/";
+  path: string = "";
   currentLang: string = "tr";
   currencycode: string = "€";
   currencyprefix: string = "EUR";
@@ -1035,9 +1035,19 @@ export class PriceComponent implements OnInit {
           }
 
          let FinalTotal = (totalfin + userprice) / bolen;
+
+          if(FinalTotal < x.minprice && x.discount>0) {
+            FinalTotal = x.minprice - (x.minprice/100) * x.discount;
+            if(FinalTotal<0) {
+              FinalTotal = 0;
+            }
+          } else 
+           
           if(FinalTotal < x.minprice) {
                FinalTotal = x.minprice
-          }
+          } 
+
+
 
 
           if(x.userpricecal ==true && roomcount<this.Cminroomcount) {
@@ -1203,9 +1213,17 @@ export class PriceComponent implements OnInit {
           }
 
           let FinalTotal = (totalfin + userprice) / bolen;
-          if(FinalTotal< x.minprice) {
-            FinalTotal = x.minprice
-          }
+
+          if(FinalTotal < x.minprice && x.discount>0) {
+            FinalTotal = x.minprice - (x.minprice/100) * x.discount;
+            if(FinalTotal<0) {
+              FinalTotal = 0;
+            }
+          } else 
+           
+          if(FinalTotal < x.minprice) {
+               FinalTotal = x.minprice
+          } 
 
 
           return {
@@ -1359,9 +1377,17 @@ export class PriceComponent implements OnInit {
           }
 
           let FinalTotal = (totalfin + userprice) / bolen;
-          if(FinalTotal< x.minprice) {
-            FinalTotal = x.minprice
-          }
+
+          if(FinalTotal < x.minprice && x.discount>0) {
+            FinalTotal = x.minprice - (x.minprice/100) * x.discount;
+            if(FinalTotal<0) {
+              FinalTotal = 0;
+            }
+          } else 
+           
+          if(FinalTotal < x.minprice) {
+               FinalTotal = x.minprice
+          } 
 
 
           return {
@@ -1433,7 +1459,6 @@ export class PriceComponent implements OnInit {
       }
     });
 
-    console.log(this.dataSource);
   }
 
   showControl() {
