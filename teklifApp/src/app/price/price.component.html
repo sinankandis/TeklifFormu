@@ -406,7 +406,7 @@
                       <div style="background: whitesmoke;
                     padding: 10px;
                     border-radius: 5px;margin-top:10px;">
-                        <b>{{item.userlabel}}</b>
+                        <b [innerHTML]="item.userlabel"></b>
                         <mat-radio-group aria-labelledby="example-radio-group-label"
                           (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
                           class="example-radio-group" [(ngModel)]="item.userbarems.selected"
@@ -489,8 +489,6 @@
                           <th style="width:50%;"> {{trans.productname}}  </th>
                           <th style="width:15%;"> {{trans.productquantity}}</th>
                           <th *ngIf="userservice.login"> {{trans.discount}}</th>
-
-
                           <th> {{trans.total}}</th>
                         </thead>
                         <tbody>
