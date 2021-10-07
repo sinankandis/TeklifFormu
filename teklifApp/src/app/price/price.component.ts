@@ -21,6 +21,7 @@ import { zip } from "rxjs";
 import { MatRadioChange } from "@angular/material/radio";
 import { async } from "q";
 import { runInThisContext } from "vm";
+import { DialogComponent } from "./dialog/dialog.component";
 
 export interface PeriodicElement {
   productname: string;
@@ -57,7 +58,7 @@ export class PriceComponent implements OnInit {
 
   profileForm = new FormGroup({
     hotelname: new FormControl("", Validators.required),
-    roomcount: new FormControl("", [Validators.required, Validators.min(0)]),
+    roomcount: new FormControl(0),
     email: new FormControl("", [Validators.required, Validators.email]),
     phone: new FormControl("", Validators.required),
     authorized: new FormControl("", Validators.required),
@@ -71,8 +72,8 @@ export class PriceComponent implements OnInit {
   public Config: any;
   path: string = "";
   currentLang: string = "tr";
-  currencycode: string = "€";
-  currencyprefix: string = "EUR";
+  currencycode: string = "TRY";
+  currencyprefix: string = "₺";
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
@@ -95,10 +96,12 @@ export class PriceComponent implements OnInit {
 
   elementdata: PeriodicElement[] = [];
 
-  openDialog() {
-    // const dialogConfig = new MatDialogConfig();
-    //dialogConfig.width ="30%";
-    //this.dialog.open(DialogComponent,dialogConfig)
+  openDialog($data) {
+    this.dialog.open(DialogComponent, {
+      data: {
+        desc : $data
+      }
+    });
   }
 
   langChange(val) {
@@ -150,12 +153,12 @@ export class PriceComponent implements OnInit {
         .setValue(this.userservice.userdata[0].name);
     }
 
-    this.http.get(this.path + "pricelist.php").subscribe((resp) => {
+    this.http.get(this.path + "hardwarelist.php").subscribe((resp) => {
       this.tempData = this.elementdata = resp as any;
       this.dataSource = this.tempData[0][this.currentLang];
     });
 
-    this.http.get(this.path + "lang.php").subscribe((resp2) => {
+    this.http.get(this.path + "langh.php").subscribe((resp2) => {
       this.lang = resp2;
       let datam = this.lang.filter((x) => x[this.currentLang])[0];
       this.langtrans = datam[this.currentLang];
@@ -889,41 +892,12 @@ export class PriceComponent implements OnInit {
   }
 
   changeData(roomcount, id?) {
-    if (id == 1) {
-      this.dataSource.filter((x) => x.id == 185)[0].selected = false;
-      this.dataSource.filter((x) => x.id == 186)[0].selected = false;
-    }
-
-    if (id == 185) {
-      this.dataSource.filter((x) => x.id == 1)[0].selected = false;
-      this.dataSource.filter((x) => x.id == 186)[0].selected = false;
-    }
-
-    if (id == 186) {
-      this.dataSource.filter((x) => x.id == 185)[0].selected = false;
-      this.dataSource.filter((x) => x.id == 1)[0].selected = false;
-    }
-
-    let bolencheck;
-    if (this.dataSource.filter((x) => x.id == 185)[0].selected == true) {
-      bolencheck = true;
-    } else {
-      bolencheck = false;
-    }
+    
 
     let temproomCount = roomcount;
     if (roomcount <= this.CroomCount1) {
       this.dataSource = this.dataSource.map((x) => {
-        let bolen = 1;
-        if (bolencheck == true && x.producttip == "modul") {
-          bolen = 2;
-          x.maxroom = x.defaultmaxroom * 2;
-        }
-
-        if (bolencheck == false && x.producttip == "modul") {
-          bolen = 1;
-          x.maxroom = x.defaultmaxroom;
-        }
+      
 
         let gruptotal = 0;
 
@@ -1040,9 +1014,9 @@ export class PriceComponent implements OnInit {
 
           let FinalTotal = 0;
           if (x.useramountmod == true) {
-            FinalTotal = totalfin / bolen + userprice;
+            FinalTotal = totalfin  + userprice;
           } else {
-            FinalTotal = (totalfin + userprice) / bolen;
+            FinalTotal = (totalfin + userprice)
           }
 
           if (FinalTotal < x.minprice && x.discount > 0) {
@@ -1062,9 +1036,10 @@ export class PriceComponent implements OnInit {
             fixuse: x.fixuse,
             id: x.id,
             productname: x.productname,
+            productimg:x.productimg,
             roomprice: x.roomprice,
             productgrup: x.productgrup,
-            gruptotal: gruptotal / bolen,
+            gruptotal: gruptotal,
             total: FinalTotal,
             selected: x.selected,
             desc: x.desc,
@@ -1073,7 +1048,7 @@ export class PriceComponent implements OnInit {
             discount: x.discount,
             singleproduct: x.singleproduct,
             timesequence: x.timesequence,
-            price: x.price / bolen,
+            price: x.price,
             quantity: x.quantity,
             userpricecal: x.userpricecal,
             userlabel: x.userlabel,
@@ -1100,356 +1075,7 @@ export class PriceComponent implements OnInit {
       });
     }
 
-    if (roomcount >= this.CroomCount1 + 1 && roomcount <= this.CroomCount2) {
-      this.dataSource = this.dataSource.map((x) => {
-        let bolen = 1;
-
-        if (bolencheck == true && x.producttip == "modul") {
-          bolen = 2;
-          x.maxroom = x.defaultmaxroom * 2;
-        }
-
-        if (bolencheck == false && x.producttip == "modul") {
-          bolen = 1;
-          x.maxroom = x.defaultmaxroom;
-        }
-
-        let temproom;
-        let gruptotal = 0;
-        if (x.pass != true) {
-          if (x.selected == true) {
-            if (x.maxroom) {
-              if (roomcount > x.maxroom) {
-                temproom = x.maxroom;
-              } else {
-                temproom = roomcount;
-              }
-            } else {
-              temproom = roomcount;
-            }
-
-            x.productgrup.forEach((y) => {
-              if (y.selected == true) {
-                if (y.time == "monthly") {
-                  gruptotal +=
-                    (y.quantity * y.productprice -
-                      ((y.quantity * y.productprice) / 100) * y.discount) *
-                    12;
-                } else {
-                  gruptotal +=
-                    y.quantity * y.productprice -
-                    ((y.quantity * y.productprice) / 100) * y.discount;
-                }
-              }
-            });
-          }
-
-          let fixtotal = 0;
-          let totalsub =
-            x.roomprice[0].priceCase1 * this.CroomCount1 +
-            x.roomprice[0].priceCase2 * (temproom - this.CroomCount1);
-
-          if (roomcount <= 1 && x.fixuse == true) {
-            fixtotal = x.roomprice[0].fixprice;
-          } else {
-            if (
-              x.roomprice[0].fixprice < totalsub &&
-              x.fixroompricecalculate == true
-            ) {
-              fixtotal = totalsub;
-            } else {
-              fixtotal = x.roomprice[0].fixprice;
-            }
-          }
-
-          if (
-            x.roomprice[0].fixprice < totalsub &&
-            x.fixroompricecalculate == true
-          ) {
-            fixtotal = totalsub;
-          } else {
-            fixtotal = x.roomprice[0].fixprice;
-          }
-          let totalfin;
-          if (x.fixuse == false) {
-            if (x.singleproduct == true) {
-              totalfin =
-                x.price * x.quantity -
-                ((x.price * x.quantity) / 100) * x.discount;
-            } else {
-              totalfin = (totalsub - (totalsub / 100) * x.discount) * 12;
-            }
-          } else {
-            if (
-              (x.timesequence == "yearlyfixsingle" ||
-                x.timesequence == "yearly") &&
-              x.fixroompricecalculate != true
-            ) {
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else if (
-              (x.timesequence == "yearlyfixsingle" ||
-                x.timesequence == "yearly") &&
-              x.fixroompricecalculate == true
-            ) {
-              if (
-                x.roomprice[0].fixprice < totalsub &&
-                x.fixroompricecalculate == true
-              ) {
-                fixtotal = totalsub;
-              }
-
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else {
-              totalfin =
-                (fixtotal - (fixtotal / 100) * x.discount) * 12 + gruptotal;
-            }
-          }
-
-          let userprice = 0;
-          if (x.hasOwnProperty("userbarems") && x.userbarems) {
-            if (x.userbarems.selected) {
-              let selected = x.userbarems.selected;
-              if (x.useramountmod == true) {
-                userprice = totalfin + selected.userprice - totalfin;
-              } else {
-                userprice = totalfin * selected.userprice - totalfin;
-              }
-            }
-          }
-
-          if (totalfin < 0) {
-            totalfin = 0;
-          }
-
-          let FinalTotal = 0;
-          if (x.useramountmod == true) {
-            FinalTotal = totalfin / bolen + userprice;
-          } else {
-            FinalTotal = (totalfin + userprice) / bolen;
-          }
-
-          if (FinalTotal < x.minprice && x.discount > 0) {
-            FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
-            if (FinalTotal < 0) {
-              FinalTotal = 0;
-            }
-          } else if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
-          }
-
-          return {
-            fixuse: x.fixuse,
-            id: x.id,
-            productname: x.productname,
-            roomprice: x.roomprice,
-            productgrup: x.productgrup,
-            gruptotal: gruptotal / bolen,
-            total: FinalTotal,
-            selected: x.selected,
-            desc: x.desc,
-            firstprice: x.firstprice,
-            fixroompricecalculate: x.fixroompricecalculate,
-            discount: x.discount,
-            singleproduct: x.singleproduct,
-            timesequence: x.timesequence,
-            price: x.price / bolen,
-            quantity: x.quantity,
-            userpricecal: x.userpricecal,
-            userlabel: x.userlabel,
-            usercount: x.usercount,
-            userlimit: x.userlimit,
-            usermaxlimit: x.usermaxlimit,
-            userbarems: x.userbarems,
-            useramountmod: x.useramountmod,
-            efatura: x.efatura,
-            maxprice: x.maxprice,
-            minroom: x.minroom,
-            maxroom: x.maxroom,
-            minroomstatus: x.minroomstatus,
-            producttip: x.producttip,
-            defaultmaxroom: x.defaultmaxroom,
-            minprice: x.minprice,
-          };
-        } else {
-          return {
-            head: x.head,
-            pass: x.pass,
-          };
-        }
-      });
-    }
-
-    if (roomcount > this.CroomCount2) {
-      this.dataSource = this.dataSource.map((x) => {
-        let bolen = 1;
-        let maxroom;
-        if (bolencheck == true && x.producttip == "modul") {
-          bolen = 2;
-          x.maxroom = x.defaultmaxroom * 2;
-        }
-
-        if (bolencheck == false && x.producttip == "modul") {
-          bolen = 1;
-          x.maxroom = x.defaultmaxroom;
-        }
-
-        let temproom;
-        let gruptotal = 0;
-        if (x.pass != true) {
-          if (x.selected == true) {
-            if (x.maxroom) {
-              if (roomcount > x.maxroom) {
-                temproom = x.maxroom;
-              } else {
-                temproom = roomcount;
-              }
-            } else {
-              temproom = roomcount;
-            }
-            x.productgrup.forEach((y) => {
-              if (y.selected == true) {
-                if (y.time == "monthly") {
-                  gruptotal +=
-                    (y.quantity * y.productprice -
-                      ((y.quantity * y.productprice) / 100) * y.discount) *
-                    12;
-                } else {
-                  gruptotal +=
-                    y.quantity * y.productprice -
-                    ((y.quantity * y.productprice) / 100) * y.discount;
-                }
-              }
-            });
-          }
-
-          let totalsub =
-            x.roomprice[0].priceCase1 * this.CroomCount1 +
-            x.roomprice[0].priceCase2 * (this.CroomCount2 - this.CroomCount1) +
-            x.roomprice[0].priceCase3 * (temproom - this.CroomCount2);
-          let fixtotal = 0;
-          if (roomcount <= 1 && x.fixuse == true) {
-            fixtotal = x.roomprice[0].fixprice;
-          } else {
-            if (
-              x.roomprice[0].fixprice < totalsub &&
-              x.fixroompricecalculate == true
-            ) {
-              fixtotal = totalsub;
-            } else {
-              fixtotal = x.roomprice[0].fixprice;
-            }
-          }
-
-          let totalfin;
-          if (x.fixuse == false) {
-            if (x.singleproduct == true) {
-              totalfin =
-                x.price * x.quantity -
-                ((x.price * x.quantity) / 100) * x.discount;
-            } else {
-              totalfin = (totalsub - (totalsub / 100) * x.discount) * 12;
-            }
-          } else {
-            if (
-              (x.timesequence == "yearlyfixsingle" ||
-                x.timesequence == "yearly") &&
-              x.fixroompricecalculate != true
-            ) {
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else if (
-              (x.timesequence == "yearlyfixsingle" ||
-                x.timesequence == "yearly") &&
-              x.fixroompricecalculate == true
-            ) {
-              if (
-                x.roomprice[0].fixprice < totalsub &&
-                x.fixroompricecalculate == true
-              ) {
-                fixtotal = totalsub;
-              }
-
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else {
-              totalfin =
-                (fixtotal - (fixtotal / 100) * x.discount) * 12 + gruptotal;
-            }
-          }
-
-          let userprice = 0;
-          if (x.hasOwnProperty("userbarems") && x.userbarems) {
-            if (x.userbarems.selected) {
-              let selected = x.userbarems.selected;
-
-              if (x.useramountmod == true) {
-                userprice = totalfin + selected.userprice - totalfin;
-              } else {
-                userprice = totalfin * selected.userprice - totalfin;
-              }
-            }
-          }
-
-          if (totalfin < 0) {
-            totalfin = 0;
-          }
-
-          let FinalTotal = 0;
-          if (x.useramountmod == true) {
-            FinalTotal = totalfin / bolen + userprice;
-          } else {
-            FinalTotal = (totalfin + userprice) / bolen;
-          }
-
-          if (FinalTotal < x.minprice && x.discount > 0) {
-            FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
-            if (FinalTotal < 0) {
-              FinalTotal = 0;
-            }
-          } else if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
-          }
-
-          return {
-            fixuse: x.fixuse,
-            id: x.id,
-            productname: x.productname,
-            roomprice: x.roomprice,
-            productgrup: x.productgrup,
-            gruptotal: gruptotal / bolen,
-            total: FinalTotal,
-            selected: x.selected,
-            desc: x.desc,
-            firstprice: x.firstprice,
-            fixroompricecalculate: x.fixroompricecalculate,
-            discount: x.discount,
-            singleproduct: x.singleproduct,
-            timesequence: x.timesequence,
-            price: x.price / bolen,
-            quantity: x.quantity,
-            userpricecal: x.userpricecal,
-            userlabel: x.userlabel,
-            usercount: x.usercount,
-            userlimit: x.userlimit,
-            usermaxlimit: x.usermaxlimit,
-            userbarems: x.userbarems,
-            useramountmod: x.useramountmod,
-            efatura: x.efatura,
-            maxprice: x.maxprice,
-            minroom: x.minroom,
-            maxroom: x.maxroom,
-            minroomstatus: x.minroomstatus,
-            producttip: x.producttip,
-            defaultmaxroom: x.defaultmaxroom,
-            minprice: x.minprice,
-          };
-        } else {
-          return {
-            head: x.head,
-            pass: x.pass,
-          };
-        }
-      });
-    }
-
+  
     /*     let efatura = this.dataSource.filter(x => x.efatura == 1)
         let earsiv = this.dataSource.filter(x => x.efatura == 2)
     
@@ -1459,23 +1085,7 @@ export class PriceComponent implements OnInit {
         }
      */
 
-    let web = this.dataSource.filter(
-      (x) => x.id == 1 || x.id == 185 || x.id == 186
-    );
-    web.forEach((element) => {
-      if (element.selected == true) {
-        this.dataSource.filter((x) => x.id == 145)[0].price = 0;
-        this.dataSource.filter((x) => x.id == 145)[0].total = 0;
-        this.dataSource.filter((x) => x.id == 146)[0].price = 0;
-        this.dataSource.filter((x) => x.id == 146)[0].total = 0;
-      }
-    });
 
-    this.dataSource.forEach((element) => {
-      if (element.total > element.maxprice) {
-        element.total = element.maxprice;
-      }
-    });
   }
 
   showControl() {
@@ -1487,18 +1097,7 @@ export class PriceComponent implements OnInit {
   }
 
   total(roomcount) {
-    if (this.userservice.login == true) {
-      this.totalfunction();
-      this.showpriceControl = true;
-    }
-
-    if (
-      this.profileForm.valid &&
-      this.showpriceControl == false &&
-      this.userservice.login == false
-    ) {
-      this.totalfunction();
-    }
+    this.totalfunction();
   }
 
   totalfunction() {

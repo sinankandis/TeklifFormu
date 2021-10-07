@@ -10,10 +10,10 @@ table {
     padding: 8px;
   }
   
-  tr:nth-child(even) {
+/*   tr:nth-child(even) {
     background-color: #dddddd;
   }
-
+ */
   .Section {margin-bottom: 10px;}
 
   .totalLabel {
@@ -177,4 +177,16 @@ table {
   font-weight: 700;
   background: linear-gradient(45deg, #f44336, white);
   color: white;
+}
+
+img.priceImg {
+  width: 50px;
+  object-fit: cover !important;
+  margin-right: 10px;
+}
+
+.flexRow {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }

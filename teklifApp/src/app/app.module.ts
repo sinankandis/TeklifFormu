@@ -21,6 +21,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminComponent } from './admin/admin.component';
 import { PriceComponent } from './price/price.component';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogComponent } from './price/dialog/dialog.component';
 
 
 
@@ -31,6 +33,7 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
       AppComponent,
       AdminComponent,
       PriceComponent,
+      DialogComponent
  
    ],
    imports: [
@@ -41,11 +44,13 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
       FormsModule,
       ReactiveFormsModule,
       FlexLayoutModule,
-      HttpClientModule
+      HttpClientModule,
+      MatDialogModule
    ],
    providers: [
       DecimalPipe ,
    ],
+   entryComponents: [DialogComponent],
    bootstrap: [
       AppComponent,
    ]

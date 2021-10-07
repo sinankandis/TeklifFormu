@@ -1,35 +1,12 @@
 
 
 <ng-container *ngFor="let trans of  langtrans">
-
-    <ng-container *ngFor="let m of  trans.curencytype">aa {{m}}</ng-container>
-
   <div class="container">
-
-
 
     <ng-container *ngIf="userservice.login==false">
       <button style="margin-bottom: 10px;" [routerLink]="['login']" mat-raised-button color="primary"><i
           class="material-icons">person</i> {{trans.login}}</button>
-
-
-
-
     </ng-container>
-
-
-    <mat-form-field style=" width: 110px;margin-left: 15px; margin-right:15px;">
-      <mat-label class="langlabel"> <img class="langImg" [src]="trans.img"> {{trans.langname}}</mat-label>
-      <mat-select (selectionChange)="langChange($event)">
-        <ng-container *ngFor="let x of lang">
-          <ng-container *ngFor="let y of x.langs">
-            <mat-option [value]="y.local">
-              <img class="langImg" [src]="y.img">{{y.langname}}
-            </mat-option>
-          </ng-container>
-        </ng-container>
-      </mat-select>
-    </mat-form-field>
 
 
    <!--<mat-form-field style=" width: 110px;margin-left: 15px; margin-right:15px;">
@@ -59,11 +36,6 @@
         </i> Word Export</button>
 
 
-        <button
-        (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);Invoice();"
-        style="margin-bottom: 10px;margin-left: 5px;" mat-raised-button color="warn"><i
-          class="material-icons">insert_drive_file
-        </i>Invoice</button>
 
 
         <button (click)="getOffer();" style="margin-bottom: 10px;margin-left: 5px;"  mat-raised-button>Tekliflerim</button>
@@ -276,7 +248,7 @@
               {{trans.modulstext}}
             </div>
 
-            <div *ngIf="userservice.login" fxFlex="60" fxFlex.xs="100" style="    align-items: center;
+            <div *ngIf="userservice.login" fxFlex="80" fxFlex.xs="100" style="    align-items: center;
             vertical-align: middle;
             display: flex;">
                 {{trans.modulstext}}
@@ -290,7 +262,7 @@
             </mat-form-field>
           </div>
 
-          <div fxFlex="20" fxFlex.xs="100">
+         <!--  <div fxFlex="20" fxFlex.xs="100">
             <mat-form-field appearance="outline" class="example-full-width">
               <mat-label>{{trans.roomcount}}</mat-label>
               <mat-icon matSuffix>business</mat-icon>
@@ -298,7 +270,7 @@
                 (keyup)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
                 formControlName="roomcount">
             </mat-form-field>
-          </div>
+          </div> -->
 
 
          
@@ -319,7 +291,7 @@
             </div>
           </div>
           <div fxFlex="70" fxFlex.xs="100">
-            <div class="totalBar">
+          <!--   <div class="totalBar">
 
 
               <div *ngIf="firstprice > 0">
@@ -362,7 +334,7 @@
                   class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal + hardwaretotal| currency:currencyprefix}}</strong></span>
               </div>
 
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -372,7 +344,7 @@
               <th style="width: 10%;">{{trans.select}} </th>
               <th>{{trans.productname}} </th>
               <th *ngIf="userservice.login">{{trans.discount}} </th>
-              <th style="width: 15%;text-align: end;">{{trans.total}} </th>
+              <th style="width: 15%;text-align: end;"></th>
             </tr>
           </thead>
           <tbody>
@@ -390,7 +362,10 @@
                     (change)="changeData(profileForm.get('roomcount').value,item.id);total(profileForm.get('roomcount').value);"
                     [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected"></mat-checkbox>
                 </td>
-                <td><span><b>{{item.productname}}</b>
+                <td><span class="flexRow" (click)="openDialog(item.desc);">
+                  
+                  <img class="priceImg" [src]="item.productimg">
+                  <b>{{item.productname}}</b>
                     <ng-container *ngIf="item.selected==true && item.singleproduct==true ">
                       <div class="singleproduct">
                         <label class="singleproductlabel">{{trans.productname}} </label>
@@ -430,7 +405,7 @@
                     min="0" value="0" class="productinput" matInput>
                 </td>
 
-                <ng-container *ngIf="!userservice.login">
+              <!--   <ng-container *ngIf="!userservice.login">
 
                   <td class="pricess" style="text-align: end;">
                     <ng-container *ngIf="!item.selected"><span>{{0  | currency : currencyprefix}}</span></ng-container>
@@ -453,12 +428,12 @@
                     </ng-container>
                   </td>
                 </ng-container>
+ -->
 
-
-                <ng-container *ngIf="userservice.login">
+                <ng-container>
 
                   <td class="pricess" style="text-align: end;">
-                    <ng-container *ngIf="!item.selected"><span>{{0  | currency : currencyprefix}}</span></ng-container>
+                    <ng-container *ngIf="!item.selected"><span>{{item.roomprice[0].fixprice  | currency : currencyprefix}}</span></ng-container>
                     <ng-container *ngIf="item.selected">
                       <div
                         *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')">
