@@ -66,6 +66,8 @@ export class PriceComponent implements OnInit {
     wantemail: new FormControl(""),
     wantphone: new FormControl(""),
     sellerEmailCheck: new FormControl(true),
+   setdiscount: new FormControl("", [Validators.max(10), Validators.min(0)])
+
   });
 
   public dataSource: any;
@@ -117,7 +119,7 @@ export class PriceComponent implements OnInit {
     mapForm.target = "_blank";
     mapForm.method = "POST"; // or "post" if appropriate
     mapForm.action =
-      "https://www.elektraweb.com/teklifapp/admin//tekliflist.php";
+      "/admin//tekliflist.php";
 
     var mapInput = document.createElement("input");
     mapInput.type = "hidden";

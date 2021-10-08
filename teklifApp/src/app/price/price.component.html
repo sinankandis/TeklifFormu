@@ -258,7 +258,7 @@
             <mat-form-field appearance="outline" class="example-full-width">
               <mat-label>{{trans.setdiscount}}</mat-label>
               <mat-icon matSuffix>get_app</mat-icon>
-              <input (keyup)="setDiscount($event);changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" min="0" type="number" matInput>
+              <input (keyup)="setDiscount($event);changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" formControlName="setdiscount" type="number" matInput>
             </mat-form-field>
           </div>
 
@@ -396,7 +396,7 @@
                     </ng-container>
 
 
-                    <p class="desctext" [innerHTML]="item.desc"></p>
+                
                   </span></td>
                 <td style="text-align:center;" *ngIf="userservice.login">
                   <input
