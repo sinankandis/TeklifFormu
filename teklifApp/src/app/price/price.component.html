@@ -362,10 +362,11 @@
                     (change)="changeData(profileForm.get('roomcount').value,item.id);total(profileForm.get('roomcount').value);"
                     [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected"></mat-checkbox>
                 </td>
-                <td><span class="flexRow" (click)="openDialog(item.desc);">
+                <td><span class="flexRow">
                   
                   <img class="priceImg" [src]="item.productimg">
-                  <b>{{item.productname}}</b>
+                  <b  (click)="openDialog(item.desc);">{{item.productname}}</b>
+                  <input min="0" class="countInput" (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.count">
                     <ng-container *ngIf="item.selected==true && item.singleproduct==true ">
                       <div class="singleproduct">
                         <label class="singleproductlabel">{{trans.productname}} </label>

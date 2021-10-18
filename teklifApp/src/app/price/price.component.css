@@ -189,4 +189,14 @@ img.priceImg {
   display: flex;
   align-items: center;
   cursor: pointer;
+  justify-content: space-between;
+}
+
+.countInput {
+  width: 50px;
+  text-align: center;
+}
+
+.flexRow b {
+  width: 85%;
 }

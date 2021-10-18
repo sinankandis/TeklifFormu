@@ -66,8 +66,7 @@ export class PriceComponent implements OnInit {
     wantemail: new FormControl(""),
     wantphone: new FormControl(""),
     sellerEmailCheck: new FormControl(true),
-   setdiscount: new FormControl("", [Validators.max(10), Validators.min(0)])
-
+    setdiscount: new FormControl("", [Validators.max(10), Validators.min(0)]),
   });
 
   public dataSource: any;
@@ -101,8 +100,8 @@ export class PriceComponent implements OnInit {
   openDialog($data) {
     this.dialog.open(DialogComponent, {
       data: {
-        desc : $data
-      }
+        desc: $data,
+      },
     });
   }
 
@@ -118,8 +117,7 @@ export class PriceComponent implements OnInit {
     var mapForm = document.createElement("form");
     mapForm.target = "_blank";
     mapForm.method = "POST"; // or "post" if appropriate
-    mapForm.action =
-      "/admin//tekliflist.php";
+    mapForm.action = "/admin//tekliflist.php";
 
     var mapInput = document.createElement("input");
     mapInput.type = "hidden";
@@ -416,8 +414,7 @@ export class PriceComponent implements OnInit {
               html +=
                 '<tr><td style="width:50%;"><strong>' +
                 element.productname +
-                "</strong><p>" +
-                element.desc +
+                "</strong><p>"
                 "<br>" +
                 product +
                 "</p>" +
@@ -428,7 +425,7 @@ export class PriceComponent implements OnInit {
                 "</p>" +
                 "</td>" +
                 "<td>" +
-                formdata.roomcount +
+                element.count +
                 "</td>" +
                 '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
                 discounttext +
@@ -718,8 +715,7 @@ export class PriceComponent implements OnInit {
               html +=
                 '<tr><td style="width:50%;"><strong>' +
                 element.productname +
-                "</strong><p>" +
-                element.desc +
+                "</strong><p>"
                 "<br>" +
                 product +
                 "<p>" +
@@ -729,7 +725,7 @@ export class PriceComponent implements OnInit {
                 "</p>" +
                 "</td>" +
                 "<td>" +
-                formdata.roomcount +
+                element.count +
                 "</td>" +
                 '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
                 discounttext +
@@ -894,13 +890,9 @@ export class PriceComponent implements OnInit {
   }
 
   changeData(roomcount, id?) {
-    
-
     let temproomCount = roomcount;
     if (roomcount <= this.CroomCount1) {
       this.dataSource = this.dataSource.map((x) => {
-      
-
         let gruptotal = 0;
 
         if (x.pass != true) {
@@ -937,7 +929,7 @@ export class PriceComponent implements OnInit {
           let totalsub = x.roomprice[0].priceCase1 * roomcount;
 
           if (roomcount <= 1 && x.fixuse == true) {
-            fixtotal = x.roomprice[0].fixprice;
+            fixtotal = x.roomprice[0].fixprice * x.count;
           } else {
             if (
               x.roomprice[0].fixprice < totalsub &&
@@ -945,7 +937,7 @@ export class PriceComponent implements OnInit {
             ) {
               fixtotal = totalsub;
             } else {
-              fixtotal = x.roomprice[0].fixprice;
+              fixtotal = x.roomprice[0].fixprice * x.count;
             }
           }
 
@@ -955,7 +947,7 @@ export class PriceComponent implements OnInit {
           ) {
             fixtotal = totalsub;
           } else {
-            fixtotal = x.roomprice[0].fixprice;
+            fixtotal = x.roomprice[0].fixprice * x.count;
           }
 
           let totalfin;
@@ -1016,9 +1008,9 @@ export class PriceComponent implements OnInit {
 
           let FinalTotal = 0;
           if (x.useramountmod == true) {
-            FinalTotal = totalfin  + userprice;
+            FinalTotal = totalfin + userprice;
           } else {
-            FinalTotal = (totalfin + userprice)
+            FinalTotal = totalfin + userprice;
           }
 
           if (FinalTotal < x.minprice && x.discount > 0) {
@@ -1038,7 +1030,7 @@ export class PriceComponent implements OnInit {
             fixuse: x.fixuse,
             id: x.id,
             productname: x.productname,
-            productimg:x.productimg,
+            productimg: x.productimg,
             roomprice: x.roomprice,
             productgrup: x.productgrup,
             gruptotal: gruptotal,
@@ -1067,6 +1059,7 @@ export class PriceComponent implements OnInit {
             producttip: x.producttip,
             defaultmaxroom: x.defaultmaxroom,
             minprice: x.minprice,
+            count: x.count,
           };
         } else {
           return {
@@ -1077,7 +1070,6 @@ export class PriceComponent implements OnInit {
       });
     }
 
-  
     /*     let efatura = this.dataSource.filter(x => x.efatura == 1)
         let earsiv = this.dataSource.filter(x => x.efatura == 2)
     
@@ -1086,8 +1078,6 @@ export class PriceComponent implements OnInit {
           this.dataSource.filter(x => x.efatura == 3)[0].total = 0;
         }
      */
-
-
   }
 
   showControl() {
