@@ -1,1 +1,548 @@
-
+[
+  {
+    "tr": [
+      {
+        "head": "Bilgisayarlar",
+        "pass": true
+      },
+      {
+        "id": 1,
+        "productname": "HP 24-DP0042NT Intel Core i3 10100T 8GB 256GB SSD Windows 10 Home 24inc FHD All In One Bilgisayar",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_4d603755e2fa84552f5dd1baccc0f9fb.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 6750
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": "<b>Test</b>"
+      },
+      {
+        "id": 1,
+        "productname": "P815 Dokunmatik PC i5 / 4Gb /120 SSD 18.5inc Ekranlı",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_8f7e39e75ca3d080e6968a115e20bfb9.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 6750
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 2,
+        "productname": "ewepos P655 Dokunmatik PC i5 / 8Gb /120 SSD 15.6inc Ekranlı",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_6c874e827116ea1124debc69433a45ce.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 6200
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 2,
+        "productname": "ewepos P650 Dokunmatik PC j1900/4Gb /120SSD/Wifi/15.6inc Ekran",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_6c874e827116ea1124debc69433a45ce.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 4650
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "head": "POS Yazıcılar",
+        "pass": true
+      },
+      {
+        "id": 3,
+        "productname": "GoojPRT PT 210 Bluetooth Mobil Yazıcı 58mm",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_911b6f3ddf289ebac1121d93879e6474.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 650
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 3,
+        "productname": "RP 50 Termal Rulo Fiş Yazıcı",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_20732f8ffc494e1d7f62309624c8487e.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 875
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "head": "Akıllı Kart Okuyucular",
+        "pass": true
+      },
+      {
+        "id": 3,
+        "productname": "Temassız Mifare ve NFC Akıllı Kart Okuyucu",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_d3d57127e56041336f73ee9f0ac4bb3d.",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 850
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "head": "Wifi",
+        "pass": true
+      },
+      {
+        "id": 3,
+        "productname": "Tp-Link Tl-Wn823N Usb Adaptör - Bilgisayarları Kablosuz Yap",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_2a4aaa5cf16463d39184f30dcb7a0b6c.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 150
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 3,
+        "productname": "Network Yazıcısını Kablosuz Yap - TP-Link Ethernet Bağlantılı Wifi Adaptör",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_114eee3877ac64a9cf3e2b520dcb3729.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 200
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "head": "El Terminalleri",
+        "pass": true
+      },
+      {
+        "id": 3,
+        "productname": "GO3 Garson El Terminali 5inc",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_8ad8ab4442e84ec15e4703f953c9fb04.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 2475
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 3,
+        "productname": "Honeywell EDA 51 Barkodlu Stok Takip EL Terminali",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_a950e0313c3aadbf4b9e91d6680293fd.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 3950
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 3,
+        "productname": "Honeywell EDA 51 SİM KART TAKILABİLİR Barkodlu EL Terminali",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_a950e0313c3aadbf4b9e91d6680293fd.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 7150
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "head": "Switch ve Aksesuar",
+        "pass": true
+      },
+      {
+        "id": 3,
+        "productname": "Tp-Link TL-SG1008D 8 Port 10/100/1000 GBit Switch",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_9ed88853a046580f605aadc4f7d6d90e.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 250
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 3,
+        "productname": "Caller ID Paket Sipariş Cihazı 2 Hatlı",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_1eec14038d7e653e196619e14d0d23bf.",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 450
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "head": "Barkod Okuyucular",
+        "pass": true
+      },
+      {
+        "id": 3,
+        "productname": "PR230 Laser El Tipi 1D Barkod Okuyucu Usb Kablolu",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_f796c6445210d3127b81a6a5c399d4c9.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 350
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "head": "Yazılımlar",
+        "pass": true
+      },
+      {
+        "id": 1,
+        "productname": "ElektraWeb POS Yıllık Lisans (maks 3 kullanıcı)",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_1fc048a59f22e937344a29fd534badc8.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 2500
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 1,
+        "productname": "Windows 10 Pro Lisans",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_22a9be577482021cd8ebc7d46fac3bc4.",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 1450
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      }
+    ]
+  }
+]
