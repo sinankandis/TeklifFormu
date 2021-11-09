@@ -9,18 +9,12 @@ import {
 } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
-import * as moment from "moment";
 import { Overlay, OverlayRef } from "@angular/cdk/overlay";
 import { TemplatePortal } from "@angular/cdk/portal";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { CurrencyPipe, DecimalPipe } from "@angular/common";
 import { UserService } from "../admin/User.service";
-import { element } from "protractor";
-import { group } from "@angular/animations";
-import { zip } from "rxjs";
-import { MatRadioChange } from "@angular/material/radio";
-import { async } from "q";
-import { runInThisContext } from "vm";
+
 import { DialogComponent } from "./dialog/dialog.component";
 
 export interface PeriodicElement {
@@ -73,8 +67,8 @@ export class PriceComponent implements OnInit {
   public Config: any;
   path: string = "";
   currentLang: string = "tr";
-  currencycode: string = "TRY";
-  currencyprefix: string = "₺";
+  currencycode: string = "$";
+  currencyprefix: string = "$";
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
@@ -153,10 +147,14 @@ export class PriceComponent implements OnInit {
         .setValue(this.userservice.userdata[0].name);
     }
 
-    this.http.get(this.path + "hardwarelist.php").subscribe((resp) => {
-      this.tempData = this.elementdata = resp as any;
-      this.dataSource = this.tempData[0][this.currentLang];
-    });
+    this.http
+      .get(
+        "https://raw.githubusercontent.com/sinankandis/TeklifFormu/master/hardware.json"
+      )
+      .subscribe((resp) => {
+        this.tempData = this.elementdata = resp as any;
+        this.dataSource = this.tempData[0][this.currentLang];
+      });
 
     this.http.get(this.path + "langh.php").subscribe((resp2) => {
       this.lang = resp2;
@@ -414,8 +412,8 @@ export class PriceComponent implements OnInit {
               html +=
                 '<tr><td style="width:50%;"><strong>' +
                 element.productname +
-                "</strong><p>"
-                "<br>" +
+                "</strong><p>";
+              "<br>" +
                 product +
                 "</p>" +
                 "<p>" /*fixstring*/ +
@@ -424,7 +422,7 @@ export class PriceComponent implements OnInit {
                 usertext +
                 "</p>" +
                 "</td>" +
-                "<td>" +
+                "<td>asdasss" +
                 element.count +
                 "</td>" +
                 '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
@@ -543,7 +541,7 @@ export class PriceComponent implements OnInit {
             trans.productexplaniton +
             '</th><th class="coltab2">' +
             trans.roomcount +
-            '</th><th class="coltab3">' +
+            '</th><th>'+trans.quantityprice+'</th><th class="coltab3">' +
             trans.price +
             " (" +
             this.currencycode +
@@ -713,24 +711,21 @@ export class PriceComponent implements OnInit {
               }
 
               html +=
-                '<tr><td style="width:50%;"><strong>' +
-                element.productname +
-                "</strong><p>"
-                "<br>" +
+                '<tr><td style="width:50%;">' +
+                element.productname  +
+                "<p>"+
                 product +
-                "<p>" +
-                "<p>" /*fixstring*/ +
                 "<br>" +
                 altgrup +
                 "</p>" +
                 "</td>" +
                 "<td>" +
                 element.count +
-                "</td>" +
-                '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
+                "</td><td>" + element.roomprice[0].fixprice + " " +  this.currencycode +
+                '</td><td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
                 discounttext +
                 pricetext +
-                "</p></tr>";
+                "</td></tr>";
             }
           }
         });
@@ -787,7 +782,7 @@ export class PriceComponent implements OnInit {
           html +=
             "<tr><td><strong>" +
             trans.total +
-            ":</strong></td><td></td>" +
+            ":</strong></td><td></td><td></td>" +
             '<td class="totals" ><strong>' +
             this.decimalPipe.transform(
               fixlytotal +
@@ -893,6 +888,11 @@ export class PriceComponent implements OnInit {
     let temproomCount = roomcount;
     if (roomcount <= this.CroomCount1) {
       this.dataSource = this.dataSource.map((x) => {
+        if (x.count > 0) {
+          x.selected = true;
+        } else {
+          x.selected = false;
+        }
         let gruptotal = 0;
 
         if (x.pass != true) {
@@ -1069,15 +1069,6 @@ export class PriceComponent implements OnInit {
         }
       });
     }
-
-    /*     let efatura = this.dataSource.filter(x => x.efatura == 1)
-        let earsiv = this.dataSource.filter(x => x.efatura == 2)
-    
-        if (efatura[0].selected == true && earsiv[0].selected) {
-          this.dataSource.filter(x => x.efatura == 3)[0].price = 0;
-          this.dataSource.filter(x => x.efatura == 3)[0].total = 0;
-        }
-     */
   }
 
   showControl() {
