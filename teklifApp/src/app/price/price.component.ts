@@ -59,6 +59,7 @@ export class PriceComponent implements OnInit {
     wantname: new FormControl(""),
     wantemail: new FormControl(""),
     wantphone: new FormControl(""),
+    extranote: new FormControl(""),
     sellerEmailCheck: new FormControl(true),
     setdiscount: new FormControl("", [Validators.max(10), Validators.min(0)]),
   });
@@ -221,6 +222,8 @@ export class PriceComponent implements OnInit {
         t.append("langparam", this.currentLang);
         t.append("username", offerusername);
         t.append("password", offerpassword);
+        t.append("extranote", formdata.extranote);
+        
         let html = "";
         let checkdata = this.dataSource.filter(
           (x) =>
@@ -422,7 +425,7 @@ export class PriceComponent implements OnInit {
                 usertext +
                 "</p>" +
                 "</td>" +
-                "<td>asdasss" +
+                "<td>" +
                 element.count +
                 "</td>" +
                 '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
@@ -540,8 +543,8 @@ export class PriceComponent implements OnInit {
             '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' +
             trans.productexplaniton +
             '</th><th class="coltab2">' +
-            trans.roomcount +
-            '</th><th>'+trans.quantityprice+'</th><th class="coltab3">' +
+            trans.quantityprice +
+            '</th><th>'+trans.roomcount+'</th><th class="coltab3">' +
             trans.price +
             " (" +
             this.currencycode +
@@ -719,9 +722,9 @@ export class PriceComponent implements OnInit {
                 altgrup +
                 "</p>" +
                 "</td>" +
-                "<td>" +
-                element.count +
-                "</td><td>" + element.roomprice[0].fixprice + " " +  this.currencycode +
+                '<td style="text-align: right;">' +
+                element.roomprice[0].fixprice +" " +  this.currencycode  +
+                "</td><td>" + element.count + 
                 '</td><td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
                 discounttext +
                 pricetext +
@@ -804,17 +807,14 @@ export class PriceComponent implements OnInit {
             html += '<tr><td><strong>' + trans.totalfeespayable + ':</strong></td><td>---</td>' + '<td class="totals" ><strong>' + this.decimalPipe.transform(monthlytotal) + " " + this.currencycode + "</td></tr>";
           } */
 
+        let totalpacket = fixlytotal +this.firstprice +this.setuppricetotal +monthlytotal +this.hardwaretotal;
         html +=
           "<tr><td><strong>" +
           trans.grandtotal +
           ":</strong></td><td>---</td>" +
           '<td class="totals"><strong>' +
           this.decimalPipe.transform(
-            fixlytotal +
-              this.firstprice +
-              this.setuppricetotal +
-              monthlytotal +
-              this.hardwaretotal
+            (totalpacket * (1 + 18/100) )
           ) +
           " " +
           this.currencycode +

@@ -166,6 +166,19 @@
                 trans.sendmail
               }}</mat-checkbox>
             </div>
+
+            <div fxFlex="100" fxFlex.xs="100">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Ekstra Not</mat-label>
+                <textarea 
+                  type="text"
+                  formControlName="extranote"
+                  matInput
+                  placeholder="Ekstra Not"
+                ></textarea >
+              </mat-form-field>
+            </div>
+
           </div>
         </ng-container>
 
@@ -344,50 +357,6 @@
             </div>
           </div>
           <div fxFlex="70" fxFlex.xs="100">
-            <!--   <div class="totalBar">
-
-
-              <div *ngIf="firstprice > 0">
-                <div style="font-weight: 700">{{trans.services}}</div>
-                <ng-container *ngFor="let item of ekhizmetler">
-                  <ng-container *ngFor="let x of item.firstprice">
-                    <div *ngIf="item.selected == true  && x.price>0">
-                      <span>{{x.desc}} {{ x.price | currency:currencyprefix}}</span>
-                    </div>
-                  </ng-container>
-                </ng-container>
-                <b style="padding: 10px">{{trans.total}} {{firstprice | currency:currencyprefix}}</b>
-                <hr>
-              </div>
-
-              <div *ngIf="setuppricetotal > 0 ">
-                <div style="font-weight: 700">{{trans.setupprice}}</div>
-                <ng-container *ngFor="let x of setupprice">
-                  <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice | currency:currencyprefix}} )
-                    {{ x.quantity * x.setupprice | currency:currencyprefix}}<br></span>
-                </ng-container>
-                <b style="    padding: 10px"> {{trans.total}} {{setuppricetotal | currency:currencyprefix}}</b>
-                <hr>
-              </div>
-
-              <div class="generaly" *ngIf="setuppricetotal + firstprice > 0">
-                <span class="totalLabel">{{trans.additionalserviceandsetuptotal}}</span> <span class="divid">
-                  :</span><span><strong>{{setuppricetotal + firstprice | currency:currencyprefix}}</strong></span>
-                <hr>
-              </div>
-
-
-
-              <div class="generaly">
-                <span class="totalLabel">{{trans.total}} </span> <span
-                  class="divid">:</span><span><strong>{{ totalpricefinal + hardwaretotal | currency:currencyprefix}}</strong></span>
-              </div>
-              <div class="generaly" *ngIf="firstprice + setuppricetotal > 0">
-                <span class="totalLabel">{{trans.grandtotal}} </span> <span
-                  class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal + hardwaretotal| currency:currencyprefix}}</strong></span>
-              </div>
-
-            </div> -->
           </div>
         </div>
 
@@ -762,6 +731,17 @@
                   }}</strong></span
                 >
               </div>
+
+              <div class="generaly">
+                <span class="totalLabel">{{ trans.grandtotal }} </span>
+                <span class="divid">:</span
+                ><span
+                  ><strong>{{
+                    (totalpricefinal + hardwaretotal) * (1 + 18/100) | currency: currencyprefix
+                  }}</strong></span
+                >
+              </div>
+
               <div class="generaly" *ngIf="firstprice + setuppricetotal > 0">
                 <span class="totalLabel">{{ trans.grandtotal }} </span>
                 <span class="divid">:</span
