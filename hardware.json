@@ -7,7 +7,7 @@
       },
       {
         "id": 1,
-        "productname": "HP 24-DP0042NT Intel Core i3 10100T 8GB 256GB SSD Windows 10 Home 24inc FHD All In One Bilgisayar",
+        "productname": "HP Intel Core i3 10100T 8GB 256GB SSD Windows 10 Home 19.5 inc FHD All In One Bilgisayar",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_4d603755e2fa84552f5dd1baccc0f9fb.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -27,7 +27,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 6750
+            "fixprice": 575
           }
         ],
         "productgrup": [],
@@ -37,7 +37,7 @@
       },
       {
         "id": 1,
-        "productname": "P815 Dokunmatik PC i5 / 4Gb /120 SSD 18.5inc Ekranlı",
+        "productname": "P81-5 Dokunmatik PC i5 / 8Gb /120 SSD 18.5inc Ekranlı",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_8f7e39e75ca3d080e6968a115e20bfb9.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -57,7 +57,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 6750
+            "fixprice": 650
           }
         ],
         "productgrup": [],
@@ -87,7 +87,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 6200
+            "fixprice": 690
           }
         ],
         "productgrup": [],
@@ -97,7 +97,7 @@
       },
       {
         "id": 2,
-        "productname": "ewepos P650 Dokunmatik PC j1900/4Gb /120SSD/Wifi/15.6inc Ekran",
+        "productname": "ewepos P650 Dokunmatik PC j1900/4Gb/120SSD/Wifi/15.6inc Ekran",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_6c874e827116ea1124debc69433a45ce.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -117,7 +117,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 4650
+            "fixprice": 425
           }
         ],
         "productgrup": [],
@@ -151,7 +151,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 650
+            "fixprice": 65
           }
         ],
         "productgrup": [],
@@ -181,7 +181,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 875
+            "fixprice": 85
           }
         ],
         "productgrup": [],
@@ -215,7 +215,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 850
+            "fixprice": 65
           }
         ],
         "productgrup": [],
@@ -249,7 +249,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 150
+            "fixprice": 12
           }
         ],
         "productgrup": [],
@@ -279,7 +279,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 200
+            "fixprice": 15
           }
         ],
         "productgrup": [],
@@ -293,7 +293,7 @@
       },
       {
         "id": 3,
-        "productname": "GO3 Garson El Terminali 5inc",
+        "productname": "GO3 Garson El Terminali 5 inc",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_8ad8ab4442e84ec15e4703f953c9fb04.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -313,7 +313,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 2475
+            "fixprice": 250
           }
         ],
         "productgrup": [],
@@ -323,7 +323,7 @@
       },
       {
         "id": 3,
-        "productname": "Honeywell EDA 51 Barkodlu Stok Takip EL Terminali",
+        "productname": "Honeywell Barkodlu Stok Takip EL Terminali",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_a950e0313c3aadbf4b9e91d6680293fd.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -343,7 +343,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 3950
+            "fixprice": 420
           }
         ],
         "productgrup": [],
@@ -373,7 +373,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 7150
+            "fixprice": 750
           }
         ],
         "productgrup": [],
@@ -407,7 +407,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 250
+            "fixprice": 25
           }
         ],
         "productgrup": [],
@@ -437,7 +437,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 450
+            "fixprice": 50
           }
         ],
         "productgrup": [],
@@ -471,7 +471,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 350
+            "fixprice": 35
           }
         ],
         "productgrup": [],
@@ -505,7 +505,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 2500
+            "fixprice": 360
           }
         ],
         "productgrup": [],
@@ -535,7 +535,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 1450
+            "fixprice": 145
           }
         ],
         "productgrup": [],
