@@ -67,7 +67,7 @@
       },
       {
         "id": 2,
-        "productname": "ewepos P655 Dokunmatik PC i5 / 8Gb /120 SSD 15.6inc Ekranlı",
+        "productname": "P65-5 Dokunmatik PC i5 / 8Gb /120 SSD 15.6inc Ekranlı",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_6c874e827116ea1124debc69433a45ce.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -97,7 +97,7 @@
       },
       {
         "id": 2,
-        "productname": "ewepos P650 Dokunmatik PC j1900/4Gb/120SSD/Wifi/15.6inc Ekran",
+        "productname": "P65-0 Dokunmatik PC j1900/4Gb/120SSD/Wifi/15.6inc Ekran",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_6c874e827116ea1124debc69433a45ce.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -131,7 +131,7 @@
       },
       {
         "id": 3,
-        "productname": "GoojPRT PT 210 Bluetooth Mobil Yazıcı 58mm",
+        "productname": "Bluetooth Mobil Yazıcı 80 mm",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_911b6f3ddf289ebac1121d93879e6474.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -151,7 +151,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 65
+            "fixprice": 135
           }
         ],
         "productgrup": [],
@@ -161,7 +161,7 @@
       },
       {
         "id": 3,
-        "productname": "RP 50 Termal Rulo Fiş Yazıcı",
+        "productname": "XPrinter Q600 Termal Rulo Fiş Yazıcı",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_20732f8ffc494e1d7f62309624c8487e.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
