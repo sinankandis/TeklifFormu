@@ -288,36 +288,6 @@
         "desc": ""
       },
       {
-        "id": 3,
-        "productname": "Network Yazıcısını Kablosuz Yap - TP-Link Ethernet Bağlantılı Wifi Adaptör",
-        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_114eee3877ac64a9cf3e2b520dcb3729.jpg",
-        "timesequence": "yearlyfixsingle",
-        "fixroompricecalculate": true,
-        "producttip": "hardware",
-        "count": 0,
-        "firstprice": [
-          {
-            "desc": "",
-            "price": 0,
-            "grupid": 50
-          }
-        ],
-        "fixuse": true,
-        "discount": 0,
-        "roomprice": [
-          {
-            "priceCase1": 0.5,
-            "priceCase2": 0.5,
-            "priceCase3": 0.5,
-            "fixprice": 15
-          }
-        ],
-        "productgrup": [],
-        "total": 0,
-        "selected": false,
-        "desc": ""
-      },
-      {
         "head": "El Terminalleri",
         "pass": true
       },
