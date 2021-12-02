@@ -69,7 +69,7 @@ export class PriceComponent implements OnInit {
 
   public dataSource: any;
   public Config: any;
-  path: string = "";
+  path: string = this.userservice.path;
   currentLang: string = "tr";
   currencycode: string = "€";
   currencyprefix: string = "EUR";
@@ -106,6 +106,10 @@ export class PriceComponent implements OnInit {
     let datam = this.lang.filter((x) => x[this.currentLang])[0];
     this.langtrans = datam[this.currentLang];
     this.dataSource = this.tempData[0][this.currentLang];
+  }
+
+  getmyInfo() {
+    
   }
 
   getOffer() {

@@ -6,7 +6,8 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 })
 export class UserService implements CanActivate  {
   constructor(private router : Router) { }
-  login : boolean =false;
+  public path :string = "http://localhost/teklif/";
+  public login : boolean =false;
   public userdata : any;
   public userinfo : any;
 

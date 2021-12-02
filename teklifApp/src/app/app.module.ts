@@ -14,13 +14,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatListModule } from '@angular/material/list';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { FullMaterialModule } from './full-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminComponent } from './admin/admin.component';
 import { PriceComponent } from './price/price.component';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { InfoComponent } from './info/info.component';
+import { ForgotpassowrdComponent } from './admin/forgotpassowrd/forgotpassowrd.component';
+import { NewpasswordComponent } from './admin/forgotpassowrd/newpassword/newpassword.component';
 
 
 
@@ -31,7 +34,9 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
       AppComponent,
       AdminComponent,
       PriceComponent,
- 
+      InfoComponent,
+      ForgotpassowrdComponent,
+      NewpasswordComponent
    ],
    imports: [
       BrowserModule,
@@ -44,11 +49,11 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
       HttpClientModule
    ],
    providers: [
-      DecimalPipe ,
+      DecimalPipe,
    ],
    bootstrap: [
       AppComponent,
    ]
 })
-export class AppModule { 
+export class AppModule {
 }

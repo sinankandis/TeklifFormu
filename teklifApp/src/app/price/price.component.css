@@ -2,32 +2,35 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
-  }
-  
-  td, th {
+}
+
+td,
+th {
     border: 1px solid #bfbfbf;
     text-align: left;
     padding: 8px;
-  }
-  
-  tr:nth-child(even) {
+}
+
+tr:nth-child(even) {
     background-color: #dddddd;
-  }
+}
 
-  .Section {margin-bottom: 10px;}
+.Section {
+    margin-bottom: 10px;
+}
 
-  .totalLabel {
+.totalLabel {
     width: 110px !important;
     display: initial;
 }
 
 .totalBar {
-  margin-top: 15px;
-  background: #dddddd;
-  border-top: 1px solid white;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 3px;
+    margin-top: 15px;
+    background: #dddddd;
+    border-top: 1px solid white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 3px;
 }
 
 .totalBar div {
@@ -45,136 +48,136 @@ table {
 }
 
 @media (min-width: 1200px) {
-  .container{
-    max-width: 970px;
-    margin-left: 15%;
-    margin-right: 15%;
-    margin: auto;
-  }
+    .container {
+        max-width: 970px;
+        margin-left: 15%;
+        margin-right: 15%;
+        margin: auto;
+    }
 }
 
 .buttonBar {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .buttonBar button {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 ::ng-deep .example-full-width .mat-form-field-wrapper {
-  padding: 5px !important;
+    padding: 5px !important;
 }
 
 .textDesc {
-  margin-top: 15px;
-  font-weight: 700;
-  /* vertical-align: middle; */
-  /* -webkit-box-align: center; */
-  align-items: center;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-pack: center;
-  /* justify-content: center; */
-  font-size: 14px;
+    margin-top: 15px;
+    font-weight: 700;
+    /* vertical-align: middle; */
+    /* -webkit-box-align: center; */
+    align-items: center;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    /* justify-content: center; */
+    font-size: 14px;
 }
 
-.altTr {background: ghostwhite !important;}
+.altTr {
+    background: ghostwhite !important;
+}
 
-.productinput {    background: white;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border: 1px solid;
-  text-indent: 5px;
-  border-radius: 5px;}
+.productinput {
+    background: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid;
+    text-indent: 5px;
+    border-radius: 5px;
+}
 
-  .mailCheck {
-
+.mailCheck {
     display: flex;
     vertical-align: middle;
     align-items: center;
-  }
+}
 
-  p.desctext {
+p.desctext {
     margin: 0;
     font-size: 12px;
     line-height: 18px;
 }
 
 .singleproduct {
-
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  background: #676463;
-  padding: 7px;
-  float: right;
-  border-radius: 5px;
-  border: 1px solid black;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    background: #676463;
+    padding: 7px;
+    float: right;
+    border-radius: 5px;
+    border: 1px solid black;
 }
+
 .singleproductlabel {
-  color:white;
-  margin-right:10px;
+    color: white;
+    margin-right: 10px;
 }
 
 .example-radio-button {
-  width:100%;
-  margin-top:5px;
+    width: 100%;
+    margin-top: 5px;
 }
 
 .callMe {
-  position: fixed;
-  top: 0;
-  background: #534d4d94;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-
+    position: fixed;
+    top: 0;
+    background: #534d4d94;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (max-width:720px) {
-  .CallMeArea {
-     width: 80%;
-  }
-  .callnumber a{
-    font-size: 25px;
-
-  }
+    .CallMeArea {
+        width: 80%;
+    }
+    .callnumber a {
+        font-size: 25px;
+    }
 }
 
 .CallMeArea {
-  background: white;
-  padding: 15px;
-  font-size: 30px;
-  border-radius: 5px;
-  position: relative;
+    background: white;
+    padding: 15px;
+    font-size: 30px;
+    border-radius: 5px;
+    position: relative;
 }
 
 .callnumber a {
-  text-decoration: none;
-  color: yellowgreen;
-  font-size: 35px;
-  line-height: 70px;
+    text-decoration: none;
+    color: yellowgreen;
+    font-size: 35px;
+    line-height: 70px;
 }
 
 .callnumber .material-icons {
-  font-size: 35px;
+    font-size: 35px;
 }
 
 .callmeClose {
-  position: absolute;
-  right: -15px;
-  top: -20px;
+    position: absolute;
+    right: -15px;
+    top: -20px;
 }
 
-
 .heading td {
-  font-weight: 700;
-  background: linear-gradient(45deg, #f44336, white);
-  color: white;
+    font-weight: 700;
+    background: linear-gradient(45deg, #f44336, white);
+    color: white;
 }

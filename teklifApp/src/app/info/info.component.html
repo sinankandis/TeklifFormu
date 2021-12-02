@@ -1,0 +1,213 @@
+<ng-container *ngIf="userservice.login==true">
+    <div class="container">
+        <button style="margin-bottom: 10px;" mat-raised-button color="primary" (click)="back();">Geri Dön</button>
+        <mat-card style="margin-bottom: 10px;">
+            <div style="margin-bottom: 10px;">
+                <mat-checkbox [checked]="myinfo" (change)="myinfoCheck($event);" class="example-margin">Kendi iletişim bilgilerimi kullanmak istiyorum.</mat-checkbox>
+            </div>
+
+            <h4>Kullanıcı Bilgilerim</h4>
+            <p>Şifre alanınından yeni şifre tanımlayabilirsiniz. Boş bırakıldığında mevcut şifeniz geçerli olacaktır.</p>
+            <ng-container [formGroup]="myForm">
+                <div fxLayout="row wrap" fxLayoutGap="5px">
+                    <div fxFlex="30">
+                        <mat-form-field class="w100">
+                            <mat-label>Adınız</mat-label>
+                            <input formControlName="name" matInput placeholder="Adınızı Giriniz">
+                        </mat-form-field>
+                    </div>
+
+                    <div fxFlex="30">
+                        <mat-form-field class="w100">
+                            <mat-label>Telefon</mat-label>
+                            <input formControlName="tel" matInput placeholder="Telefon">
+                        </mat-form-field>
+                    </div>
+
+                    <div fxFlex="30">
+                        <mat-form-field class="w100">
+                            <mat-label>Şifre</mat-label>
+                            <input formControlName="password" matInput [type]="typeText" placeholder="Şifrenizi Giriniz">
+                            <mat-icon style="cursor: pointer;" (click)="showPass();" matSuffix>visibility_off</mat-icon>
+
+                        </mat-form-field>
+                    </div>
+
+
+                </div>
+            </ng-container>
+        </mat-card>
+
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Fatura Bilgileri
+                    </mat-panel-title>
+                    <mat-panel-description>
+
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <ng-container [formGroup]="billForm">
+
+                    <div fxLayout="row wrap" fxLayoutGap="5px">
+                        <div fxFlex="30">
+                            <mat-form-field class="w100">
+                                <mat-label>Ünvan</mat-label>
+                                <input formControlName="title" matInput placeholder="Ünvanınızı Giriniz">
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="30">
+                            <mat-form-field class="w100">
+                                <mat-label>Vergi No</mat-label>
+                                <input formControlName="taxno" matInput placeholder="Vergi No">
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="30">
+                            <mat-form-field class="w100">
+                                <mat-label>Mersis No</mat-label>
+                                <input formControlName="mersisno" matInput placeholder="Mersis No">
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="100">
+                            <mat-form-field class="w100">
+                                <mat-label>Fatura Adres</mat-label>
+                                <textarea formControlName="fatadress" matInput placeholder="Fatura Adresinizi Giriniz"></textarea>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                </ng-container>
+
+            </mat-expansion-panel>
+
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        İletişim Bilgileri
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let form of contactForm.controls;let i=index">
+                    <ng-container [formGroup]="form">
+                        <div fxLayout="row wrap" fxLayoutGap="5px">
+                            <div fxFlex="20">
+                                <mat-form-field class="w100">
+                                    <mat-label>Adres Adı</mat-label>
+                                    <input formControlName="name" matInput placeholder="Adres Adı">
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="20">
+                                <mat-form-field class="w100">
+                                    <mat-label>Tel</mat-label>
+                                    <input formControlName="tel" matInput placeholder="Telefon">
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="20">
+                                <mat-form-field class="w100">
+                                    <mat-label>Gsm</mat-label>
+                                    <input formControlName="gsm" matInput placeholder="Gsm">
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="20">
+                                <mat-form-field class="w100">
+                                    <mat-label>Fax</mat-label>
+                                    <input formControlName="fax" matInput placeholder="fax">
+                                </mat-form-field>
+                            </div>
+
+
+                            <div fxFlex="5">
+                                <button mat-mini-fab color="warn" (click)="removeContact(i)">-</button>
+                            </div>
+
+                            <div fxFlex="100">
+                                <mat-form-field class="w100">
+                                    <mat-label>Adress</mat-label>
+                                    <textarea formControlName="adress" matInput placeholder="Adress"></textarea>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                    </ng-container>
+                </div>
+                <button mat-raised-button color="primary" (click)="addContact()">İletişim Bilgisi ekle</button>
+
+
+            </mat-expansion-panel>
+
+
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Banka Bilgileri
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let form of bankForm.controls;let i=index">
+                    <ng-container [formGroup]="form">
+                        <div fxLayout="row wrap" fxLayoutGap="5px">
+                            <div fxFlex="30">
+                                <mat-form-field class="w100">
+                                    <mat-label>Banka Adı</mat-label>
+                                    <input formControlName="name" matInput placeholder="Banka Adı">
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="30">
+                                <mat-form-field class="w100">
+                                    <mat-label>Şube</mat-label>
+                                    <input formControlName="sube" matInput placeholder="Şube">
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="30">
+                                <mat-form-field class="w100">
+                                    <mat-label>Hesap Para Birimi</mat-label>
+                                    <input formControlName="currency" matInput placeholder="Hesap Para Birimi">
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="30">
+                                <mat-form-field class="w100">
+                                    <mat-label>Hesap No</mat-label>
+                                    <input formControlName="bankno" matInput placeholder="Hesap No">
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="40">
+                                <mat-form-field class="w100">
+                                    <mat-label>Iban No</mat-label>
+                                    <input formControlName="iban" matInput placeholder="Iban No">
+                                </mat-form-field>
+                            </div>
+
+
+
+                            <div fxFlex="20">
+                                <button mat-mini-fab color="warn" (click)="removeBank(i)">-</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <button mat-raised-button color="primary" (click)="addBank()">Banka ekle</button>
+
+
+            </mat-expansion-panel>
+
+
+
+
+        </mat-accordion>
+
+        <mat-card style="margin-top:10px;">
+            <button color="primary" (click)="saveInfo();" mat-raised-button>Tüm Bilgileri Kaydet</button>
+        </mat-card>
+
+    </div>
+
+</ng-container>

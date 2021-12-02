@@ -1,0 +1,13 @@
+<div class="container" style="max-width:400px;">
+    <button style="margin-bottom: 10px;" mat-raised-button color="primary" (click)="back();">Geri Dön</button>
+    <mat-card style="margin-bottom: 10px;">
+        <ng-container [formGroup]="emailForm">
+            <mat-form-field class="w100">
+                <mat-label>E-mail Adresinizi Giriniz</mat-label>
+                <input formControlName="email" matInput placeholder="">
+            </mat-form-field>
+
+            <button mat-raised-button color="warn" (click)="resetPassword();">Şifre Sıfırlama İsteği Gönder</button>
+        </ng-container>
+    </mat-card>
+</div>
