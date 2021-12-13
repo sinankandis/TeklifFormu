@@ -58,7 +58,7 @@ export class PriceComponent implements OnInit {
   profileForm = new FormGroup({
     hotelname: new FormControl("", Validators.required),
     roomcount: new FormControl("", [Validators.required, Validators.min(0)]),
-    email: new FormControl("", [Validators.required, Validators.email]),
+    email: new FormControl("", [Validators.required]),
     phone: new FormControl("", Validators.required),
     authorized: new FormControl("", Validators.required),
     wantname: new FormControl(""),
@@ -882,6 +882,10 @@ export class PriceComponent implements OnInit {
                   if (formdata.roomcount > 50) {
                     this.close = true;
                   }
+                } else {
+                  this.detachOverlay();
+                  alert(resp.message);
+
                 }
               }
             });

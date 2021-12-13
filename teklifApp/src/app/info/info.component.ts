@@ -12,7 +12,7 @@ import { UserService } from '../admin/User.service';
 })
 export class InfoComponent implements OnInit {
   myinfo = true;
-  typeText :string = "password";
+  typeText: string = "password";
   bankForm: FormArray;
   contactForm: FormArray;
   billForm: FormGroup;
@@ -40,12 +40,12 @@ export class InfoComponent implements OnInit {
       {
         name: [""],
         tel: [""],
-        password: ["",Validators.minLength(8)]
+        password: ["", Validators.minLength(8)]
       }
 
     )
 
-    if(this.userservice.userdata[0]) {
+    if (this.userservice.userdata[0]) {
       const data = this.userservice.userdata[0];
       this.myForm.controls.name.setValue(data.name);
       this.myForm.controls.tel.setValue(data.tel);
@@ -53,14 +53,14 @@ export class InfoComponent implements OnInit {
 
     }
 
-      if(this.userservice.userdata[0].usemyinfo) {
-        if(this.userservice.userdata[0].usemyinfo==true) {
-          this.myinfo = true;
-        } else {
-          this.myinfo = false;
-        }
-        
+    if (this.userservice.userdata[0].usemyinfo) {
+      if (this.userservice.userdata[0].usemyinfo == true) {
+        this.myinfo = true;
+      } else {
+        this.myinfo = false;
       }
+
+    }
 
 
     if (this.userservice.userdata[0].bankconfig) {
@@ -86,7 +86,7 @@ export class InfoComponent implements OnInit {
   }
 
   showPass() {
-    if(this.typeText=="password") {
+    if (this.typeText == "password") {
       this.typeText = "text";
     } else {
       this.typeText = "password";
@@ -94,23 +94,25 @@ export class InfoComponent implements OnInit {
     }
   }
 
-  myinfoCheck(e:MatCheckboxChange) {
-    if(e.checked) {
+  myinfoCheck(e: MatCheckboxChange) {
+    if (e.checked) {
       this.myinfo = true;
     } else {
-      this.myinfo =false;
+      this.myinfo = false;
     }
   }
 
   saveInfo() {
-    if(this.myForm.valid) {
-    if (this.userservice.userdata[0].ID) {
-      const data = { ID: this.userservice.userdata[0].ID,type:"usersaveinfo",usemyinfo:this.myinfo  , contact: this.contactForm.value, bank: this.bankForm.value, bill: this.billForm.value,myinfo:this.myForm.value };
-      this.http.post(this.userservice.path + "/partnerinfo.php", JSON.stringify(data), { responseType: "json" }).subscribe((x: any) => {
-      alert(x.message);
-      })
+
+  
+    if (this.myForm.valid) {
+      if (this.userservice.userdata[0].ID) {
+        const data = { ID: this.userservice.userdata[0].ID, type: "usersaveinfo", usemyinfo: this.myinfo, contact: this.contactForm.value, bank: this.bankForm.value, bill: this.billForm.value, myinfo: this.myForm.value };
+        this.http.post(this.userservice.path + "/partnerinfo.php", JSON.stringify(data), { responseType: "json" }).subscribe((x: any) => {
+          alert(x.message);
+        })
+      }
     }
-  }
 
 
   }
@@ -124,8 +126,8 @@ export class InfoComponent implements OnInit {
       name: [''],
       iban: [''],
       bankno: [''],
-      sube:[''],
-      currency:['']
+      sube: [''],
+      currency: ['']
     })
 
     this.bankForm.push(group)
@@ -139,11 +141,11 @@ export class InfoComponent implements OnInit {
 
   addContact() {
     const group = this.fb.group({
-      name: [],
-      adress: [],
-      tel: [],
-      gsm: [],
-      fax: []
+      name: [''],
+      adress: [''],
+      tel: [''],
+      gsm: [''],
+      fax: ['']
     })
     this.contactForm.push(group)
   }

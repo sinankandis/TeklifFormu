@@ -6,7 +6,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 })
 export class UserService implements CanActivate  {
   constructor(private router : Router) { }
-  public path :string = "http://localhost/teklif/";
+  public path :string = "https://www.elektraweb.com/teklifapp/";
   public login : boolean =false;
   public userdata : any;
   public userinfo : any;
@@ -14,7 +14,6 @@ export class UserService implements CanActivate  {
 
   canActivate(next:ActivatedRouteSnapshot,state:RouterStateSnapshot):boolean {
     if(this.login ==true) {return true; }
-
     this.router.navigate(["login"]);
         return false;
   }
