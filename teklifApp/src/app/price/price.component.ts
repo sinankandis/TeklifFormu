@@ -53,7 +53,7 @@ export class PriceComponent implements OnInit {
     public dialog: MatDialog,
     private decimalPipe: DecimalPipe,
     public userservice: UserService
-  ) {}
+  ) { }
 
   profileForm = new FormGroup({
     hotelname: new FormControl("", Validators.required),
@@ -109,7 +109,7 @@ export class PriceComponent implements OnInit {
   }
 
   getmyInfo() {
-    
+
   }
 
   getOffer() {
@@ -636,7 +636,7 @@ export class PriceComponent implements OnInit {
                   hardwareitemtotal +
                   ((element.total - hardwareitemtotal) /
                     (100 - element.discount)) *
-                    element.discount;
+                  element.discount;
                 if (isFinite(nodiscountt) == false) {
                   nodiscountt = 0;
                 }
@@ -794,9 +794,9 @@ export class PriceComponent implements OnInit {
             '<td class="totals" ><strong>' +
             this.decimalPipe.transform(
               fixlytotal +
-                this.setuppricetotal +
-                this.firstprice +
-                this.hardwaretotal
+              this.setuppricetotal +
+              this.firstprice +
+              this.hardwaretotal
             ) +
             " " +
             this.currencycode +
@@ -819,10 +819,10 @@ export class PriceComponent implements OnInit {
           '<td class="totals"><strong>' +
           this.decimalPipe.transform(
             fixlytotal +
-              this.firstprice +
-              this.setuppricetotal +
-              monthlytotal +
-              this.hardwaretotal
+            this.firstprice +
+            this.setuppricetotal +
+            monthlytotal +
+            this.hardwaretotal
           ) +
           " " +
           this.currencycode +
@@ -1046,6 +1046,13 @@ export class PriceComponent implements OnInit {
             totalfin = 0;
           }
 
+          if(totalfin <x.minprice) {
+            totalfin = x.minprice;
+            if(x.discount>0) {
+              totalfin = totalfin - (totalfin/100) * x.discount;
+            }
+          }
+
           let FinalTotal = 0;
           if (x.useramountmod == true) {
             FinalTotal = totalfin / bolen + userprice;
@@ -1053,14 +1060,19 @@ export class PriceComponent implements OnInit {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-          if (FinalTotal < x.minprice && x.discount > 0) {
-            FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
-            if (FinalTotal < 0) {
-              FinalTotal = 0;
-            }
-          } else if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
-          }
+         
+
+
+
+
+          /*  if (FinalTotal < x.minprice && x.discount > 0) {
+             FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
+             if (FinalTotal < 0) {
+               FinalTotal = 0;
+             }
+           } else if (FinalTotal < x.minprice) {
+             FinalTotal = x.minprice;
+           } */
 
           if (x.userpricecal == true && roomcount < this.Cminroomcount) {
             FinalTotal = totalfin + userprice;
@@ -1229,6 +1241,13 @@ export class PriceComponent implements OnInit {
             totalfin = 0;
           }
 
+          if(totalfin <x.minprice) {
+            totalfin = x.minprice;
+            if(x.discount>0) {
+              totalfin = totalfin - (totalfin/100) * x.discount;
+            }
+          }
+
           let FinalTotal = 0;
           if (x.useramountmod == true) {
             FinalTotal = totalfin / bolen + userprice;
@@ -1236,14 +1255,14 @@ export class PriceComponent implements OnInit {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-          if (FinalTotal < x.minprice && x.discount > 0) {
-            FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
-            if (FinalTotal < 0) {
-              FinalTotal = 0;
-            }
-          } else if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
-          }
+          /*     if (FinalTotal < x.minprice && x.discount > 0) {
+                FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
+                if (FinalTotal < 0) {
+                  FinalTotal = 0;
+                }
+              } else if (FinalTotal < x.minprice) {
+                FinalTotal = x.minprice;
+              } */
 
           return {
             fixuse: x.fixuse,
@@ -1400,6 +1419,13 @@ export class PriceComponent implements OnInit {
             totalfin = 0;
           }
 
+          if(totalfin <x.minprice) {
+            totalfin = x.minprice;
+            if(x.discount>0) {
+              totalfin = totalfin - (totalfin/100) * x.discount;
+            }
+          }
+
           let FinalTotal = 0;
           if (x.useramountmod == true) {
             FinalTotal = totalfin / bolen + userprice;
@@ -1407,14 +1433,14 @@ export class PriceComponent implements OnInit {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-          if (FinalTotal < x.minprice && x.discount > 0) {
-            FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
-            if (FinalTotal < 0) {
-              FinalTotal = 0;
-            }
-          } else if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
-          }
+          /*   if (FinalTotal < x.minprice && x.discount > 0) {
+              FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
+              if (FinalTotal < 0) {
+                FinalTotal = 0;
+              }
+            } else if (FinalTotal < x.minprice) {
+              FinalTotal = x.minprice;
+            } */
 
           return {
             fixuse: x.fixuse,
