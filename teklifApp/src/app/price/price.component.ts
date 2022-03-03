@@ -21,6 +21,7 @@ import { zip } from "rxjs";
 import { MatRadioChange } from "@angular/material/radio";
 import { async } from "q";
 import { runInThisContext } from "vm";
+import { exit } from "process";
 
 export interface PeriodicElement {
   productname: string;
@@ -334,22 +335,7 @@ export class PriceComponent implements OnInit {
               }
 
               let product = "";
-              if (element.singleproduct == true) {
-                product =
-                  "( " +
-                  element.quantity +
-                  " " +
-                  trans.quantity +
-                  " * " +
-                  element.price +
-                  " " +
-                  this.currencycode +
-                  " ) " +
-                  this.decimalPipe.transform(element.quantity * element.price) +
-                  " " +
-                  this.currencycode +
-                  "";
-              }
+
 
               monthlytotal += element.total;
               let pricetext = "";
@@ -657,22 +643,7 @@ export class PriceComponent implements OnInit {
               }
 
               let product = "";
-              if (element.singleproduct == true) {
-                product =
-                  "( " +
-                  element.quantity +
-                  " " +
-                  trans.quantity +
-                  " * " +
-                  element.price +
-                  " " +
-                  this.currencycode +
-                  " ) " +
-                  this.decimalPipe.transform(element.quantity * element.price) +
-                  " " +
-                  this.currencycode +
-                  "";
-              }
+
 
               let pricetext = "";
               if (element.timesequence == "yearly") {
@@ -992,13 +963,9 @@ export class PriceComponent implements OnInit {
 
           let totalfin;
           if (x.fixuse == false) {
-            if (x.singleproduct == true) {
-              totalfin =
-                x.price * x.quantity -
-                ((x.price * x.quantity) / 100) * x.discount;
-            } else {
-              totalfin = (totalsub - (totalsub / 100) * x.discount) * 12;
-            }
+
+            totalfin = (totalsub - (totalsub / 100) * x.discount) * 12;
+
           } else {
             if (
               (x.timesequence == "yearlyfixsingle" ||
@@ -1046,36 +1013,34 @@ export class PriceComponent implements OnInit {
             totalfin = 0;
           }
 
-          if(totalfin <x.minprice) {
-            totalfin = x.minprice;
-            if(x.discount>0) {
-              totalfin = totalfin - (totalfin/100) * x.discount;
-            }
-          }
+
+
 
           let FinalTotal = 0;
+          if (x.id == 21) {
+            totalfin = (20 + (roomcount * 0.1)) * 12;
+          }
           if (x.useramountmod == true) {
             FinalTotal = totalfin / bolen + userprice;
           } else {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-         
-
-
-
-
-          /*  if (FinalTotal < x.minprice && x.discount > 0) {
-             FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
-             if (FinalTotal < 0) {
-               FinalTotal = 0;
-             }
-           } else if (FinalTotal < x.minprice) {
-             FinalTotal = x.minprice;
-           } */
 
           if (x.userpricecal == true && roomcount < this.Cminroomcount) {
             FinalTotal = totalfin + userprice;
+          }
+
+
+          if (FinalTotal < x.minprice) {
+            FinalTotal = x.minprice;
+            if (x.discount > 0) {
+              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
+            }
+          } else {
+            if (x.discount > 0) {
+              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
+            }
           }
 
           return {
@@ -1164,6 +1129,8 @@ export class PriceComponent implements OnInit {
             });
           }
 
+
+
           let fixtotal = 0;
           let totalsub =
             x.roomprice[0].priceCase1 * this.CroomCount1 +
@@ -1192,13 +1159,9 @@ export class PriceComponent implements OnInit {
           }
           let totalfin;
           if (x.fixuse == false) {
-            if (x.singleproduct == true) {
-              totalfin =
-                x.price * x.quantity -
-                ((x.price * x.quantity) / 100) * x.discount;
-            } else {
-              totalfin = (totalsub - (totalsub / 100) * x.discount) * 12;
-            }
+
+            totalfin = (totalsub - (totalsub / 100) * x.discount) * 12;
+
           } else {
             if (
               (x.timesequence == "yearlyfixsingle" ||
@@ -1241,18 +1204,29 @@ export class PriceComponent implements OnInit {
             totalfin = 0;
           }
 
-          if(totalfin <x.minprice) {
-            totalfin = x.minprice;
-            if(x.discount>0) {
-              totalfin = totalfin - (totalfin/100) * x.discount;
-            }
-          }
+
 
           let FinalTotal = 0;
+          if (x.id == 21) {
+            totalfin = (20 + (roomcount * 0.1)) * 12;
+          }
+
           if (x.useramountmod == true) {
             FinalTotal = totalfin / bolen + userprice;
           } else {
             FinalTotal = (totalfin + userprice) / bolen;
+          }
+
+
+          if (FinalTotal < x.minprice) {
+            FinalTotal = x.minprice;
+            if (x.discount > 0) {
+              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
+            }
+          } else {
+            if (x.discount > 0) {
+              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
+            }
           }
 
           /*     if (FinalTotal < x.minprice && x.discount > 0) {
@@ -1263,6 +1237,7 @@ export class PriceComponent implements OnInit {
               } else if (FinalTotal < x.minprice) {
                 FinalTotal = x.minprice;
               } */
+
 
           return {
             fixuse: x.fixuse,
@@ -1369,13 +1344,8 @@ export class PriceComponent implements OnInit {
 
           let totalfin;
           if (x.fixuse == false) {
-            if (x.singleproduct == true) {
-              totalfin =
-                x.price * x.quantity -
-                ((x.price * x.quantity) / 100) * x.discount;
-            } else {
-              totalfin = (totalsub - (totalsub / 100) * x.discount) * 12;
-            }
+            totalfin = (totalsub - (totalsub / 100) * x.discount) * 12;
+
           } else {
             if (
               (x.timesequence == "yearlyfixsingle" ||
@@ -1419,28 +1389,34 @@ export class PriceComponent implements OnInit {
             totalfin = 0;
           }
 
-          if(totalfin <x.minprice) {
-            totalfin = x.minprice;
-            if(x.discount>0) {
-              totalfin = totalfin - (totalfin/100) * x.discount;
-            }
-          }
+
+
 
           let FinalTotal = 0;
+
+
+          if (x.id == 21) {
+            totalfin = (20 + (roomcount * 0.1)) * 12;
+          }
+
           if (x.useramountmod == true) {
             FinalTotal = totalfin / bolen + userprice;
           } else {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-          /*   if (FinalTotal < x.minprice && x.discount > 0) {
-              FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
-              if (FinalTotal < 0) {
-                FinalTotal = 0;
-              }
-            } else if (FinalTotal < x.minprice) {
-              FinalTotal = x.minprice;
-            } */
+          if (FinalTotal < x.minprice) {
+            FinalTotal = x.minprice;
+            if (x.discount > 0) {
+              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
+            }
+          } else {
+            if (x.discount > 0) {
+              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
+            }
+          }
+
+
 
           return {
             fixuse: x.fixuse,
