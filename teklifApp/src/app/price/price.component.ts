@@ -22,6 +22,7 @@ import { MatRadioChange } from "@angular/material/radio";
 import { async } from "q";
 import { runInThisContext } from "vm";
 import { exit } from "process";
+import { Xmb } from "@angular/compiler";
 
 export interface PeriodicElement {
   productname: string;
@@ -1037,11 +1038,7 @@ export class PriceComponent implements OnInit {
             if (x.discount > 0) {
               FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
             }
-          } else {
-            if (x.discount > 0) {
-              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
-            }
-          }
+          } 
 
           return {
             fixuse: x.fixuse,
@@ -1217,26 +1214,13 @@ export class PriceComponent implements OnInit {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-
-          if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
-            if (x.discount > 0) {
-              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
-            }
-          } else {
-            if (x.discount > 0) {
-              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
-            }
+          if(FinalTotal < x.minprice) {
+              FinalTotal = x.minprice - ((x.minprice/100)*x.discount);
+             
           }
 
-          /*     if (FinalTotal < x.minprice && x.discount > 0) {
-                FinalTotal = x.minprice - (x.minprice / 100) * x.discount;
-                if (FinalTotal < 0) {
-                  FinalTotal = 0;
-                }
-              } else if (FinalTotal < x.minprice) {
-                FinalTotal = x.minprice;
-              } */
+        
+
 
 
           return {
@@ -1405,16 +1389,10 @@ export class PriceComponent implements OnInit {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-          if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
-            if (x.discount > 0) {
-              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
-            }
-          } else {
-            if (x.discount > 0) {
-              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
-            }
-          }
+          if(FinalTotal < x.minprice) {
+            FinalTotal = x.minprice - ((x.minprice/100)*x.discount);
+           
+        }
 
 
 
