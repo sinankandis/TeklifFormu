@@ -997,11 +997,10 @@ export class PriceComponent implements OnInit {
           if (x.hasOwnProperty("userbarems") && x.userbarems) {
             if (x.userbarems.selected) {
               let selected = x.userbarems.selected;
-              if (totalfin <= x.minprice) {
-                totalfin = x.minprice;
-              }
+            /*   if (totalfin <= x.minprice) {
+                   totalfin = x.minprice;
+              } */
               userprice = totalfin * selected.userprice - totalfin;
-
               if (x.useramountmod == true) {
                 userprice = totalfin + selected.userprice - totalfin;
               } else {
@@ -1023,6 +1022,7 @@ export class PriceComponent implements OnInit {
           }
           if (x.useramountmod == true) {
             FinalTotal = totalfin / bolen + userprice;
+
           } else {
             FinalTotal = (totalfin + userprice) / bolen;
           }
@@ -1034,11 +1034,17 @@ export class PriceComponent implements OnInit {
 
 
           if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
+                FinalTotal = x.minprice;
             if (x.discount > 0) {
               FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
             }
           } 
+
+
+          if (x.id == 21) {
+            FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
+
+          }
 
           return {
             fixuse: x.fixuse,
@@ -1447,7 +1453,7 @@ export class PriceComponent implements OnInit {
         }
      */
 
-    let web = this.dataSource.filter(
+   /*  let web = this.dataSource.filter(
       (x) => x.id == 1 || x.id == 185 || x.id == 186
     );
     web.forEach((element) => {
@@ -1457,7 +1463,7 @@ export class PriceComponent implements OnInit {
         this.dataSource.filter((x) => x.id == 146)[0].price = 0;
         this.dataSource.filter((x) => x.id == 146)[0].total = 0;
       }
-    });
+    }); */
 
     this.dataSource.forEach((element) => {
       if (element.total > element.maxprice) {
