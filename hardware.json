@@ -7,7 +7,7 @@
       },
       {
         "id": 1,
-        "productname": "HP Intel i3 10110U 8GB 256GB SSD 21.5 Freedos All In One PC",
+        "productname": "Intel i3 8GB 256GB veya 1TB HDisk 21.5 Freedos All In One PC",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_4d603755e2fa84552f5dd1baccc0f9fb.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -27,7 +27,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 625
+            "fixprice": 675
           }
         ],
         "productgrup": [],
