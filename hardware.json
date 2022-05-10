@@ -66,33 +66,9 @@
         "desc": ""
       },
       {
-        "id": 2, 
-        "productname": "P65-0 Dokunmatik PC j1900/4Gb/120SSD/Wifi/15.6inc Ekran",
-        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_6c874e827116ea1124debc69433a45ce.jpg",
-        "timesequence": "yearlyfixsingle",
-        "fixroompricecalculate": true,
-        "producttip": "hardware",
-        "count": 0,
-        "firstprice": [
-          {
-            "desc": "",
-            "price": 0,
-            "grupid": 50
-          }
-        ],
-        "fixuse": true,
-        "discount": 0,
-        "roomprice": [
-          {
-            "priceCase1": 0.5,
-            "priceCase2": 0.5,
-            "priceCase3": 0.5,
-            "fixprice": 450
-          }
-          {
-        "id": 1,
-        "productname": "HP veya Dell Notebook i5 8gb 256Gb SSD 15.6 inch Windows10H",
-        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_8f7e39e75ca3d080e6968a115e20bfb9.jpg",
+        "id": 3,
+        "productname": "HP veya Dell Notebook i5 8gb 256Gb SSD 15.6inch Ekran Win10H",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_20732f8ffc494e1d7f62309624c8487e.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -113,12 +89,6 @@
             "priceCase3": 0.5,
             "fixprice": 580
           }
-        ],
-        "productgrup": [],
-        "total": 0,
-        "selected": false,
-        "desc": ""
-      },
         ],
         "productgrup": [],
         "total": 0,
