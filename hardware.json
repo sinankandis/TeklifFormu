@@ -89,6 +89,36 @@
             "priceCase3": 0.5,
             "fixprice": 450
           }
+          {
+        "id": 1,
+        "productname": "HP veya Dell Notebook i5 8gb 256Gb SSD 15.6 inch Windows10H",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_8f7e39e75ca3d080e6968a115e20bfb9.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 580
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
         ],
         "productgrup": [],
         "total": 0,
