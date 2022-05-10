@@ -416,6 +416,66 @@
         "desc": ""
       },
       {
+        "id": 3,
+        "productname": "Kesintisiz Güç Kaynağı 800VA",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_1eec14038d7e653e196619e14d0d23bf.",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 80
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 3,
+        "productname": "Kablosuz Klavye Mouse",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_1eec14038d7e653e196619e14d0d23bf.",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 21
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
         "head": "Barkod Okuyucular",
         "pass": true
       },
@@ -536,6 +596,36 @@
             "priceCase2": 0.5,
             "priceCase3": 0.5,
             "fixprice": 195
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+       {
+        "id": 3,
+        "productname": "250 Adet 4 Renk Baskılı Logolu Harcama Kartı",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_f796c6445210d3127b81a6a5c399d4c9.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 175
           }
         ],
         "productgrup": [],
