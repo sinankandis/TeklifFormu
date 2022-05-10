@@ -881,6 +881,36 @@
         "selected": false,
         "desc": ""
       }
+       {
+        "id": 1,
+        "productname": "İş Günü Yerinde Servis",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_22a9be577482021cd8ebc7d46fac3bc4.",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 150
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      }
     ]
   }
 ]
