@@ -57,7 +57,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 690
+            "fixprice": 625
           }
         ],
         "productgrup": [],
@@ -87,7 +87,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 425
+            "fixprice": 450
           }
         ],
         "productgrup": [],
@@ -151,7 +151,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 135
+            "fixprice": 150
           }
         ],
         "productgrup": [],
@@ -161,7 +161,7 @@
       },
       {
         "id": 3,
-        "productname": "XPrinter Q600 Termal Rulo Fiş Yazıcı",
+        "productname": "Termal Rulo Fiş Yazıcı",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_20732f8ffc494e1d7f62309624c8487e.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
