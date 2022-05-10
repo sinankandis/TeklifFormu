@@ -189,6 +189,66 @@
         "selected": false,
         "desc": ""
       },
+         {
+        "id": 3,
+        "productname": "Barkod Etiket Yazıcı Termal + Termal Transfer",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_20732f8ffc494e1d7f62309624c8487e.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 260
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 3,
+        "productname": "Barkod Etiket Yazıcı Termal",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_20732f8ffc494e1d7f62309624c8487e.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 170
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
       {
         "head": "Akıllı Kart Okuyucular",
         "pass": true
@@ -566,6 +626,36 @@
             "priceCase2": 0.5,
             "priceCase3": 0.5,
             "fixprice": 250
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 3,
+        "productname": "Turnike Kontrol Ünitesi 10 Lu",
+        "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_f796c6445210d3127b81a6a5c399d4c9.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 450
           }
         ],
         "productgrup": [],
