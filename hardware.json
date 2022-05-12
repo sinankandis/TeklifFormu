@@ -570,6 +570,36 @@
         "desc": ""
       },
       {
+        "id": 3,
+        "productname": "Kablosuz 1D/2D QR Barkod Okuyucu",
+        "productimg": "http://otella.com.tr/wp-content/uploads/2021/12/2dbarkod.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 70
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
         "head": "Turnike Ürünleri",
         "pass": true
       },
