@@ -57,7 +57,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 625
+            "fixprice": 650
           }
         ],
         "productgrup": [],
@@ -87,7 +87,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 580
+            "fixprice": 600
           }
         ],
         "productgrup": [],
@@ -343,7 +343,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 250
+            "fixprice": 280
           }
         ],
         "productgrup": [],
@@ -903,7 +903,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 145
+            "fixprice": 155
           }
         ],
         "productgrup": [],
