@@ -37,7 +37,7 @@
       },
       {
         "id": 1,
-        "productname": "P81-5 Dokunmatik PC i5 / 8Gb /120 SSD 18.5inc Ekranlı",
+        "productname": "HD185N Dokunmatik PC N5095 / 8Gb /120 SSD 18.5inc Ekranlı",
         "productimg": "https://dmih5ui1qqea9.cloudfront.net/pictures_large/elektrapos_8f7e39e75ca3d080e6968a115e20bfb9.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
@@ -57,7 +57,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 590
+            "fixprice": 460
           }
         ],
         "productgrup": [],
@@ -87,7 +87,7 @@
             "priceCase1": 0.5,
             "priceCase2": 0.5,
             "priceCase3": 0.5,
-            "fixprice": 600
+            "fixprice": 645
           }
         ],
         "productgrup": [],
@@ -95,67 +95,7 @@
         "selected": false,
         "desc": ""
       },
-      {
-        "id": 3,
-        "productname": "P65 Dokunmatik PC J1900 işl 4Gb Ram 120 SSD Wifi 15.6 inch Ekran",
-        "productimg": "http://otella.com.tr/wp-content/uploads/2021/12/p65double.jpg",
-        "timesequence": "yearlyfixsingle",
-        "fixroompricecalculate": true,
-        "producttip": "hardware",
-        "count": 0,
-        "firstprice": [
-          {
-            "desc": "",
-            "price": 0,
-            "grupid": 50
-          }
-        ],
-        "fixuse": true,
-        "discount": 0,
-        "roomprice": [
-          {
-            "priceCase1": 0.5,
-            "priceCase2": 0.5,
-            "priceCase3": 0.5,
-            "fixprice": 420
-          }
-        ],
-        "productgrup": [],
-        "total": 0,
-        "selected": false,
-        "desc": ""
-      },
-      {
-        "id": 3,
-        "productname": "P65 Dokunmatik PC J1900 işl 4Gb Ram 120 SSD Wifi 15.6 inch + 10.1 Ekran",
-        "productimg": "http://otella.com.tr/wp-content/uploads/2021/12/p65double.jpg",
-        "timesequence": "yearlyfixsingle",
-        "fixroompricecalculate": true,
-        "producttip": "hardware",
-        "count": 0,
-        "firstprice": [
-          {
-            "desc": "",
-            "price": 0,
-            "grupid": 50
-          }
-        ],
-        "fixuse": true,
-        "discount": 0,
-        "roomprice": [
-          {
-            "priceCase1": 0.5,
-            "priceCase2": 0.5,
-            "priceCase3": 0.5,
-            "fixprice": 490
-          }
-        ],
-        "productgrup": [],
-        "total": 0,
-        "selected": false,
-        "desc": ""
-      },
-      {
+     {
         "head": "Yazıcılar",
         "pass": true
       },
