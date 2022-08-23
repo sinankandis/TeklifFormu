@@ -997,9 +997,9 @@ export class PriceComponent implements OnInit {
           if (x.hasOwnProperty("userbarems") && x.userbarems) {
             if (x.userbarems.selected) {
               let selected = x.userbarems.selected;
-            /*   if (totalfin <= x.minprice) {
-                   totalfin = x.minprice;
-              } */
+              /*   if (totalfin <= x.minprice) {
+                     totalfin = x.minprice;
+                } */
               userprice = totalfin * selected.userprice - totalfin;
               if (x.useramountmod == true) {
                 userprice = totalfin + selected.userprice - totalfin;
@@ -1034,11 +1034,11 @@ export class PriceComponent implements OnInit {
 
 
           if (FinalTotal < x.minprice) {
-                FinalTotal = x.minprice;
+            FinalTotal = x.minprice;
             if (x.discount > 0) {
               FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
             }
-          } 
+          }
 
 
           if (x.id == 21) {
@@ -1088,10 +1088,9 @@ export class PriceComponent implements OnInit {
       });
     }
 
-    if (roomcount >= this.CroomCount1 + 1 && roomcount <= this.CroomCount2) {
+    if (roomcount >= this.CroomCount1 && roomcount <= this.CroomCount2) {
       this.dataSource = this.dataSource.map((x) => {
         let bolen = 1;
-
         if (bolencheck == true && x.producttip == "modul") {
           bolen = 2;
           x.maxroom = x.defaultmaxroom * 2;
@@ -1104,8 +1103,8 @@ export class PriceComponent implements OnInit {
 
         let temproom;
         let gruptotal = 0;
-        if (x.pass != true) {
-          if (x.selected == true) {
+        if (x.pass != true) {  // Başlık Eklendi
+          if (x.selected == true) {  // Ürün seçili ise
             if (x.maxroom) {
               if (roomcount > x.maxroom) {
                 temproom = x.maxroom;
@@ -1116,10 +1115,10 @@ export class PriceComponent implements OnInit {
               temproom = roomcount;
             }
 
-            x.productgrup.forEach((y) => {
+            x.productgrup.forEach((y) => {  // productgrup a ürün ekleyerek ürünün alt donanımlarını ve diğer bileşenlerini seçtirebiliriz.
               if (y.selected == true) {
-                if (y.time == "monthly") {
-                  gruptotal +=
+                if (y.time == "monthly") {   // Fiyatlandırması aylık olarak hesaplanacak ürünler için 
+                     gruptotal +=
                     (y.quantity * y.productprice -
                       ((y.quantity * y.productprice) / 100) * y.discount) *
                     12;
@@ -1139,12 +1138,12 @@ export class PriceComponent implements OnInit {
             x.roomprice[0].priceCase1 * this.CroomCount1 +
             x.roomprice[0].priceCase2 * (temproom - this.CroomCount1);
 
-          if (roomcount <= 1 && x.fixuse == true) {
-            fixtotal = x.roomprice[0].fixprice;
+          if (roomcount <= 1 && x.fixuse == true) {  // fixuse true ise fixprice da yer alan fiyat geçerli olur.
+               fixtotal = x.roomprice[0].fixprice;
           } else {
             if (
               x.roomprice[0].fixprice < totalsub &&
-              x.fixroompricecalculate == true
+              x.fixroompricecalculate == true  // fixroompricecalculate sabit fiyatın üzerine oda sayısına göre fiyat eklyerek hesaplama yapar.
             ) {
               fixtotal = totalsub;
             } else {
@@ -1167,7 +1166,7 @@ export class PriceComponent implements OnInit {
 
           } else {
             if (
-              (x.timesequence == "yearlyfixsingle" ||
+              (x.timesequence == "yearlyfixsingle" ||   //timesequence fiyatlanmanın birkez mı yoksa her yıl mı olduğunu belirler.
                 x.timesequence == "yearly") &&
               x.fixroompricecalculate != true
             ) {
@@ -1192,7 +1191,7 @@ export class PriceComponent implements OnInit {
           }
 
           let userprice = 0;
-          if (x.hasOwnProperty("userbarems") && x.userbarems) {
+          if (x.hasOwnProperty("userbarems") && x.userbarems) {  // userbarems hesaplanan fiyatın seçime göre çarpımı ve toplamı olur. useramount seçeneği ile fiyatın üstüne elirlen fiyat eklenir.
             if (x.userbarems.selected) {
               let selected = x.userbarems.selected;
               if (x.useramountmod == true) {
@@ -1210,7 +1209,7 @@ export class PriceComponent implements OnInit {
 
 
           let FinalTotal = 0;
-          if (x.id == 21) {
+          if (x.id == 21) {   // Personel (PDKS Entegrasyonu Dahildir.) Nlüfer Hanımın bilgisi dahilinde yapılmıştır.
             totalfin = (20 + (roomcount * 0.1)) * 12;
           }
 
@@ -1220,12 +1219,11 @@ export class PriceComponent implements OnInit {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-          if(FinalTotal < x.minprice) {
-              FinalTotal = x.minprice - ((x.minprice/100)*x.discount);
-             
+          if (FinalTotal < x.minprice) {
+              FinalTotal = x.minprice - ((x.minprice / 100) * x.discount);
           }
 
-        
+
 
 
 
@@ -1276,8 +1274,8 @@ export class PriceComponent implements OnInit {
         let bolen = 1;
         let maxroom;
         if (bolencheck == true && x.producttip == "modul") {
-          bolen = 2;
-          x.maxroom = x.defaultmaxroom * 2;
+              bolen = 2;
+              x.maxroom = x.defaultmaxroom * 2;
         }
 
         if (bolencheck == false && x.producttip == "modul") {
@@ -1395,10 +1393,10 @@ export class PriceComponent implements OnInit {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-          if(FinalTotal < x.minprice) {
-            FinalTotal = x.minprice - ((x.minprice/100)*x.discount);
-           
-        }
+          if (FinalTotal < x.minprice) {
+            FinalTotal = x.minprice - ((x.minprice / 100) * x.discount);
+
+          }
 
 
 
@@ -1453,17 +1451,17 @@ export class PriceComponent implements OnInit {
         }
      */
 
-   /*  let web = this.dataSource.filter(
-      (x) => x.id == 1 || x.id == 185 || x.id == 186
-    );
-    web.forEach((element) => {
-      if (element.selected == true) {
-        this.dataSource.filter((x) => x.id == 145)[0].price = 0;
-        this.dataSource.filter((x) => x.id == 145)[0].total = 0;
-        this.dataSource.filter((x) => x.id == 146)[0].price = 0;
-        this.dataSource.filter((x) => x.id == 146)[0].total = 0;
-      }
-    }); */
+    /*  let web = this.dataSource.filter(
+       (x) => x.id == 1 || x.id == 185 || x.id == 186
+     );
+     web.forEach((element) => {
+       if (element.selected == true) {
+         this.dataSource.filter((x) => x.id == 145)[0].price = 0;
+         this.dataSource.filter((x) => x.id == 145)[0].total = 0;
+         this.dataSource.filter((x) => x.id == 146)[0].price = 0;
+         this.dataSource.filter((x) => x.id == 146)[0].total = 0;
+       }
+     }); */
 
     this.dataSource.forEach((element) => {
       if (element.total > element.maxprice) {
