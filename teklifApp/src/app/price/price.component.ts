@@ -1034,11 +1034,11 @@ export class PriceComponent implements OnInit {
 
 
           if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
+              FinalTotal = x.minprice;
             if (x.discount > 0) {
               FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
             }
-          }
+          } 
 
 
           if (x.id == 21) {
@@ -1219,11 +1219,13 @@ export class PriceComponent implements OnInit {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-          if (FinalTotal < x.minprice) {
+
+
+          /* if (FinalTotal < x.minprice) {
               FinalTotal = x.minprice - ((x.minprice / 100) * x.discount);
           }
 
-
+ */
 
 
 
@@ -1393,11 +1395,11 @@ export class PriceComponent implements OnInit {
             FinalTotal = (totalfin + userprice) / bolen;
           }
 
-          if (FinalTotal < x.minprice) {
+          /* if (FinalTotal < x.minprice) {
             FinalTotal = x.minprice - ((x.minprice / 100) * x.discount);
 
           }
-
+ */
 
 
           return {
