@@ -909,7 +909,7 @@ export class PriceComponent implements OnInit {
 
         if (x.pass != true) {
           if (x.selected == true) {
-            if (x.minroomstatus == true) {
+            if (x.minroomstatus == true || x.minroomstatus ==null) {
               if (temproomCount < x.minroom) {
                 roomcount = x.minroom;
               } else {
@@ -917,7 +917,7 @@ export class PriceComponent implements OnInit {
               }
             } else {
               if (roomcount < this.Cminroomcount) {
-                roomcount = this.Cminroomcount;
+                  roomcount = this.Cminroomcount;
               }
             }
 
@@ -1034,16 +1034,15 @@ export class PriceComponent implements OnInit {
 
 
           if (FinalTotal < x.minprice) {
-              FinalTotal = x.minprice;
+            FinalTotal = x.minprice;
             if (x.discount > 0) {
               FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
             }
-          } 
+          }
 
 
           if (x.id == 21) {
             FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
-
           }
 
           return {
@@ -1088,6 +1087,7 @@ export class PriceComponent implements OnInit {
       });
     }
 
+
     if (roomcount >= this.CroomCount1 && roomcount <= this.CroomCount2) {
       this.dataSource = this.dataSource.map((x) => {
         let bolen = 1;
@@ -1118,7 +1118,7 @@ export class PriceComponent implements OnInit {
             x.productgrup.forEach((y) => {  // productgrup a ürün ekleyerek ürünün alt donanımlarını ve diğer bileşenlerini seçtirebiliriz.
               if (y.selected == true) {
                 if (y.time == "monthly") {   // Fiyatlandırması aylık olarak hesaplanacak ürünler için 
-                     gruptotal +=
+                  gruptotal +=
                     (y.quantity * y.productprice -
                       ((y.quantity * y.productprice) / 100) * y.discount) *
                     12;
@@ -1139,7 +1139,7 @@ export class PriceComponent implements OnInit {
             x.roomprice[0].priceCase2 * (temproom - this.CroomCount1);
 
           if (roomcount <= 1 && x.fixuse == true) {  // fixuse true ise fixprice da yer alan fiyat geçerli olur.
-               fixtotal = x.roomprice[0].fixprice;
+            fixtotal = x.roomprice[0].fixprice;
           } else {
             if (
               x.roomprice[0].fixprice < totalsub &&
@@ -1276,8 +1276,8 @@ export class PriceComponent implements OnInit {
         let bolen = 1;
         let maxroom;
         if (bolencheck == true && x.producttip == "modul") {
-              bolen = 2;
-              x.maxroom = x.defaultmaxroom * 2;
+          bolen = 2;
+          x.maxroom = x.defaultmaxroom * 2;
         }
 
         if (bolencheck == false && x.producttip == "modul") {
