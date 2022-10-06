@@ -181,3 +181,14 @@ p.desctext {
     background: linear-gradient(45deg, #f44336, white);
     color: white;
 }
+
+.period select {
+    width: 100%;
+    margin: 20px 0px;
+    text-align: center;
+    width: 96px;
+    padding: 5px;
+    border-radius: 5px;
+    background: #f44336;
+    color: white;
+}

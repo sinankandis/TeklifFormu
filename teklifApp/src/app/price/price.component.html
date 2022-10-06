@@ -8,7 +8,7 @@
 
         <ng-container *ngIf="userservice.login==false">
             <button style="margin-bottom: 10px;" [routerLink]="['login']" mat-raised-button color="primary"><i
-          class="material-icons">person</i> {{trans.login}}</button>
+                    class="material-icons">person</i> {{trans.login}}</button>
 
 
 
@@ -46,23 +46,29 @@
 
 
         <ng-container *ngIf="userservice.login==true">
-            <button style="margin-bottom: 10px;" [routerLink]="['/']" (click)="logout();" mat-raised-button color="primary"><i
-          class="material-icons">person</i> {{trans.logout}}</button>
+            <button style="margin-bottom: 10px;" [routerLink]="['/']" (click)="logout();" mat-raised-button
+                color="primary"><i class="material-icons">person</i> {{trans.logout}}</button>
 
 
-            <button (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder('word',trans.errormessage);" style="margin-bottom: 10px;margin-left: 5px;" mat-raised-button color="primary"><i
-          class="material-icons">insert_drive_file
-        </i> Word Export</button>
+            <button
+                (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder('word',trans.errormessage);"
+                style="margin-bottom: 10px;margin-left: 5px;" mat-raised-button color="primary"><i
+                    class="material-icons">insert_drive_file
+                </i> Word Export</button>
 
 
-            <button (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);Invoice();" style="margin-bottom: 10px;margin-left: 5px;" mat-raised-button color="warn"><i
-          class="material-icons">insert_drive_file
-        </i>Invoice</button>
+            <button
+                (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);Invoice();"
+                style="margin-bottom: 10px;margin-left: 5px;" mat-raised-button color="warn"><i
+                    class="material-icons">insert_drive_file
+                </i>Invoice</button>
 
 
-            <button (click)="getOffer();" style="margin-bottom: 10px;margin-left: 5px;" mat-raised-button>Tekliflerim</button>
+            <button (click)="getOffer();" style="margin-bottom: 10px;margin-left: 5px;"
+                mat-raised-button>Tekliflerim</button>
 
-            <button [routerLink]="['info']" style="margin-bottom: 10px;margin-left: 5px;" mat-raised-button>Bilgilerim</button>
+            <button [routerLink]="['info']" style="margin-bottom: 10px;margin-left: 5px;"
+                mat-raised-button>Bilgilerim</button>
 
 
         </ng-container>
@@ -86,7 +92,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>{{trans.email}}</mat-label>
                                 <mat-icon matSuffix>email</mat-icon>
-                                <input type="text" formControlName="email" matInput placeholder="{{trans.email}}" value="">
+                                <input type="text" formControlName="email" matInput placeholder="{{trans.email}}"
+                                    value="">
                             </mat-form-field>
                         </div>
 
@@ -95,7 +102,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>{{trans.phone}}</mat-label>
                                 <mat-icon matSuffix>phone</mat-icon>
-                                <input type="text" formControlName="phone" matInput placeholder="{{trans.phone}}" value="">
+                                <input type="text" formControlName="phone" matInput placeholder="{{trans.phone}}"
+                                    value="">
                             </mat-form-field>
 
                         </div>
@@ -105,7 +113,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>{{trans.authorized}}</mat-label>
                                 <mat-icon matSuffix>account_circle</mat-icon>
-                                <input type="text" formControlName="authorized" matInput placeholder="{{trans.authorized}}" value="">
+                                <input type="text" formControlName="authorized" matInput
+                                    placeholder="{{trans.authorized}}" value="">
                             </mat-form-field>
                         </div>
 
@@ -120,7 +129,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>{{trans.salesmanager}}</mat-label>
                                 <mat-icon matSuffix>account_circle</mat-icon>
-                                <input type="text" formControlName="wantname" matInput placeholder="{{trans.salesmanager}}">
+                                <input type="text" formControlName="wantname" matInput
+                                    placeholder="{{trans.salesmanager}}">
                             </mat-form-field>
                         </div>
 
@@ -131,7 +141,8 @@
                                     <mat-form-field appearance="outline" class="example-full-width">
                                         <mat-label>Sales Manager E-mail</mat-label>
                                         <mat-icon matSuffix>email</mat-icon>
-                                        <input type="text" formControlName="wantemail" matInput placeholder="Sales Manager E-mail">
+                                        <input type="text" formControlName="wantemail" matInput
+                                            placeholder="Sales Manager E-mail">
                                     </mat-form-field>
                                 </div>
 
@@ -149,7 +160,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>Sales Manager Phone</mat-label>
                                 <mat-icon matSuffix>phone</mat-icon>
-                                <input type="text" formControlName="wantphone" matInput placeholder="Sales Manager Phone">
+                                <input type="text" formControlName="wantphone" matInput
+                                    placeholder="Sales Manager Phone">
                             </mat-form-field>
                         </div>
 
@@ -179,7 +191,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>{{trans.email}}</mat-label>
                                 <mat-icon matSuffix>email</mat-icon>
-                                <input type="text" formControlName="email" matInput placeholder="{{trans.email}}" value="">
+                                <input type="text" formControlName="email" matInput placeholder="{{trans.email}}"
+                                    value="">
                             </mat-form-field>
                         </div>
 
@@ -188,7 +201,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>{{trans.phone}}</mat-label>
                                 <mat-icon matSuffix>phone</mat-icon>
-                                <input type="text" formControlName="phone" matInput placeholder="{{trans.phone}}" value="">
+                                <input type="text" formControlName="phone" matInput placeholder="{{trans.phone}}"
+                                    value="">
                             </mat-form-field>
 
                         </div>
@@ -198,7 +212,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>{{trans.authorized}}</mat-label>
                                 <mat-icon matSuffix>account_circle</mat-icon>
-                                <input type="text" formControlName="authorized" matInput placeholder="{{trans.authorized}}" value="">
+                                <input type="text" formControlName="authorized" matInput
+                                    placeholder="{{trans.authorized}}" value="">
                             </mat-form-field>
                         </div>
 
@@ -213,7 +228,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>{{trans.salesmanager}}</mat-label>
                                 <mat-icon matSuffix>account_circle</mat-icon>
-                                <input type="text" formControlName="wantname" matInput placeholder="{{trans.salesmanager}}">
+                                <input type="text" formControlName="wantname" matInput
+                                    placeholder="{{trans.salesmanager}}">
                             </mat-form-field>
                         </div>
 
@@ -224,7 +240,8 @@
                                     <mat-form-field appearance="outline" class="example-full-width">
                                         <mat-label>{{trans.salesmanageremail}}</mat-label>
                                         <mat-icon matSuffix>email</mat-icon>
-                                        <input type="text" formControlName="wantemail" matInput placeholder="{{trans.salesmanageremail}}">
+                                        <input type="text" formControlName="wantemail" matInput
+                                            placeholder="{{trans.salesmanageremail}}">
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex="50" fxFlex.xs="100" class="mailCheck">
@@ -244,7 +261,8 @@
                             <mat-form-field appearance="outline" class="example-full-width">
                                 <mat-label>{{trans.salesmanagerphone}}</mat-label>
                                 <mat-icon matSuffix>phone</mat-icon>
-                                <input type="text" formControlName="wantphone" matInput placeholder="{{trans.salesmanagerphone}}">
+                                <input type="text" formControlName="wantphone" matInput
+                                    placeholder="{{trans.salesmanagerphone}}">
                             </mat-form-field>
                         </div>
 
@@ -282,7 +300,9 @@
                         <mat-form-field appearance="outline" class="example-full-width">
                             <mat-label>{{trans.setdiscount}}</mat-label>
                             <mat-icon matSuffix>get_app</mat-icon>
-                            <input (keyup)="setDiscount($event);changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" min="0" type="number" matInput>
+                            <input
+                                (keyup)="setDiscount($event);changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                min="0" type="number" matInput>
                         </mat-form-field>
                     </div>
 
@@ -290,7 +310,9 @@
                         <mat-form-field appearance="outline" class="example-full-width">
                             <mat-label>{{trans.roomcount}}</mat-label>
                             <mat-icon matSuffix>business</mat-icon>
-                            <input min="0" type="number" matInput placeholder="{{trans.roomcount}}" (keyup)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" formControlName="roomcount">
+                            <input min="0" type="number" matInput placeholder="{{trans.roomcount}}"
+                                (keyup)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                formControlName="roomcount">
                         </mat-form-field>
                     </div>
 
@@ -305,7 +327,9 @@
                     <div fxFlex="30" fxFlex.xs="100" style="margin: auto;">
 
                         <div class="buttonBar" style="margin-top: 15px;">
-                            <button (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder('',trans.errormessage);" mat-raised-button color="warn">{{trans.createoffer}}</button>
+                            <button
+                                (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder('',trans.errormessage);"
+                                mat-raised-button color="warn">{{trans.createoffer}}</button>
                             <!--<button mat-raised-button color="primary" [disabled]="offerCount" (click)="teklifGonder();">Teklif
                   İste</button>-->
                         </div>
@@ -330,26 +354,34 @@
                             <div *ngIf="setuppricetotal > 0 ">
                                 <div style="font-weight: 700">{{trans.setupprice}}</div>
                                 <ng-container *ngFor="let x of setupprice">
-                                    <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice | currency:currencyprefix}} )
-                    {{ x.quantity * x.setupprice | currency:currencyprefix}}<br></span>
+                                    <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice |
+                                        currency:currencyprefix}} )
+                                        {{ x.quantity * x.setupprice | currency:currencyprefix}}<br></span>
                                 </ng-container>
-                                <b style="    padding: 10px"> {{trans.total}} {{setuppricetotal | currency:currencyprefix}}</b>
+                                <b style="    padding: 10px"> {{trans.total}} {{setuppricetotal |
+                                    currency:currencyprefix}}</b>
                                 <hr>
                             </div>
 
                             <div class="generaly" *ngIf="setuppricetotal + firstprice > 0">
-                                <span class="totalLabel">{{trans.additionalserviceandsetuptotal}}</span> <span class="divid">
-                  :</span><span><strong>{{setuppricetotal + firstprice | currency:currencyprefix}}</strong></span>
+                                <span class="totalLabel">{{trans.additionalserviceandsetuptotal}}</span> <span
+                                    class="divid">
+                                    :</span><span><strong>{{setuppricetotal + firstprice |
+                                        currency:currencyprefix}}</strong></span>
                                 <hr>
                             </div>
 
 
 
                             <div class="generaly">
-                                <span class="totalLabel">{{trans.total}} </span> <span class="divid">:</span><span><strong>{{ totalpricefinal + hardwaretotal | currency:currencyprefix}}</strong></span>
+                                <span class="totalLabel">{{trans.total}} </span> <span
+                                    class="divid">:</span><span><strong>{{ totalpricefinal + hardwaretotal |
+                                        currency:currencyprefix}}</strong></span>
                             </div>
                             <div class="generaly" *ngIf="firstprice + setuppricetotal > 0">
-                                <span class="totalLabel">{{trans.grandtotal}} </span> <span class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal + hardwaretotal| currency:currencyprefix}}</strong></span>
+                                <span class="totalLabel">{{trans.grandtotal}} </span> <span
+                                    class="divid">:</span><span><strong>{{ totalpricefinal + firstprice +
+                                        setuppricetotal + hardwaretotal| currency:currencyprefix}}</strong></span>
                             </div>
 
                         </div>
@@ -378,55 +410,87 @@
 
                                 <tr>
                                     <td style="text-align: center;">
-                                        <mat-checkbox (change)="changeData(profileForm.get('roomcount').value,item.id);total(profileForm.get('roomcount').value);" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected"></mat-checkbox>
+                                        <mat-checkbox
+                                            (change)="changeData(profileForm.get('roomcount').value,item.id);total(profileForm.get('roomcount').value);"
+                                            [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected">
+                                        </mat-checkbox>
                                     </td>
                                     <td><span><b>{{item.productname}}</b>
-                    <ng-container *ngIf="item.selected==true && item.singleproduct==true ">
-                      <div class="singleproduct">
-                        <label class="singleproductlabel">{{trans.productname}} </label>
-                        <input
-                          (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
-                          [ngModelOptions]="{standalone: true}" [(ngModel)]="item.quantity" style="width:50px;"
-                          type="number" min="0" value="0" class="productinput" matInput>
-                      </div>
-                    </ng-container>
+                                            <ng-container *ngIf="item.selected==true && item.singleproduct==true ">
+                                                <div class="singleproduct">
+                                                    <label class="singleproductlabel">{{trans.productname}} </label>
+                                                    <input
+                                                        (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        [(ngModel)]="item.quantity" style="width:50px;" type="number"
+                                                        min="0" value="0" class="productinput" matInput>
+                                                </div>
+                                            </ng-container>
 
-                    <ng-container *ngIf="item.selected==true && item.userpricecal==true ">
+                                            <ng-container *ngIf="item.selected==true && item.userpricecal==true ">
 
-                      <div style="background: whitesmoke;
+                                                <div style="background: whitesmoke;
                     padding: 10px;
                     border-radius: 5px;margin-top:10px;">
-                        <b [innerHTML]="item.userlabel"></b>
-                        <mat-radio-group aria-labelledby="example-radio-group-label"
-                          (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
-                          class="example-radio-group" [(ngModel)]="item.userbarems.selected"
-                          [ngModelOptions]="{standalone: true}">
-                          <mat-radio-button class="example-radio-button" *ngFor="let users of item.userbarems"
-                            [value]="users">
-                            {{users.name}}
-                          </mat-radio-button>
-                        </mat-radio-group>
-                      </div>
+                                                    <b [innerHTML]="item.userlabel"></b>
+                                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                                        (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                                        class="example-radio-group"
+                                                        [(ngModel)]="item.userbarems.selected"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                        <mat-radio-button class="example-radio-button"
+                                                            *ngFor="let users of item.userbarems" [value]="users">
+                                                            {{users.name}}
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
 
-                    </ng-container>
+                                            </ng-container>
 
 
-                    <p class="desctext" [innerHTML]="item.desc"></p>
-                  </span></td>
+                                            <p class="desctext" [innerHTML]="item.desc"></p>
+                                        </span></td>
                                     <td style="text-align:center;" *ngIf="userservice.login">
-                                        <input (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.discount" style="width:50px;" type="number" min="0" value="0" class="productinput" matInput>
+                                        <input
+                                            (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                            [ngModelOptions]="{standalone: true}" [(ngModel)]="item.discount"
+                                            style="width:50px;" type="number" min="0" value="0" class="productinput"
+                                            matInput>
                                     </td>
 
                                     <ng-container *ngIf="!userservice.login">
 
                                         <td class="pricess" style="text-align: end;">
-                                            <ng-container *ngIf="!item.selected"><span>{{0  | currency : currencyprefix}}</span></ng-container>
+
+                                            <ng-container *ngIf="item.periods">
+                                                <div class="period">
+                                                    <select
+                                                        (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                                        [(ngModel)]="item.selectedperiod"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                        <ng-container *ngFor="let period of item.periods">
+                                                            <option selected [value]="period.value">{{period.label}}
+                                                            </option>
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="!item.selected"><span>{{0 | currency :
+                                                    currencyprefix}}</span></ng-container>
                                             <ng-container *ngIf="item.selected && this.showpriceControl == false">
-                                                <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')">
-                                                    <strong style="color: yellowgreen;">{{item.total /12| currency : currencyprefix}}</strong> / {{trans.monthly}} </div>
-                                                <span *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : currencyprefix}}</b>
-                        / {{trans.year}}</span>
-                                                <span *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : currencyprefix}}</b></span>
+                                                <div
+                                                    *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')">
+                                                    <strong style="color: yellowgreen;">{{item.total /12| currency :
+                                                        currencyprefix}}</strong> / {{trans.monthly}}
+                                                </div>
+                                                <span
+                                                    *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total
+                                                        | currency : currencyprefix}}</b>
+                                                    / {{trans.year}}</span>
+                                                <span
+                                                    *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total
+                                                        | currency : currencyprefix}}</b></span>
 
                                             </ng-container>
 
@@ -439,18 +503,56 @@
 
 
                                     <ng-container *ngIf="userservice.login">
-
                                         <td class="pricess" style="text-align: end;">
-                                            <ng-container *ngIf="!item.selected"><span>{{0  | currency : currencyprefix}}</span></ng-container>
-                                            <ng-container *ngIf="item.selected">
-                                                <div *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')">
-                                                    <strong style="color: yellowgreen;">{{item.total /12| currency : currencyprefix}}</strong> / {{trans.monthly}}
+                                            <ng-container *ngIf="item.periods">
+                                                <div class="period">
+                                                    <select
+                                                        (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                                        [(ngModel)]="item.selectedperiod"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                        <ng-container *ngFor="let period of item.periods">
+                                                            <option selected [value]="period.value">{{period.label}}
+                                                            </option>
+                                                        </ng-container>
+                                                    </select>
                                                 </div>
-                                                <span *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : currencyprefix}}</b>
-                        / {{trans.year}}</span>
-                                                <span *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total | currency : currencyprefix}}</b></span>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="!item.selected"><span>{{0 | currency :
+                                                    currencyprefix}}</span></ng-container>
+                                            <ng-container *ngIf="item.selected">
+                                                <div
+                                                    *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly') && item.selectedperiod !=false">
+                                                    <strong style="color: yellowgreen;">{{item.total /
+                                                        item.selectedperiod | currency :
+                                                        currencyprefix}}</strong> / {{trans.monthly}}
+                                                </div>
+
+
+                                                <div
+                                                    *ngIf="!(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly') && item.selectedperiod==false">
+                                                    <strong style="color: yellowgreen;">{{item.total / 12 | currency :
+                                                        currencyprefix}}</strong> / {{trans.monthly}}
+                                                </div>
+
+                                                <span
+                                                    *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly') &&  item.selectedperiod == false"><b>{{item.total
+                                                        | currency : currencyprefix}}</b>
+                                                    / {{trans.year}}</span>
+
+
+                                                <span
+                                                    *ngIf="!(item.timesequence =='yearlyfixsingle'  || item.timesequence =='yearlyfix' || item.timesequence =='yearly') && item.selectedperiod !=false"><b>{{item.total
+                                                        | currency : currencyprefix}}</b>
+                                                    / {{item.selectedperiod}} {{trans.monthly}}</span>
+
+
+                                                <span
+                                                    *ngIf="(item.timesequence =='yearlyfixsingle' || item.timesequence =='yearlyfix' || item.timesequence =='yearly')"><b>{{item.total
+                                                        | currency : currencyprefix}}</b></span>
 
                                             </ng-container>
+
                                         </td>
                                     </ng-container>
 
@@ -475,24 +577,40 @@
                                                         <ng-container *ngFor="let x of item.productgrup">
                                                             <tr>
                                                                 <td>
-                                                                    <mat-checkbox (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" [ngModelOptions]="{standalone: true}" [(ngModel)]="x.selected">
+                                                                    <mat-checkbox
+                                                                        (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        [(ngModel)]="x.selected">
                                                                     </mat-checkbox>
                                                                 </td>
                                                                 <td><b>{{x.productname}} </b><br> {{x.desc}}
                                                                 </td>
                                                                 <td>
 
-                                                                    <input type="number" value="x.quantity" class="productinput" (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" min="0" [ngModelOptions]="{standalone: true}" [(ngModel)]="x.quantity" matInput>
+                                                                    <input type="number" value="x.quantity"
+                                                                        class="productinput"
+                                                                        (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                                                        min="0" [ngModelOptions]="{standalone: true}"
+                                                                        [(ngModel)]="x.quantity" matInput>
                                                                 </td>
 
-                                                                <td style="text-align:center;" *ngIf="userservice.login">
-                                                                    <input (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);" [ngModelOptions]="{standalone: true}" [(ngModel)]="x.discount" style="width:50px;" type="number" min="0" value="0" class="productinput" matInput>
+                                                                <td style="text-align:center;"
+                                                                    *ngIf="userservice.login">
+                                                                    <input
+                                                                        (change)="changeData(profileForm.get('roomcount').value);total(profileForm.get('roomcount').value);"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        [(ngModel)]="x.discount" style="width:50px;"
+                                                                        type="number" min="0" value="0"
+                                                                        class="productinput" matInput>
                                                                 </td>
 
 
                                                                 <td style="text-align: end;">
-                                                                    {{ (x.productprice * x.quantity) - (((x.productprice * x.quantity) / 100) * x.discount) | currency : currencyprefix}}
-                                                                    <ng-container *ngIf="x.time=='monthly'"> / {{trans.monthly}}</ng-container>
+                                                                    {{ (x.productprice * x.quantity) - (((x.productprice
+                                                                    * x.quantity) / 100) * x.discount) | currency :
+                                                                    currencyprefix}}
+                                                                    <ng-container *ngIf="x.time=='monthly'"> /
+                                                                        {{trans.monthly}}</ng-container>
                                                                 </td>
                                                             </tr>
                                                         </ng-container>
@@ -518,7 +636,9 @@
 
                     <div fxFlex="50" fxFlex.xs="100">
                         <div class="buttonBar">
-                            <button (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder('',trans.errormessage);" mat-raised-button color="warn"> {{trans.createoffer}}</button>
+                            <button
+                                (click)="changeData(profileForm.get('roomcount').value);showControl();total(profileForm.get('roomcount').value);teklifGonder('',trans.errormessage);"
+                                mat-raised-button color="warn"> {{trans.createoffer}}</button>
                             <!--<button mat-raised-button color="primary" [disabled]="offerCount" (click)="teklifGonder();">Teklif
                 İste</button>-->
                         </div>
@@ -543,26 +663,33 @@
                             <div *ngIf="setuppricetotal > 0">
                                 <div style="font-weight: 700">Setup Price</div>
                                 <ng-container *ngFor="let x of setupprice">
-                                    <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice | currency:currencyprefix}} )
-                    {{ x.quantity * x.setupprice | currency:currencyprefix}}<br></span>
+                                    <span>{{x.setupdesc}} <br>( {{ x.quantity}} * {{x.setupprice |
+                                        currency:currencyprefix}} )
+                                        {{ x.quantity * x.setupprice | currency:currencyprefix}}<br></span>
                                 </ng-container>
                                 <b style="    padding: 10px"> Total {{setuppricetotal | currency:currencyprefix}}</b>
                                 <hr>
                             </div>
 
                             <div class="generaly" *ngIf="setuppricetotal + firstprice >0">
-                                <span class="totalLabel">{{trans.additionalserviceandsetuptotal}}</span> <span class="divid">
-                  :</span><span><strong>{{setuppricetotal + firstprice | currency:currencyprefix}}</strong></span>
+                                <span class="totalLabel">{{trans.additionalserviceandsetuptotal}}</span> <span
+                                    class="divid">
+                                    :</span><span><strong>{{setuppricetotal + firstprice |
+                                        currency:currencyprefix}}</strong></span>
                                 <hr>
                             </div>
 
 
 
                             <div class="generaly">
-                                <span class="totalLabel">{{trans.total}} </span> <span class="divid">:</span><span><strong>{{ totalpricefinal + hardwaretotal | currency:currencyprefix}}</strong></span>
+                                <span class="totalLabel">{{trans.total}} </span> <span
+                                    class="divid">:</span><span><strong>{{ totalpricefinal + hardwaretotal |
+                                        currency:currencyprefix}}</strong></span>
                             </div>
                             <div class="generaly" *ngIf="firstprice + setuppricetotal > 0">
-                                <span class="totalLabel">{{trans.grandtotal}} </span> <span class="divid">:</span><span><strong>{{ totalpricefinal + firstprice + setuppricetotal + hardwaretotal | currency:currencyprefix}}</strong></span>
+                                <span class="totalLabel">{{trans.grandtotal}} </span> <span
+                                    class="divid">:</span><span><strong>{{ totalpricefinal + firstprice +
+                                        setuppricetotal + hardwaretotal | currency:currencyprefix}}</strong></span>
                             </div>
 
                         </div>
