@@ -337,24 +337,12 @@ export class PriceComponent implements OnInit {
 
               monthlytotal += element.total;
               let pricetext = "";
-              if (element.timesequence == "yearly") {
-                pricetext =
-                  "<b>" +
-                  this.decimalPipe.transform(element.total) +
-                  "</b>" +
-                  " " +
-                  this.currencycode +
-                  "/" +
-                  trans.year +
-                  "";
-              }
-
 
 
               if (element.timesequence == "yearlyfixsingle") {
                 pricetext =
                   "<b>" +
-                  this.decimalPipe.transform(element.total) +
+                  this.decimalPipe.transform(element.total.toFixed(2)) +
                   "</b>" +
                   " " +
                   this.currencycode +
@@ -362,7 +350,7 @@ export class PriceComponent implements OnInit {
               } else {
 
                 let textyear = "";
-                if (element.selectedperiod != undefined) {
+                if (element.selectedperiod != false) {
                   textyear = element.selectedperiod + " " + trans.monthly;
                 } else {
                   textyear = trans.year;
@@ -370,14 +358,14 @@ export class PriceComponent implements OnInit {
 
                 pricetext =
                   "<b>" +
-                  this.decimalPipe.transform(element.total / 12) +
+                  this.decimalPipe.transform((element.total / 12).toFixed(2)) +
                   "</b>" +
                   " " +
                   this.currencycode +
                   "/" +
                   trans.monthly +
                   "<br>" +
-                  this.decimalPipe.transform(element.total) +
+                  this.decimalPipe.transform((element.total).toFixed(2)) +
                   " " +
                   this.currencycode +
                   "/" +
