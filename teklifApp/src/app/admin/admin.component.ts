@@ -13,7 +13,7 @@ export class AdminComponent implements OnInit {
   message: string;
 
 
-  constructor(private http: HttpClient, private service: UserService, private router: Router) { }
+  constructor(private http: HttpClient, public service: UserService, private router: Router) { }
 
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),

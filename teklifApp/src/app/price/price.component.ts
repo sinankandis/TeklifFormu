@@ -72,9 +72,6 @@ export class PriceComponent implements OnInit {
   public dataSource: any;
   public Config: any;
   path: string = this.userservice.path;
-  currentLang: string = "tr";
-  currencycode: string = "€";
-  currencyprefix: string = "EUR";
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
@@ -91,6 +88,11 @@ export class PriceComponent implements OnInit {
   yearlyfixsinglepricetotal: number = 0;
   lang: any;
   langtrans: any;
+
+  currentLang: string = "tr";
+  currencycode: string = "€";
+  currencyprefix: string = "EUR";
+
   public CroomCount1: number = 40;
   public CroomCount2: number = 400;
   public Cminroomcount: number = 40; /* Minumum Oda Sayısı */
@@ -120,8 +122,19 @@ export class PriceComponent implements OnInit {
     var mapForm = document.createElement("form");
     mapForm.target = "_blank";
     mapForm.method = "POST"; // or "post" if appropriate
-    mapForm.action =
-      "https://www.elektraweb.com/teklifapp/admin//tekliflist.php";
+
+    if (this.userservice.company == "elektraweb") {
+      mapForm.action = "https://www.elektraweb.com/teklifapp/admin/tekliflist.php";
+    }
+
+    if (this.userservice.company == "elektraweben") {
+      mapForm.action = "https://elektraweb.com/teklifapp/admin/offerlist.php";
+    }
+
+    if (this.userservice.company == "easypms") {
+      mapForm.action = "https://www.easypms.com/offerapp/admin/offerlist.php";
+    }
+
 
     var mapInput = document.createElement("input");
     mapInput.type = "hidden";
@@ -138,13 +151,14 @@ export class PriceComponent implements OnInit {
     document.body.appendChild(mapForm);
     mapForm.submit();
 
-    /* this.http.post("https://elektraotel.com/teklifapp/admin//tekliflist.php",getoffer).subscribe(resp=>{
-      window.open("https://elektraotel.com/teklifapp/admin//tekliflist.php","_blank");
-  }) 
- */
+
   }
 
   ngOnInit() {
+
+
+    console.log(this.userservice.path)
+
     if (this.userservice.userdata != null) {
       this.profileForm
         .get("wantphone")
@@ -157,12 +171,56 @@ export class PriceComponent implements OnInit {
         .setValue(this.userservice.userdata[0].name);
     }
 
-    this.http.get(this.path + "pricelist-now.php").subscribe((resp) => {
+    let endpoint;
+    let langendpoint
+    if (this.userservice.company == "elektraweb") {
+      this.currentLang = "tr";
+      this.currencycode = "€";
+      this.currencyprefix = "EUR";
+      this.CroomCount1 = 40;
+      this.CroomCount2 = 400;
+      this.Cminroomcount = 40; /* Minumum Oda Sayısı */
+
+
+      endpoint = this.path + "pricelist.php";
+      langendpoint = this.path + "lang.php";
+    }
+
+    if (this.userservice.company == "elektraweben") {
+
+      this.currentLang = "en";
+      this.currencycode = "€";
+      this.currencyprefix = "EUR";
+      this.CroomCount1 = 500;
+      this.CroomCount2 = 1000;
+      this.Cminroomcount = 10; /* Minumum Oda Sayısı */
+
+      endpoint = this.path + "pricelist-en.php";
+      langendpoint = this.path + "lang-en.php";
+    }
+
+    if (this.userservice.company == "easypms") {
+      this.currentLang = "en";
+      this.currencycode = "€";
+      this.currencyprefix = "EUR";
+      this.CroomCount1 = 500;
+      this.CroomCount2 = 1000;
+      this.Cminroomcount = 10; /* Minumum Oda Sayısı */
+
+      endpoint = this.path + "pricelist-en.php";
+      langendpoint = this.path + "lang-en.php";
+    }
+
+
+
+
+
+    this.http.get(endpoint).subscribe((resp) => {
       this.tempData = this.elementdata = resp as any;
       this.dataSource = this.tempData[0][this.currentLang];
     });
 
-    this.http.get(this.path + "lang.php").subscribe((resp2) => {
+    this.http.get(langendpoint).subscribe((resp2) => {
       this.lang = resp2;
       let datam = this.lang.filter((x) => x[this.currentLang])[0];
       this.langtrans = datam[this.currentLang];
