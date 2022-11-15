@@ -132,7 +132,7 @@
       {
         "id": 3,
         "productname": "HP veya Xerox Laser A4 Yazıcı Fatura ve/veya Resmi Adisyon için",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/hp.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/hp.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -192,7 +192,7 @@
          {
         "id": 3,
         "productname": "Barkod Etiket Yazıcı Termal + Termal Transfer",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/BarkodTermalTransfer.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/BarkodTermalTransfer.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -222,7 +222,7 @@
       {
         "id": 3,
         "productname": "Barkod Etiket Yazıcı Termal",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/BarkodTermal.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/BarkodTermal.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -478,7 +478,7 @@
       {
         "id": 3,
         "productname": "Kesintisiz Güç Kaynağı 800VA",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/ups800.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/ups800.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -508,7 +508,7 @@
       {
         "id": 3,
         "productname": "Kablosuz Klavye Mouse",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/klavye.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/klavye.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -572,7 +572,7 @@
       {
         "id": 3,
         "productname": "Kablosuz 1D/2D QR Barkod Okuyucu",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/2dbarkod.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2dbarkod.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -606,7 +606,7 @@
       {
         "id": 3,
         "productname": "3 Kollu Paslanmaz Çelik Turnike",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/turnike.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/turnike.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -636,7 +636,7 @@
       {
         "id": 3,
         "productname": "Turnike Kontrol Ünitesi 2 Li",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/kontrol.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/kontrol.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -666,7 +666,7 @@
       {
         "id": 3,
         "productname": "Turnike Kontrol Ünitesi 10 Lu",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/kontrol.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/kontrol.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -696,7 +696,7 @@
       {
         "id": 3,
         "productname": "QR+Mifare Okuyucu Turnike için",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/QROK.jpeg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/QROK.jpeg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -726,7 +726,7 @@
        {
         "id": 3,
         "productname": "250 Adet 4 Renk Baskılı Logolu Harcama Kartı",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/kartornek.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/kartornek.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -760,7 +760,7 @@
       {
         "id": 3,
         "productname": "PROFİLO S900 Ecr Yazarkasa POS",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/profilo.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/profilo.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -790,7 +790,7 @@
       {
         "id": 3,
         "productname": "Ingenico Move 5000F",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/move.jpg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/move.jpg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -820,7 +820,7 @@
       {
         "id": 3,
         "productname": "Para Çekmecesi",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/cekmece.jpeg",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/cekmece.jpeg",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
@@ -884,7 +884,7 @@
        {
         "id": 1,
         "productname": "İş Günü Yerinde Servis",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2021/12/tamir.png",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/tamir.png",
         "timesequence": "yearlyfixsingle",
         "fixroompricecalculate": true,
         "producttip": "hardware",
