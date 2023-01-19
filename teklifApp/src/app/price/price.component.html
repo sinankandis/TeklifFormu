@@ -698,7 +698,7 @@
                 <div class="textDesc" style="flex-wrap: wrap;">
                     <ng-container *ngFor="let x of trans.generaldesc">
                         <div style="width:100%;    display: flex;
-            align-items: center;"><i class="material-icons">info</i> {{x}}</div>
+            align-items: center;"><i class="material-icons">info</i> <span [innerHTML]="x"></span></div>
 
                     </ng-container>
 
