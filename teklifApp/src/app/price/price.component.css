@@ -184,11 +184,18 @@ p.desctext {
 
 .period select {
     width: 100%;
-    margin: 20px 0px;
+    margin: 5px 0px;
     text-align: center;
     width: 96px;
     padding: 5px;
     border-radius: 5px;
     background: #f44336;
     color: white;
+}
+
+.flexArea {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }

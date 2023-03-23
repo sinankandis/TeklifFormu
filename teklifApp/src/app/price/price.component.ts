@@ -24,17 +24,7 @@ import { runInThisContext } from "vm";
 import { exit } from "process";
 import { Xmb } from "@angular/compiler";
 
-export interface PeriodicElement {
-  productname: string;
-  id: number;
-  roomprice: any;
-  total: number;
-  selected: boolean;
-  desc: string;
-  productgrup: any;
-  fixuse: boolean;
-  firstprice: any;
-}
+
 
 @Component({
   selector: "app-price",
@@ -46,7 +36,6 @@ export class PriceComponent implements OnInit {
   progressTpl: TemplateRef<any>;
   @ViewChild("menu", { read: HTMLElement, static: true }) menu: HTMLElement;
   close: boolean = false;
-  tempData: any;
 
   constructor(
     private http: HttpClient,
@@ -70,34 +59,24 @@ export class PriceComponent implements OnInit {
   });
 
   public dataSource: any;
-  public Config: any;
+  public periodList: any;
+  public packetListData: any;
+  public packetList: any;
   path: string = this.userservice.path;
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
   totalpricefinal: number = 0;
-  firstprice: number = 0;
   showpriceControl: boolean = true;
   overlayRef: OverlayRef;
-  ekhizmetler: any;
-  hardware: any;
-  hardwaretotal: number;
-  setupprice: any;
-  setuppricetotal: number = 0;
-  yearlyfixpricetotal: number = 0;
-  yearlyfixsinglepricetotal: number = 0;
   lang: any;
   langtrans: any;
-
   currentLang: string = "tr";
   currencycode: string = "€";
   currencyprefix: string = "EUR";
 
-  public CroomCount1: number = 40;
-  public CroomCount2: number = 400;
-  public Cminroomcount: number = 40; /* Minumum Oda Sayısı */
 
-  elementdata: PeriodicElement[] = [];
+
 
   openDialog() {
     // const dialogConfig = new MatDialogConfig();
@@ -105,17 +84,9 @@ export class PriceComponent implements OnInit {
     //this.dialog.open(DialogComponent,dialogConfig)
   }
 
-  langChange(val) {
-    this.currentLang = val.value;
-    let datam = this.lang.filter((x) => x[this.currentLang])[0];
-    this.langtrans = datam[this.currentLang];
-    this.dataSource = this.tempData[0][this.currentLang];
-  }
 
 
-  getmyInfo() {
 
-  }
 
   getOffer() {
     const data = this.userservice.userinfo;
@@ -154,10 +125,7 @@ export class PriceComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-
-
-    console.log(this.userservice.path)
+  async ngOnInit() {
 
     if (this.userservice.userdata != null) {
       this.profileForm
@@ -177,12 +145,6 @@ export class PriceComponent implements OnInit {
       this.currentLang = "tr";
       this.currencycode = "€";
       this.currencyprefix = "EUR";
-      this.CroomCount1 = 40;
-      this.CroomCount2 = 400;
-      this.Cminroomcount = 40; /* Minumum Oda Sayısı */
-
-
-      endpoint = this.path + "pricelist.php";
       langendpoint = this.path + "lang.php";
     }
 
@@ -191,11 +153,6 @@ export class PriceComponent implements OnInit {
       this.currentLang = "en";
       this.currencycode = "€";
       this.currencyprefix = "EUR";
-      this.CroomCount1 = 500;
-      this.CroomCount2 = 1000;
-      this.Cminroomcount = 10; /* Minumum Oda Sayısı */
-
-      endpoint = this.path + "pricelist-en.php";
       langendpoint = this.path + "lang-en.php";
     }
 
@@ -203,22 +160,44 @@ export class PriceComponent implements OnInit {
       this.currentLang = "en";
       this.currencycode = "€";
       this.currencyprefix = "EUR";
-      this.CroomCount1 = 500;
-      this.CroomCount2 = 1000;
-      this.Cminroomcount = 10; /* Minumum Oda Sayısı */
-
-      endpoint = this.path + "pricelist-en.php";
       langendpoint = this.path + "lang-en.php";
     }
 
+    this.periodList = await this.http.post("https://4001.hoteladvisor.net", this.userservice.periodListConfig).toPromise();
+    this.packetList = await this.http.post("https://4001.hoteladvisor.net", this.userservice.packetListConfig).toPromise();
+    this.packetListData = this.packetList.ResultSets[0];
 
+    this.http.post("https://4001.hoteladvisor.net", this.userservice.productListConfig,).subscribe((resp: any) => {
+      this.dataSource = resp.ResultSets[0].map(x => {
+        return {
 
+          'pass': true,
+          'packetfactor': this.packetListData[2].FACTOR,
+          'period': 1,
+          'discount': 0,
+          'selected': false,
+          "ORDERNO": x.ORDERNO,
+          "CODE": x.CODE,
+          "NAME": x.NAME,
+          "DESCRIPTION": x.DESCRIPTION,
+          "ROOMPRICE": x.ROOMPRICE,
+          "BASEPRICE": x.BASEPRICE,
+          "INSTALLATIONFEE": x.INSTALLATIONFEE,
+          "USEFACTOR":x.USEFACTOR,
+          "ID": x.ID,
+          "selectedperiod": 1,
+          "periods": this.periodList.ResultSets[0],
+          "finalprice": 0,
+        }
 
+      });
 
-    this.http.get(endpoint).subscribe((resp) => {
-      this.tempData = this.elementdata = resp as any;
-      this.dataSource = this.tempData[0][this.currentLang];
+    }, (error) => {
+      alert(error.error)
     });
+
+
+
 
     this.http.get(langendpoint).subscribe((resp2) => {
       this.lang = resp2;
@@ -226,7 +205,6 @@ export class PriceComponent implements OnInit {
       this.langtrans = datam[this.currentLang];
     });
 
-    this.total(0);
   }
 
   logout() {
@@ -286,556 +264,87 @@ export class PriceComponent implements OnInit {
         t.append("username", offerusername);
         t.append("password", offerpassword);
         let html = "";
-        let checkdata = this.dataSource.filter(
-          (x) =>
-            x.selected &&
-            !(
-              x.timesequence == "yearlyfixsingle"
-            )
-        );
-        if (checkdata.length > 0) {
-          html += '<div class="heading">' + trans.annualycharged + "</div>";
-          html +=
-            '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' +
-            trans.productexplaniton +
-            '</th><th class="coltab2">' +
-            trans.roomcount +
-            '</th><th class="coltab3">' +
-            trans.price +
-            " (" +
-            this.currencycode +
-            ")</th></tr></thead><tbody>";
-        }
-        let total = 0;
-        let monthlytotal = 0;
+/*         html += '<div class="heading">' + trans.annualycharged + "</div>";
+ */        html +=
+          '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' +
+          trans.productexplaniton +
+          '</th><th class="coltab2">' +
+          trans.roomcount +
+          '</th><th class="coltab3">' +
+          trans.price +
+          " (" +
+          this.currencycode +
+          ")</th></tr></thead><tbody>";
+
+
         this.dataSource.forEach((element) => {
           if (element.selected) {
-            if (
-              !(
-                element.timesequence == "yearlyfixsingle"
-              )
-            ) {
-              let altgrup = "";
-              element.productgrup.forEach((x) => {
-                if (x.selected == true && x.type != "hardware") {
-                  let discounttext3 = "";
-                  if (x.discount > 0) {
-                    discounttext3 =
-                      (
-                        x.productprice * x.quantity -
-                        ((x.productprice * x.quantity) / 100) * x.discount
-                      ).toFixed(2) +
-                      " " +
-                      this.currencycode +
-                      " ( %" +
-                      x.discount +
-                      " " +
-                      trans.discountraw +
-                      " )";
-                  }
-                  altgrup +=
-                    x.productname +
-                    "<br>" +
-                    " ( " +
-                    x.quantity +
-                    " Quantity X " +
-                    x.productprice +
-                    " " +
-                    this.currencycode +
-                    " " +
-                    " = " +
-                    x.productprice * x.quantity +
-                    " " +
-                    this.currencycode +
-                    " )" +
-                    "<br><b><span>" +
-                    discounttext3 +
-                    "</span></b><hr>";
-                }
-              });
 
-              let fixprice = element.roomprice[0].fixprice;
-              let fixstring = "";
-              if (fixprice > 0) {
-                fixstring =
-                  element.firstprice[0].desc +
-                  fixprice +
-                  " " +
-                  this.currencycode +
-                  " ";
+            let discounttext;
+            if (element.discount > 0) {
+              let nodiscountt =
+                element.finalprice +
+                (element.finalprice / (100 - element.discount)) * element.discount;
+              if (isFinite(nodiscountt) == false) {
+                nodiscountt = 0;
               }
 
-              let discounttext;
-              if (element.discount > 0) {
-                let nodiscountt =
-                  element.total +
-                  (element.total / (100 - element.discount)) * element.discount;
-                if (isFinite(nodiscountt) == false) {
-                  nodiscountt = 0;
-                }
-
-                discounttext =
-                  "( " +
-                  trans.discount +
-                  " " +
-                  element.discount +
-                  " ) " +
-                  '<span class="discountpricecss">' +
-                  this.decimalPipe.transform(nodiscountt.toFixed(2)) +
-                  " " +
-                  this.currencycode +
-                  "</span>" +
-                  "<br>";
-              } else {
-                discounttext = "";
-              }
-
-              let product = "";
-
-
-              monthlytotal += element.total;
-              let pricetext = "";
-
-
-              if (element.timesequence == "yearlyfixsingle") {
-                pricetext =
-                  "<b>" +
-                  this.decimalPipe.transform(element.total.toFixed(2)) +
-                  "</b>" +
-                  " " +
-                  this.currencycode +
-                  trans.firstyear + " ";
-              } else {
-
-                let textyear = "";
-                if (element.selectedperiod != false) {
-                  textyear = element.selectedperiod + " " + trans.monthly;
-                } else {
-                  textyear = trans.year;
-                }
-
-                pricetext =
-                  "<b>" +
-                  this.decimalPipe.transform((element.total / 12).toFixed(2)) +
-                  "</b>" +
-                  " " +
-                  this.currencycode +
-                  "/" +
-                  trans.monthly +
-                  "<br>" +
-                  this.decimalPipe.transform((element.total).toFixed(2)) +
-                  " " +
-                  this.currencycode +
-                  "/" +
-                  textyear;
-              }
-
-              let usertext = "";
-              if (element.hasOwnProperty("userbarems") && element.userbarems) {
-                if (element.userbarems.selected) {
-                  let selected = element.userbarems.selected;
-                  if (element.useramountmod == true) {
-                    usertext = element.userlabel + "<br> " + selected.name;
-                  } else {
-                    usertext = selected.name;
-                  }
-                }
-              }
-
-              html +=
-                '<tr><td style="width:50%;"><strong>' +
-                element.productname +
-                "</strong><p>" +
-                element.desc +
-                "<br>" +
-                product +
-                "</p>" +
-                "<p>" /*fixstring*/ +
-                "<br>" +
-                altgrup +
-                usertext +
-                "</p>" +
-                "</td>" +
-                "<td>" +
-                formdata.roomcount +
-                "</td>" +
-                '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
-                discounttext +
-                pricetext +
-                "</p></tr>";
+              discounttext =
+                "( " +
+                trans.discount +
+                " " +
+                element.discount +
+                " ) " +
+                '<span class="discountpricecss">' +
+                this.decimalPipe.transform(nodiscountt.toFixed(2)) +
+                " " +
+                this.currencycode +
+                "</span>" +
+                "<br>";
+            } else {
+              discounttext = "";
             }
-          }
-        });
 
-        if (checkdata.length > 0) {
-          html +=
-            "<tr><td><strong>" +
-            trans.yearlytotal +
-            " :</strong></td><td></td>" +
-            '<td style="text-align: right;"><strong>' +
-            " " +
-            this.currencycode +
-            "" +
-            this.decimalPipe.transform(monthlytotal) +
-            "</strong></td></tr>";
-          html += "</tbody></table><br><br>";
-        }
 
-        let ekhizmetler = "";
-        this.ekhizmetler.forEach((x) => {
-          if (x.selected == true && x.firstprice[0].price > 0) {
-            ekhizmetler +=
-              trans.services +
-              " : " +
-              x.firstprice[0].desc +
-              "  " +
-              this.decimalPipe.transform(x.firstprice[0].price) +
-              " " +
-              this.currencycode +
-              "<br>";
-          }
-        });
-
-        let hardware = "";
-        this.hardware.forEach((x) => {
-          let discounttext2 = "";
-          if (x.discount > 0) {
-            discounttext2 =
+            let pricetext = "";
+            pricetext =
               "<b>" +
-              this.decimalPipe.transform(
-                (
-                  x.productprice * x.quantity -
-                  ((x.productprice * x.quantity) / 100) * x.discount
-                ).toFixed(2)
-              ) +
+              this.decimalPipe.transform((element.finalprice / 12).toFixed(2)) +
+              "</b>" +
               " " +
               this.currencycode +
-              " ( %" +
-              x.discount +
+              "/" +
+              trans.monthly +
+              "<br>" +
+              this.decimalPipe.transform((element.finalprice).toFixed(2)) +
               " " +
-              trans.discountraw +
-              " )</b>";
-          }
-          hardware +=
-            x.productname +
-            "<br>" +
-            " ( " +
-            x.quantity +
-            " Quantity X " +
-            this.decimalPipe.transform(x.productprice) +
-            " " +
-            this.currencycode +
-            " " +
-            " = " +
-            this.decimalPipe.transform(x.productprice * x.quantity) +
-            " " +
-            this.currencycode +
-            " )" +
-            "<br><span>" +
-            discounttext2 +
-            "</span><hr><br>";
-        });
+              this.currencycode
 
-        let setupprice = "";
-        this.setupprice.forEach((x) => {
-          setupprice +=
-            x.setupdesc +
-            "<br>" +
-            "( " +
-            x.quantity +
-            " * " +
-            this.decimalPipe.transform(x.setupprice) +
-            " " +
-            this.currencycode +
-            " )" +
-            this.decimalPipe.transform(x.quantity * x.setupprice) +
-            " " +
-            this.currencycode +
-            "";
-        });
+            html +=
+              '<tr><td style="width:50%;"><strong>' + element.NAME + "</strong>" + "</td>" +
+              "<td>" + formdata.roomcount + "</td>" +
+              '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
+              discounttext +
+              pricetext +
+              "</p></tr>";
 
-        let checkdatafix = this.dataSource.filter(
-          (x) =>
-            x.selected &&
-            (x.timesequence == "yearlyfixsingle")
-        );
-
-        if (
-          checkdatafix.length > 0 ||
-          this.ekhizmetler.length > 0 ||
-          this.hardware.length > 0 ||
-          this.setupprice.length > 0
-        ) {
-          html +=
-            '<div class="heading">' + trans.productchargedronce + "</div>";
-          html +=
-            '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' +
-            trans.productexplaniton +
-            '</th><th class="coltab2">' +
-            trans.roomcount +
-            '</th><th class="coltab3">' +
-            trans.price +
-            " (" +
-            this.currencycode +
-            ")</th></tr></thead><tbody>";
-        }
-
-        /* Tek Seferlik ve Sabit Ücterler Toplamı */
-        let fixlytotal = 0;
-        this.dataSource.forEach((element) => {
-          if (element.selected) {
-            if (
-              element.timesequence == "yearlyfixsingle"
-            ) {
-              let altgrup = "";
-              element.productgrup.forEach((x) => {
-                if (x.selected == true && x.type != "hardware") {
-                  let discounttext3 = "";
-                  if (x.discount > 0) {
-                    discounttext3 =
-                      (
-                        x.productprice * x.quantity -
-                        ((x.productprice * x.quantity) / 100) * x.discount
-                      ).toFixed(2) +
-                      " " +
-                      this.currencycode +
-                      " ( %" +
-                      x.discount +
-                      " " +
-                      trans.discountraw +
-                      " )";
-                  }
-
-                  altgrup +=
-                    x.productname +
-                    "<br>" +
-                    " ( " +
-                    x.quantity +
-                    " " +
-                    trans.quantity +
-                    " X " +
-                    x.productprice +
-                    " " +
-                    this.currencycode +
-                    " " +
-                    " = " +
-                    x.productprice * x.quantity +
-                    " " +
-                    this.currencycode +
-                    " )" +
-                    "<br><b><span>" +
-                    discounttext3 +
-                    "</span></b><hr>";
-                }
-              });
-
-              let fixprice = element.roomprice[0].fixprice;
-              let fixstring = "";
-              if (fixprice > 0) {
-                fixstring =
-                  element.firstprice[0].desc +
-                  fixprice +
-                  " " +
-                  this.currencycode +
-                  " ";
-              }
-
-              let hardwareitemtotal = 0;
-              element.productgrup.forEach((x) => {
-                if (x.type == "hardware" && x.selected == true) {
-                  hardwareitemtotal +=
-                    x.productprice * x.quantity -
-                    ((x.productprice * x.quantity) / 100) * x.discount;
-                }
-              });
-
-              if (hardwareitemtotal == undefined) {
-                hardwareitemtotal = 0;
-              } else {
-                hardwareitemtotal = hardwareitemtotal;
-              }
-
-              let discounttext;
-              if (element.discount > 0) {
-                let nodiscountt =
-                  element.total -
-                  hardwareitemtotal +
-                  ((element.total - hardwareitemtotal) /
-                    (100 - element.discount)) *
-                  element.discount;
-                if (isFinite(nodiscountt) == false) {
-                  nodiscountt = 0;
-                }
-                discounttext =
-                  "(" +
-                  trans.discountraw +
-                  " %" +
-                  element.discount +
-                  " ) " +
-                  '<span class="discountpricecss">' +
-                  this.decimalPipe.transform(nodiscountt.toFixed(2)) +
-                  " " +
-                  this.currencycode +
-                  "</span>" +
-                  "<br>";
-              } else {
-                discounttext = "";
-              }
-
-              let product = "";
-
-
-              let pricetext = "";
-
-              if (element.timesequence == "yearlyfixsingle") {
-                pricetext =
-                  "<b>" +
-                  this.decimalPipe.transform(
-                    element.total - hardwareitemtotal
-                  ) +
-                  " " +
-                  this.currencycode +
-                  " " +
-                  "</b>";
-                fixlytotal += element.total;
-              }
-
-              html +=
-                '<tr><td style="width:50%;"><strong>' +
-                element.productname +
-                "</strong><p>" +
-                element.desc +
-                "<br>" +
-                product +
-                "<p>" +
-                "<p>" /*fixstring*/ +
-                "<br>" +
-                altgrup +
-                "</p>" +
-                "</td>" +
-                "<td>" +
-                formdata.roomcount +
-                "</td>" +
-                '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
-                discounttext +
-                pricetext +
-                "</p></tr>";
-            }
           }
         });
 
-        if (hardware) {
-          html +=
-            "<tr><td><strong>" +
-            trans.hardwares +
-            ":</strong><p>" +
-            hardware +
-            "</p></td><td></td>" +
-            '<td style="text-align: right;"><strong>' +
-            this.decimalPipe.transform(this.hardwaretotal) +
-            " " +
-            this.currencycode +
-            " " +
-            "</strong></td></tr>";
-        }
-        if (ekhizmetler) {
-          html +=
-            "<tr><td><strong>" +
-            trans.additionalservices +
-            ":</strong><p>" +
-            ekhizmetler +
-            "</p></td><td></td>" +
-            '<td style="text-align: right;"><strong>' +
-            this.decimalPipe.transform(this.firstprice) +
-            " " +
-            this.currencycode +
-            " " +
-            "</strong></td></tr>";
-        }
-        if (setupprice) {
-          html +=
-            "<tr><td><strong>" +
-            trans.setupprices +
-            ":</strong><p>" +
-            setupprice +
-            "</p></td><td></td>" +
-            '<td style="text-align: right;"><strong>' +
-            this.decimalPipe.transform(this.setuppricetotal) +
-            " " +
-            this.currencycode +
-            " " +
-            "</strong></td></tr>";
-        }
+        html += "</tbody></table><br><br>";
 
-        if (
-          checkdatafix.length > 0 ||
-          this.ekhizmetler.length > 0 ||
-          this.hardware.length > 0 ||
-          this.setupprice.length > 0
-        ) {
-          html +=
-            "<tr><td><strong>" +
-            trans.total +
-            ":</strong></td><td></td>" +
-            '<td class="totals" ><strong>' +
-            this.decimalPipe.transform(
-              fixlytotal +
-              this.setuppricetotal +
-              this.firstprice +
-              this.hardwaretotal
-            ) +
-            " " +
-            this.currencycode +
-            " " +
-            "</strong></td></tr>";
-          html += "</tbody></table>";
-        }
 
         html +=
           '<table class="w100"><thead><tr class="tableHead"><th class="coltab1"></th><th class="coltab2"></th><th class="coltab3"></th></tr></thead><tbody>';
-
-
         html +=
           "<tr><td><strong>" +
           trans.grandtotal +
           ":</strong></td><td>---</td>" +
           '<td class="totals"><strong>' +
-          this.decimalPipe.transform(
-            fixlytotal +
-            this.firstprice +
-            this.setuppricetotal +
-            monthlytotal +
-            this.hardwaretotal
-          ) +
-          " " +
-          this.currencycode +
-          "";
-        " ( " +
-          this.decimalPipe.transform(
-            fixlytotal + this.firstprice + this.setuppricetotal
-          ) +
-          " " +
-          this.currencycode +
-          "" +
-          " + " +
-          this.decimalPipe.transform(monthlytotal) +
-          " " +
-          this.currencycode +
-          " )" +
-          "</strong></td></tr>";
+          this.decimalPipe.transform(this.totalpricefinal) + " " + this.currencycode + "</strong></td></tr>";
 
         html += "</tbody></table>";
 
-        let efatura = "";
-        this.dataSource.forEach((e) => {
-          if (e.selected) {
-            if (e.firstprice[0].grupid == 6) {
-              efatura = "<br>" + trans.efaturadesc;
-            }
-          }
-        });
-
-        html += efatura;
 
         let messagebody = html;
         t.append("offer", messagebody);
@@ -845,8 +354,6 @@ export class PriceComponent implements OnInit {
             .subscribe((resp: any) => {
               if (resp.html) {
                 var sourceHTML = resp.html;
-                console.log(sourceHTML);
-
                 var source =
                   "data:application/vnd.ms-word;charset=utf-8," +
                   encodeURIComponent(sourceHTML);
@@ -861,10 +368,6 @@ export class PriceComponent implements OnInit {
                 if (resp.success) {
                   alert(trans.succesoffer);
                   this.detachOverlay();
-
-                  if (formdata.roomcount > 50) {
-                    this.close = true;
-                  }
                 } else {
                   this.detachOverlay();
                   alert(resp.message);
@@ -880,631 +383,20 @@ export class PriceComponent implements OnInit {
   }
 
   changeData(roomcount, id?) {
-
-
-    if (id == 1) {
-      this.dataSource.filter((x) => x.id == 185)[0].selected = false;
-      this.dataSource.filter((x) => x.id == 186)[0].selected = false;
+    if (roomcount == "" || roomcount == null || roomcount == undefined) {
+      roomcount = 1;
     }
 
-    if (id == 185) {
-      this.dataSource.filter((x) => x.id == 1)[0].selected = false;
-      this.dataSource.filter((x) => x.id == 186)[0].selected = false;
-    }
-
-    if (id == 186) {
-      this.dataSource.filter((x) => x.id == 185)[0].selected = false;
-      this.dataSource.filter((x) => x.id == 1)[0].selected = false;
-    }
-
-    let bolencheck;
-    if (this.dataSource.filter((x) => x.id == 185)[0].selected == true) {
-      bolencheck = true;
-    } else {
-      bolencheck = false;
-    }
-
-
-    let temproomCount = roomcount;
-    this.dataSource = this.dataSource.map((x) => {
-      let period;
-
-      if (x.selectedperiod) {
-        period = parseInt(x.selectedperiod);
-      } else {
-        period = 12;
-      }
-
-
-
-
-      if (roomcount <= this.CroomCount1) {
-
-        let bolen = 1;
-        if (bolencheck == true && x.producttip == "modul") {
-          bolen = 2;
-          x.maxroom = x.defaultmaxroom * 2;
-        }
-
-        if (bolencheck == false && x.producttip == "modul") {
-          bolen = 1;
-          x.maxroom = x.defaultmaxroom;
-        }
-
-        let gruptotal = 0;
-
-        if (x.pass != true) {
-          if (x.selected == true) {
-            if (x.minroomstatus == true || x.minroomstatus == null) {
-              if (temproomCount < x.minroom) {
-                roomcount = x.minroom;
-              } else {
-                roomcount = temproomCount;
-              }
-            } else {
-              if (roomcount < this.Cminroomcount) {
-                roomcount = this.Cminroomcount;
-              }
-            }
-
-            x.productgrup.forEach((y) => {
-              if (y.selected == true) {
-                if (y.time == "monthly") {
-                  gruptotal +=
-                    (y.quantity * y.productprice -
-                      ((y.quantity * y.productprice) / 100) * y.discount) *
-                    period;
-                } else {
-                  gruptotal +=
-                    y.quantity * y.productprice -
-                    ((y.quantity * y.productprice) / 100) * y.discount;
-                }
-              }
-            });
-          }
-
-          let fixtotal = 0;
-          let totalsub = x.roomprice[0].priceCase1 * roomcount;
-
-          if (roomcount <= 1 && x.fixuse == true) {
-            fixtotal = x.roomprice[0].fixprice;
-          } else {
-            if (
-              x.roomprice[0].fixprice < totalsub &&
-              x.fixroompricecalculate == true
-            ) {
-              fixtotal = totalsub;
-            } else {
-              fixtotal = x.roomprice[0].fixprice;
-            }
-          }
-
-          if (
-            x.roomprice[0].fixprice < totalsub &&
-            x.fixroompricecalculate == true
-          ) {
-            fixtotal = totalsub;
-          } else {
-            fixtotal = x.roomprice[0].fixprice;
-          }
-
-          let totalfin;
-          if (x.fixuse == false) {
-            totalfin = (totalsub - (totalsub / 100) * x.discount) * period;
-          } else {
-            if (
-              (x.timesequence == "yearlyfixsingle") &&
-              x.fixroompricecalculate != true
-            ) {
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else if (
-              (x.timesequence == "yearlyfixsingle") &&
-              x.fixroompricecalculate == true
-            ) {
-              if (
-                x.roomprice[0].fixprice < totalsub &&
-                x.fixroompricecalculate == true
-              ) {
-                fixtotal = totalsub;
-              }
-
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else {
-              totalfin =
-                (fixtotal - (fixtotal / 100) * x.discount) * period + gruptotal;
-            }
-          }
-
-          let userprice = 0;
-          if (x.hasOwnProperty("userbarems") && x.userbarems) {
-            if (x.userbarems.selected) {
-              let selected = x.userbarems.selected;
-              /*   if (totalfin <= x.minprice) {
-                     totalfin = x.minprice;
-                } */
-              userprice = totalfin * selected.userprice - totalfin;
-              if (x.useramountmod == true) {
-                userprice = totalfin + selected.userprice - totalfin;
-              } else {
-                userprice = totalfin * selected.userprice - totalfin;
-              }
-            }
-          }
-
-          if (totalfin < 0) {
-            totalfin = 0;
-          }
-
-
-
-
-          let FinalTotal = 0;
-          if (x.id == 21) {
-            totalfin = (20 + (roomcount * 0.1)) * period;
-          }
-          if (x.useramountmod == true) {
-            FinalTotal = totalfin / bolen + userprice;
-
-          } else {
-            FinalTotal = (totalfin + userprice) / bolen;
-          }
-
-
-          if (x.userpricecal == true && roomcount < this.Cminroomcount) {
-            FinalTotal = totalfin + userprice;
-          }
-
-
-          if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice;
-            if (x.discount > 0) {
-              FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
-            }
-          }
-
-
-          if (x.id == 21) {
-            FinalTotal = FinalTotal - (FinalTotal / 100) * x.discount;
-          }
-
-          return {
-            fixuse: x.fixuse,
-            id: x.id,
-            productname: x.productname,
-            roomprice: x.roomprice,
-            productgrup: x.productgrup,
-            gruptotal: gruptotal / bolen,
-            total: FinalTotal,
-            selected: x.selected,
-            desc: x.desc,
-            firstprice: x.firstprice,
-            fixroompricecalculate: x.fixroompricecalculate,
-            discount: x.discount,
-            singleproduct: x.singleproduct,
-            timesequence: x.timesequence,
-            price: x.price / bolen,
-            quantity: x.quantity,
-            userpricecal: x.userpricecal,
-            userlabel: x.userlabel,
-            usercount: x.usercount,
-            userlimit: x.userlimit,
-            usermaxlimit: x.usermaxlimit,
-            userbarems: x.userbarems,
-            useramountmod: x.useramountmod,
-            efatura: x.efatura,
-            maxprice: x.maxprice,
-            minroom: x.minroom,
-            maxroom: x.maxroom,
-            minroomstatus: x.minroomstatus,
-            producttip: x.producttip,
-            defaultmaxroom: x.defaultmaxroom,
-            minprice: x.minprice,
-            periods: x.periods,
-            selectedperiod: x.selectedperiod || false
-          };
-        } else {
-          return {
-            head: x.head,
-            pass: x.pass,
-          };
-        }
-      }
-
-      if (roomcount >= this.CroomCount1 && roomcount <= this.CroomCount2) {
-
-        let bolen = 1;
-        if (bolencheck == true && x.producttip == "modul") {
-          bolen = 2;
-          x.maxroom = x.defaultmaxroom * 2;
-        }
-
-        if (bolencheck == false && x.producttip == "modul") {
-          bolen = 1;
-          x.maxroom = x.defaultmaxroom;
-        }
-
-        let temproom;
-        let gruptotal = 0;
-        if (x.pass != true) {  // Başlık Eklendi
-          if (x.selected == true) {  // Ürün seçili ise
-            if (x.maxroom) {
-              if (roomcount > x.maxroom) {
-                temproom = x.maxroom;
-              } else {
-                temproom = roomcount;
-              }
-            } else {
-              temproom = roomcount;
-            }
-
-            x.productgrup.forEach((y) => {  // productgrup a ürün ekleyerek ürünün alt donanımlarını ve diğer bileşenlerini seçtirebiliriz.
-              if (y.selected == true) {
-                if (y.time == "monthly") {   // Fiyatlandırması aylık olarak hesaplanacak ürünler için 
-                  gruptotal +=
-                    (y.quantity * y.productprice -
-                      ((y.quantity * y.productprice) / 100) * y.discount) *
-                    12;
-                } else {
-                  gruptotal +=
-                    y.quantity * y.productprice -
-                    ((y.quantity * y.productprice) / 100) * y.discount;
-                }
-              }
-            });
-          }
-
-
-
-          let fixtotal = 0;
-          let totalsub =
-            x.roomprice[0].priceCase1 * this.CroomCount1 +
-            x.roomprice[0].priceCase2 * (temproom - this.CroomCount1);
-
-          if (roomcount <= 1 && x.fixuse == true) {  // fixuse true ise fixprice da yer alan fiyat geçerli olur.
-            fixtotal = x.roomprice[0].fixprice;
-          } else {
-            if (
-              x.roomprice[0].fixprice < totalsub &&
-              x.fixroompricecalculate == true  // fixroompricecalculate sabit fiyatın üzerine oda sayısına göre fiyat eklyerek hesaplama yapar.
-            ) {
-              fixtotal = totalsub;
-            } else {
-              fixtotal = x.roomprice[0].fixprice;
-            }
-          }
-
-          if (
-            x.roomprice[0].fixprice < totalsub &&
-            x.fixroompricecalculate == true
-          ) {
-            fixtotal = totalsub;
-          } else {
-            fixtotal = x.roomprice[0].fixprice;
-          }
-          let totalfin;
-          if (x.fixuse == false) {
-
-            totalfin = (totalsub - (totalsub / 100) * x.discount) * period;
-
-          } else {
-            if (
-              (x.timesequence == "yearlyfixsingle"   //timesequence fiyatlanmanın birkez mı yoksa her yıl mı olduğunu belirler.
-              ) &&
-              x.fixroompricecalculate != true
-            ) {
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else if (
-              (x.timesequence == "yearlyfixsingle") &&
-              x.fixroompricecalculate == true
-            ) {
-              if (
-                x.roomprice[0].fixprice < totalsub &&
-                x.fixroompricecalculate == true
-              ) {
-                fixtotal = totalsub;
-              }
-
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else {
-              totalfin =
-                (fixtotal - (fixtotal / 100) * x.discount) * period + gruptotal;
-            }
-          }
-
-          let userprice = 0;
-          if (x.hasOwnProperty("userbarems") && x.userbarems) {  // userbarems hesaplanan fiyatın seçime göre çarpımı ve toplamı olur. useramount seçeneği ile fiyatın üstüne elirlen fiyat eklenir.
-            if (x.userbarems.selected) {
-              let selected = x.userbarems.selected;
-              if (x.useramountmod == true) {
-                userprice = totalfin + selected.userprice - totalfin;
-              } else {
-                userprice = totalfin * selected.userprice - totalfin;
-              }
-            }
-          }
-
-          if (totalfin < 0) {
-            totalfin = 0;
-          }
-
-
-
-          let FinalTotal = 0;
-          if (x.id == 21) {   // Personel (PDKS Entegrasyonu Dahildir.) Nlüfer Hanımın bilgisi dahilinde yapılmıştır.
-            totalfin = (20 + (roomcount * 0.1)) * period;
-          }
-
-          if (x.useramountmod == true) {
-            FinalTotal = totalfin / bolen + userprice;
-          } else {
-            FinalTotal = (totalfin + userprice) / bolen;
-          }
-
-
-
-          /* if (FinalTotal < x.minprice) {
-              FinalTotal = x.minprice - ((x.minprice / 100) * x.discount);
-          }
-    
-    */
-
-
-
-          return {
-            fixuse: x.fixuse,
-            id: x.id,
-            productname: x.productname,
-            roomprice: x.roomprice,
-            productgrup: x.productgrup,
-            gruptotal: gruptotal / bolen,
-            total: FinalTotal,
-            selected: x.selected,
-            desc: x.desc,
-            firstprice: x.firstprice,
-            fixroompricecalculate: x.fixroompricecalculate,
-            discount: x.discount,
-            singleproduct: x.singleproduct,
-            timesequence: x.timesequence,
-            price: x.price / bolen,
-            quantity: x.quantity,
-            userpricecal: x.userpricecal,
-            userlabel: x.userlabel,
-            usercount: x.usercount,
-            userlimit: x.userlimit,
-            usermaxlimit: x.usermaxlimit,
-            userbarems: x.userbarems,
-            useramountmod: x.useramountmod,
-            efatura: x.efatura,
-            maxprice: x.maxprice,
-            minroom: x.minroom,
-            maxroom: x.maxroom,
-            minroomstatus: x.minroomstatus,
-            producttip: x.producttip,
-            defaultmaxroom: x.defaultmaxroom,
-            minprice: x.minprice,
-            periods: x.periods,
-            selectedperiod: x.selectedperiod || false
-
-          };
-        } else {
-          return {
-            head: x.head,
-            pass: x.pass,
-          };
-        }
-
-      }
-
-
-      if (roomcount > this.CroomCount2) {
-
-        let bolen = 1;
-        let maxroom;
-        if (bolencheck == true && x.producttip == "modul") {
-          bolen = 2;
-          x.maxroom = x.defaultmaxroom * 2;
-        }
-
-        if (bolencheck == false && x.producttip == "modul") {
-          bolen = 1;
-          x.maxroom = x.defaultmaxroom;
-        }
-
-        let temproom;
-        let gruptotal = 0;
-        if (x.pass != true) {
-          if (x.selected == true) {
-            if (x.maxroom) {
-              if (roomcount > x.maxroom) {
-                temproom = x.maxroom;
-              } else {
-                temproom = roomcount;
-              }
-            } else {
-              temproom = roomcount;
-            }
-            x.productgrup.forEach((y) => {
-              if (y.selected == true) {
-                if (y.time == "monthly") {
-                  gruptotal +=
-                    (y.quantity * y.productprice -
-                      ((y.quantity * y.productprice) / 100) * y.discount) *
-                    12;
-                } else {
-                  gruptotal +=
-                    y.quantity * y.productprice -
-                    ((y.quantity * y.productprice) / 100) * y.discount;
-                }
-              }
-            });
-          }
-
-          let totalsub =
-            x.roomprice[0].priceCase1 * this.CroomCount1 +
-            x.roomprice[0].priceCase2 * (this.CroomCount2 - this.CroomCount1) +
-            x.roomprice[0].priceCase3 * (temproom - this.CroomCount2);
-          let fixtotal = 0;
-          if (roomcount <= 1 && x.fixuse == true) {
-            fixtotal = x.roomprice[0].fixprice;
-          } else {
-            if (
-              x.roomprice[0].fixprice < totalsub &&
-              x.fixroompricecalculate == true
-            ) {
-              fixtotal = totalsub;
-            } else {
-              fixtotal = x.roomprice[0].fixprice;
-            }
-          }
-
-          let totalfin;
-          if (x.fixuse == false) {
-            totalfin = (totalsub - (totalsub / 100) * x.discount) * period;
-
-          } else {
-            if (
-              (x.timesequence == "yearlyfixsingle") &&
-              x.fixroompricecalculate != true
-            ) {
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else if (
-              (x.timesequence == "yearlyfixsingle") &&
-              x.fixroompricecalculate == true
-            ) {
-              if (
-                x.roomprice[0].fixprice < totalsub &&
-                x.fixroompricecalculate == true
-              ) {
-                fixtotal = totalsub;
-              }
-
-              totalfin = fixtotal - (fixtotal / 100) * x.discount + gruptotal;
-            } else {
-              totalfin =
-                (fixtotal - (fixtotal / 100) * x.discount) * period + gruptotal;
-            }
-          }
-
-          let userprice = 0;
-          if (x.hasOwnProperty("userbarems") && x.userbarems) {
-            if (x.userbarems.selected) {
-              let selected = x.userbarems.selected;
-
-              if (x.useramountmod == true) {
-                userprice = totalfin + selected.userprice - totalfin;
-              } else {
-                userprice = totalfin * selected.userprice - totalfin;
-              }
-            }
-          }
-
-          if (totalfin < 0) {
-            totalfin = 0;
-          }
-
-
-
-
-          let FinalTotal = 0;
-
-
-          if (x.id == 21) {
-            totalfin = (20 + (roomcount * 0.1)) * period;
-          }
-
-          if (x.useramountmod == true) {
-            FinalTotal = totalfin / bolen + userprice;
-          } else {
-            FinalTotal = (totalfin + userprice) / bolen;
-          }
-
-          /* if (FinalTotal < x.minprice) {
-            FinalTotal = x.minprice - ((x.minprice / 100) * x.discount);
-    
-          }
-    */
-
-
-          return {
-            fixuse: x.fixuse,
-            id: x.id,
-            productname: x.productname,
-            roomprice: x.roomprice,
-            productgrup: x.productgrup,
-            gruptotal: gruptotal / bolen,
-            total: FinalTotal,
-            selected: x.selected,
-            desc: x.desc,
-            firstprice: x.firstprice,
-            fixroompricecalculate: x.fixroompricecalculate,
-            discount: x.discount,
-            singleproduct: x.singleproduct,
-            timesequence: x.timesequence,
-            price: x.price / bolen,
-            quantity: x.quantity,
-            userpricecal: x.userpricecal,
-            userlabel: x.userlabel,
-            usercount: x.usercount,
-            userlimit: x.userlimit,
-            usermaxlimit: x.usermaxlimit,
-            userbarems: x.userbarems,
-            useramountmod: x.useramountmod,
-            efatura: x.efatura,
-            maxprice: x.maxprice,
-            minroom: x.minroom,
-            maxroom: x.maxroom,
-            minroomstatus: x.minroomstatus,
-            producttip: x.producttip,
-            defaultmaxroom: x.defaultmaxroom,
-            minprice: x.minprice,
-            periods: x.periods,
-            selectedperiod: x.selectedperiod || false
-
-          };
-        } else {
-          return {
-            head: x.head,
-            pass: x.pass,
-          };
-        }
-
-      }
-
-    });
-
-
-
-
-
-
-    /*     let efatura = this.dataSource.filter(x => x.efatura == 1)
-        let earsiv = this.dataSource.filter(x => x.efatura == 2)
-     
-        if (efatura[0].selected == true && earsiv[0].selected) {
-          this.dataSource.filter(x => x.efatura == 3)[0].price = 0;
-          this.dataSource.filter(x => x.efatura == 3)[0].total = 0;
-        }
-     */
-
-    /*  let web = this.dataSource.filter(
-       (x) => x.id == 1 || x.id == 185 || x.id == 186
-     );
-     web.forEach((element) => {
-       if (element.selected == true) {
-         this.dataSource.filter((x) => x.id == 145)[0].price = 0;
-         this.dataSource.filter((x) => x.id == 145)[0].total = 0;
-         this.dataSource.filter((x) => x.id == 146)[0].price = 0;
-         this.dataSource.filter((x) => x.id == 146)[0].total = 0;
-       }
-     }); */
-
-    this.dataSource.forEach((element) => {
-      if (element.total > element.maxprice) {
-        element.total = element.maxprice;
+    this.dataSource.forEach(x => {
+      if (x.selected) {
+       
+        let price = ((roomcount * x.ROOMPRICE * x.packetfactor * x.selectedperiod) + x.BASEPRICE) * (12 * ((100 - x.discount) / 100));
+        x.finalprice = price;
       }
     });
 
-    console.log(this.dataSource)
+    this.totalfunction();
+
   }
 
   showControl() {
@@ -1515,120 +407,18 @@ export class PriceComponent implements OnInit {
     }
   }
 
-  total(roomcount) {
-    if (this.userservice.login == true) {
-      this.totalfunction();
-      this.showpriceControl = true;
-    }
-
-    if (
-      this.profileForm.valid &&
-      this.showpriceControl == false &&
-      this.userservice.login == false
-    ) {
-      this.totalfunction();
-    }
-  }
 
   totalfunction() {
     let totalprice = 0;
-    let singleprice = 0;
-    let grupid = 0;
-
-    let grupid1 = 0;
-    let ekhizmetler = new Array();
-    let hardware = new Array();
-    let setupprice = new Array();
-
+    console.log(this.dataSource)
     this.dataSource.forEach((element) => {
-      if (element.pass != true) {
+      if (element.pass == true) {
         if (element.selected == true) {
-          if (element.firstprice[0].grupid != grupid1) {
-            ekhizmetler.push(element);
-            grupid1 = element.firstprice[0].grupid;
-          }
+          totalprice += element.finalprice
         }
       }
     });
-    this.ekhizmetler = [];
-
-    this.dataSource.forEach((element) => {
-      if (element.pass != true) {
-        if (element.selected == true) {
-          element.productgrup.forEach((element2) => {
-            if (element2.type == "hardware" && element2.selected == true) {
-              hardware.push(element2);
-            }
-          });
-        }
-      }
-    });
-
-    this.hardware = hardware;
-    let hardwaretotal = 0;
-
-    hardware.forEach((element) => {
-      hardwaretotal +=
-        element.productprice * element.quantity -
-        ((element.productprice * element.quantity) / 100) * element.discount;
-    });
-
-    this.dataSource.forEach((element) => {
-      if (element.pass != true) {
-        element.productgrup.forEach((x) => {
-          if (x.selected == true && x.type != "hardware") {
-            if (
-              x.setupprice > 0 &&
-              x.quantitycross == true &&
-              x.selected == true
-            ) {
-              setupprice.push(x);
-            }
-          }
-        });
-      }
-    });
-
-    this.setupprice = setupprice;
-
-    let setuppicetotal = 0;
-    this.setupprice.forEach((y) => {
-      setuppicetotal += y.quantity * y.setupprice;
-    });
-
-    this.setuppricetotal = setuppicetotal;
-
-    this.dataSource.forEach((element) => {
-      if (element.pass != true) {
-        if (element.selected == true) {
-          if (element.firstprice[0].grupid != grupid) {
-            singleprice += element.firstprice[0].price;
-            grupid = element.firstprice[0].grupid;
-          }
-          totalprice += element.total;
-        }
-      }
-    });
-
-    let yearlyfixpricetotal = 0;
-
-    let yearlyfixsinglepricetotal = 0;
-    this.dataSource.forEach((element) => {
-      if (element.pass != true) {
-        if (
-          element.selected == true &&
-          element.timesequence == "yearlyfixsingle"
-        ) {
-          yearlyfixsinglepricetotal += element.total;
-        }
-      }
-    });
-
     this.totalpricefinal = totalprice;
-    this.hardwaretotal = hardwaretotal;
-    this.firstprice = singleprice;
-    this.yearlyfixpricetotal = yearlyfixpricetotal;
-    this.yearlyfixsinglepricetotal = yearlyfixsinglepricetotal;
   }
 
   Invoice() {
