@@ -64,9 +64,7 @@ tr:nth-child(even) {
     margin-right: 5px;
 }
 
-::ng-deep .example-full-width .mat-form-field-wrapper {
-    padding: 5px !important;
-}
+
 
 .textDesc {
     margin-top: 15px;
@@ -83,6 +81,20 @@ tr:nth-child(even) {
 
 .altTr {
     background: ghostwhite !important;
+}
+
+.InfoArea {
+    display: flex;
+    gap: 15px;
+    /* background: whitesmoke; */
+    padding: 5px;
+}
+
+.InfoArea .infoItem {
+    background: #ff0505;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
 }
 
 .productinput {

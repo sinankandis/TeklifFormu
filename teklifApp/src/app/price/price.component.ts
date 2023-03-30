@@ -49,6 +49,8 @@ export class PriceComponent implements OnInit {
   profileForm = new FormGroup({
     hotelname: new FormControl("", Validators.required),
     roomcount: new FormControl("", [Validators.required, Validators.min(0)]),
+    packet: new FormControl(1, [Validators.required]),
+    period: new FormControl(1, [Validators.required]),
     email: new FormControl("", [Validators.required]),
     phone: new FormControl("", Validators.required),
     authorized: new FormControl("", Validators.required),
@@ -56,17 +58,19 @@ export class PriceComponent implements OnInit {
     wantemail: new FormControl(""),
     wantphone: new FormControl(""),
     sellerEmailCheck: new FormControl(true),
+    note: new FormControl(""),
   });
 
   public dataSource: any;
   public periodList: any;
+  public periodListData: any
   public packetListData: any;
   public packetList: any;
   path: string = this.userservice.path;
   roomCount: number = 0;
   alertmessage: string;
   offer: boolean = false;
-  totalpricefinal: number = 0;
+  totalpricefinal: any = 0;
   showpriceControl: boolean = true;
   overlayRef: OverlayRef;
   lang: any;
@@ -163,11 +167,12 @@ export class PriceComponent implements OnInit {
       langendpoint = this.path + "lang-en.php";
     }
 
-    this.periodList = await this.http.post("https://4001.hoteladvisor.net", this.userservice.periodListConfig).toPromise();
-    this.packetList = await this.http.post("https://4001.hoteladvisor.net", this.userservice.packetListConfig).toPromise();
+    this.periodList = await this.http.get("https://www.elektraweb.com/priceapi/getapi.php?type=period", {}).toPromise();
+    this.packetList = await this.http.get("https://www.elektraweb.com/priceapi/getapi.php?type=packet", {}).toPromise();
     this.packetListData = this.packetList.ResultSets[0];
+    this.periodListData = this.periodList.ResultSets[0];
 
-    this.http.post("https://4001.hoteladvisor.net", this.userservice.productListConfig,).subscribe((resp: any) => {
+    this.http.get("https://www.elektraweb.com/priceapi/getapi.php?type=product", {}).subscribe((resp: any) => {
       this.dataSource = resp.ResultSets[0].map(x => {
         return {
 
@@ -183,10 +188,9 @@ export class PriceComponent implements OnInit {
           "ROOMPRICE": x.ROOMPRICE,
           "BASEPRICE": x.BASEPRICE,
           "INSTALLATIONFEE": x.INSTALLATIONFEE,
-          "USEFACTOR":x.USEFACTOR,
+          "USEFACTOR": x.USEFACTOR,
           "ID": x.ID,
           "selectedperiod": 1,
-          "periods": this.periodList.ResultSets[0],
           "finalprice": 0,
         }
 
@@ -233,6 +237,72 @@ export class PriceComponent implements OnInit {
     }
   }
 
+
+
+  getPriceHtml(element, trans, type) {
+    let discounttext;
+    if (element.discount > 0) {
+      let nodiscountt =
+        element.finalprice +
+        (element.finalprice / (100 - element.discount)) * element.discount;
+      if (isFinite(nodiscountt) == false) {
+        nodiscountt = 0;
+      }
+
+      discounttext =
+        "( " +
+        trans.discount +
+        " " +
+        element.discount +
+        " ) " +
+        '<span class="discountpricecss">' +
+        this.decimalPipe.transform(nodiscountt.toFixed(2)) +
+        " " +
+        this.currencycode +
+        "</span>" +
+        "<br>";
+    } else {
+      discounttext = "";
+    }
+
+
+
+    let pricetext = "";
+
+    if (type == 1) {
+      pricetext =
+        "<b>" +
+        this.decimalPipe.transform((element.finalprice / 12).toFixed(2)) +
+        "</b>" +
+        " " +
+        this.currencycode +
+        "/" +
+        trans.monthly +
+        "<br>" +
+        this.decimalPipe.transform((element.finalprice).toFixed(2)) +
+        " " +
+        this.currencycode;
+    }
+
+
+    if (element.INSTALLATIONFEE == null) {
+      element.INSTALLATIONFEE = 0;
+    }
+
+
+
+    let html =
+      '<tr><td style="width:50%;"><strong>' + element.NAME + "</strong>" + "</td>" +
+      '<td><strong>' + this.decimalPipe.transform((element.INSTALLATIONFEE).toFixed(2)) + " " + this.currencycode + "</strong>" + "</td>" +
+      '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
+      discounttext +
+      pricetext +
+      "</p></tr>";
+
+    return html;
+  }
+
+
   teklifGonder(process, message?) {
     let trans = this.langtrans[0];
     if (this.profileForm.valid) {
@@ -263,75 +333,96 @@ export class PriceComponent implements OnInit {
         t.append("langparam", this.currentLang);
         t.append("username", offerusername);
         t.append("password", offerpassword);
-        let html = "";
-/*         html += '<div class="heading">' + trans.annualycharged + "</div>";
- */        html +=
-          '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' +
-          trans.productexplaniton +
-          '</th><th class="coltab2">' +
-          trans.roomcount +
-          '</th><th class="coltab3">' +
-          trans.price +
-          " (" +
-          this.currencycode +
-          ")</th></tr></thead><tbody>";
+        t.append("note", formdata.note);
+        t.append("price", this.totalpricefinal.toFixed(2));
+
+        let html = `
+
+        <div class="InfoArea" style="
+        display: inline-block;
+    ">
+        <div class="infoItem" style="
+        background: red;
+        color: white;
+        padding: 5px;
+        display: inline;
+        border-radius: 5px;
+    ">
+          <label>Packet</label> <span>${this.packetListData.filter(x => x.FACTOR == this.profileForm.value.packet)[0].PACKAGENAME}</span>
+        </div>
+    
+        <div class="infoItem" style="
+        background: red;
+        color: white;
+        display: inline;
+        padding: 5px;
+        border-radius: 5px;
+    ">
+          <label>Period</label> <span>${this.profileForm.value.period} ${trans.year} </span>
+        </div>
+      </div>
+
+      
+        `;
 
 
-        this.dataSource.forEach((element) => {
-          if (element.selected) {
+        let AnnuallyData = this.dataSource.filter(x => x.BASEPRICE != null && x.ROOMPRICE != null && x.selected == true);
 
-            let discounttext;
-            if (element.discount > 0) {
-              let nodiscountt =
-                element.finalprice +
-                (element.finalprice / (100 - element.discount)) * element.discount;
-              if (isFinite(nodiscountt) == false) {
-                nodiscountt = 0;
-              }
-
-              discounttext =
-                "( " +
-                trans.discount +
-                " " +
-                element.discount +
-                " ) " +
-                '<span class="discountpricecss">' +
-                this.decimalPipe.transform(nodiscountt.toFixed(2)) +
-                " " +
-                this.currencycode +
-                "</span>" +
-                "<br>";
-            } else {
-              discounttext = "";
-            }
+        if (AnnuallyData.length > 0) {
+          html += '<div class="heading">' + trans.annualycharged + "</div>";
+          html +=
+            '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' +
+            trans.productexplaniton +
+            '</th><th class="coltab2">' +
+            trans.setupprice +
+            '</th><th class="coltab3">' +
+            trans.price +
+            " (" +
+            this.currencycode +
+            ")</th></tr></thead><tbody>";
 
 
-            let pricetext = "";
-            pricetext =
-              "<b>" +
-              this.decimalPipe.transform((element.finalprice / 12).toFixed(2)) +
-              "</b>" +
-              " " +
-              this.currencycode +
-              "/" +
-              trans.monthly +
-              "<br>" +
-              this.decimalPipe.transform((element.finalprice).toFixed(2)) +
-              " " +
-              this.currencycode
+          AnnuallyData.forEach((element) => {
 
-            html +=
-              '<tr><td style="width:50%;"><strong>' + element.NAME + "</strong>" + "</td>" +
-              "<td>" + formdata.roomcount + "</td>" +
-              '<td style="text-align: right;"><p style=text-align: right; padding: 0; margin: 0;>' +
-              discounttext +
-              pricetext +
-              "</p></tr>";
+            html += this.getPriceHtml(element, trans, 1);
 
-          }
-        });
+          });
 
-        html += "</tbody></table><br><br>";
+          html += "</tbody></table><br><br>";
+        }
+
+
+        let fixData = this.dataSource.filter(x => x.INSTALLATIONFEE > 0 && x.BASEPRICE == null && x.ROOMPRICE == null && x.selected == true);
+
+
+        if (fixData.length > 0) {
+          ///Sabit Ücretler
+          html += '<div class="heading">' + trans.productchargedronce + "</div>"
+          html +=
+            '<table class="w100"><thead><tr class="tableHead"><th class="coltab1">' +
+            trans.productexplaniton +
+            '</th><th class="coltab2">' +
+            trans.setupprice +
+            '</th><th class="coltab3">' +
+            trans.price +
+            " (" +
+            this.currencycode +
+            ")</th></tr></thead><tbody>";
+
+
+          fixData.forEach((element) => {
+
+            html += this.getPriceHtml(element, trans, 2);
+
+          });
+
+          html += "</tbody></table><br><br>";
+        }
+
+
+
+
+
 
 
         html +=
@@ -383,15 +474,22 @@ export class PriceComponent implements OnInit {
   }
 
   changeData(roomcount, id?) {
+
+    let period = this.profileForm.value.period;
+    let packet = this.profileForm.value.packet;
+
     if (roomcount == "" || roomcount == null || roomcount == undefined) {
       roomcount = 1;
     }
 
     this.dataSource.forEach(x => {
       if (x.selected) {
-       
-        let price = ((roomcount * x.ROOMPRICE * x.packetfactor * x.selectedperiod) + x.BASEPRICE) * (12 * ((100 - x.discount) / 100));
-        x.finalprice = price;
+        let INSTALLATIONFEE = 0;
+        if (x.INSTALLATIONFEE != null) {
+          INSTALLATIONFEE = x.INSTALLATIONFEE;
+        }
+        let price = (((roomcount * x.ROOMPRICE * packet * period) + x.BASEPRICE) * (12 * ((100 - x.discount) / 100)));
+        x.finalprice = price + INSTALLATIONFEE;
       }
     });
 

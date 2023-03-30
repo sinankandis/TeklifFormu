@@ -60,9 +60,7 @@ table {
   margin-right: 5px;
 }
 
-::ng-deep .example-full-width .mat-form-field-wrapper {
-  padding: 5px !important;
-}
+
 
 .textDesc {
   margin-top: 15px;
