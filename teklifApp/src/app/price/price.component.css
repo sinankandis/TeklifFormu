@@ -158,6 +158,7 @@ p.desctext {
     .CallMeArea {
         width: 80%;
     }
+
     .callnumber a {
         font-size: 25px;
     }
@@ -210,4 +211,43 @@ p.desctext {
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+}
+
+.description {
+    margin: 5px 0px;
+    /* padding: 5px; */
+}
+
+.infoBar {
+    margin: 10px 0;
+}
+
+.infoBar p {
+    margin: 0;
+    -webkit-box-align: center;
+    align-items: center;
+    margin: 10px 0;
+    font-weight: 300;
+}
+
+.infoItem {
+    display: flex;
+    align-items: center;
+}
+
+
+.infoBar i {
+    margin-right: 10px;
+}
+
+.infoBar p span {
+    color: red;
+
+}
+::ng-deep .mat-select-value {
+    font-weight: 700;
+}
+
+.matItem {
+    width: 33%;
 }

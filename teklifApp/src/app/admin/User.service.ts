@@ -8,7 +8,7 @@ export class UserService implements CanActivate {
   constructor(private router: Router) {
 
     if (this.company == "elektraweb") {
-      this.path = "https://www.elektraweb.com/teklifapp/";
+      this.path = "https://www.elektraweb.com/yenitasarim/teklifapp/";
       this.logo = "https://www.elektraweb.com/wp-content/uploads/2020/01/elektraweblogo.png";
     }
 

@@ -61,6 +61,28 @@ export class PriceComponent implements OnInit {
     note: new FormControl(""),
   });
 
+
+  category: any = [
+    {
+      "displayField": "Restaurant / Pos",
+      "key": 0
+    },
+    {
+      "displayField": "SPA",
+      "key": 1
+    },
+    {
+      "displayField": "Cash Register Integration",
+      "key": 2
+    },
+    {
+      "displayField": "Personel",
+      "key": 3
+    }
+  ]
+
+
+  public dataSourceGroup: any;
   public dataSource: any;
   public periodList: any;
   public periodListData: any
@@ -167,6 +189,8 @@ export class PriceComponent implements OnInit {
       langendpoint = this.path + "lang-en.php";
     }
 
+
+
     this.periodList = await this.http.get("https://www.elektraweb.com/priceapi/getapi.php?type=period", {}).toPromise();
     this.packetList = await this.http.get("https://www.elektraweb.com/priceapi/getapi.php?type=packet", {}).toPromise();
     this.packetListData = this.packetList.ResultSets[0];
@@ -192,9 +216,69 @@ export class PriceComponent implements OnInit {
           "ID": x.ID,
           "selectedperiod": 1,
           "finalprice": 0,
+          "SHOWQUANTITY": x.SHOWQUANTITY,
+          "CATEGORYID": x.CATEGORYID,
+          "quantity": 0
         }
 
       });
+
+      let groupData = [];
+      let categoryler = [];
+      this.dataSource.forEach(element => {
+        let cat = categoryler.filter(x => x == element.CATEGORYID);
+
+        if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID)) {
+          element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID);
+          groupData.push(element);
+          categoryler.push(element.CATEGORYID);
+        }
+
+        if (element.CATEGORYID == null) {
+          groupData.push(element);
+        }
+
+      });
+
+      console.log(categoryler)
+      console.log(groupData);
+      return false;
+
+      const groups = this.dataSource.reduce((groups, item) => {
+        const group = (groups[item.CATEGORYID] || []);
+        group.push(item);
+        groups[item.CATEGORYID] = group;
+        return groups;
+      }, {});
+
+
+      console.log(groups)
+
+
+
+      /*  let pushData = [];
+       Object.entries(groups).forEach(([key, value], index) => {
+         let keyLabel = "";
+         if (this.category.filter(x => x.key == key).length > 0) {
+           keyLabel = this.category.filter(x => x.key == key)[0].displayField;
+         } else {
+           keyLabel = "";
+         }
+ 
+         let pushItem = {
+           selected: false,
+           grupData: value,
+           grupLabel: keyLabel,
+           grupID: key,
+           finalprice: 0,
+           discount: 0,
+         }
+         pushData.push(pushItem);
+       });
+ 
+       this.dataSourceGroup = pushData;
+ 
+       console.log(this.dataSourceGroup) */
 
     }, (error) => {
       alert(error.error)
@@ -208,8 +292,9 @@ export class PriceComponent implements OnInit {
       let datam = this.lang.filter((x) => x[this.currentLang])[0];
       this.langtrans = datam[this.currentLang];
     });
-
   }
+
+
 
   logout() {
     this.userservice.login = false;
@@ -335,35 +420,11 @@ export class PriceComponent implements OnInit {
         t.append("password", offerpassword);
         t.append("note", formdata.note);
         t.append("price", this.totalpricefinal.toFixed(2));
+        t.append("packet", this.packetListData.filter(x => x.FACTOR == this.profileForm.value.packet)[0].PACKAGENAME);
+        t.append("period", this.profileForm.value.period);
 
-        let html = `
 
-        <div class="InfoArea" style="
-        display: inline-block;
-    ">
-        <div class="infoItem" style="
-        background: red;
-        color: white;
-        padding: 5px;
-        display: inline;
-        border-radius: 5px;
-    ">
-          <label>Packet</label> <span>${this.packetListData.filter(x => x.FACTOR == this.profileForm.value.packet)[0].PACKAGENAME}</span>
-        </div>
-    
-        <div class="infoItem" style="
-        background: red;
-        color: white;
-        display: inline;
-        padding: 5px;
-        border-radius: 5px;
-    ">
-          <label>Period</label> <span>${this.profileForm.value.period} ${trans.year} </span>
-        </div>
-      </div>
-
-      
-        `;
+        let html = "";
 
 
         let AnnuallyData = this.dataSource.filter(x => x.BASEPRICE != null && x.ROOMPRICE != null && x.selected == true);
@@ -473,14 +534,43 @@ export class PriceComponent implements OnInit {
     }
   }
 
-  changeData(roomcount, id?) {
+
+  changeData(roomcount, id?, type?) {
+
+    if (typeof id == 'object') {
+      if (id.selected == false) {
+        this.dataSourceGroup.map(x => {
+          if (id.grupID == x.grupID) {
+            x.grupData.map(y => {
+
+              y.selected = false,
+                y.discount = x.discount
+            });
+          }
+        });
+      }
+
+      this.dataSource = this.dataSourceGroup.flatMap(i => i.grupData);
+
+      if (id.ID && type == "radio") {
+        console.log(id)
+        this.dataSourceGroup.map(x => {
+          if (id.CATEGORYID == x.grupID) {
+            x.grupData.map(y => {
+
+              y.selected = false,
+                y.discount = x.discount
+            });
+          }
+        });
+        this.dataSource.filter(x => x.ID == id.ID)[0].selected = true;
+      }
+    }
+
 
     let period = this.profileForm.value.period;
     let packet = this.profileForm.value.packet;
-
-    if (roomcount == "" || roomcount == null || roomcount == undefined) {
-      roomcount = 1;
-    }
+    if (roomcount == "" || roomcount == null || roomcount == undefined) { roomcount = 1; }
 
     this.dataSource.forEach(x => {
       if (x.selected) {
@@ -490,10 +580,28 @@ export class PriceComponent implements OnInit {
         }
         let price = (((roomcount * x.ROOMPRICE * packet * period) + x.BASEPRICE) * (12 * ((100 - x.discount) / 100)));
         x.finalprice = price + INSTALLATIONFEE;
+
+
+
+        if (typeof id == 'object') {
+          if (x.CATEGORYID == id.CATEGORYID && x.SHOWQUANTITY != true) {
+            this.dataSourceGroup.filter(x => id.CATEGORYID == x.grupID)[0].finalprice = price + INSTALLATIONFEE;
+          }
+
+          if (x.CATEGORYID == id.CATEGORYID && x.SHOWQUANTITY == true) {
+            console.log(id)
+            let grupPrice = (x.quantity * (price + INSTALLATIONFEE));
+            x.finalprice = (grupPrice - (grupPrice / 100) * x.discount);
+            console.log(x.finalprice)
+          }
+        }
       }
     });
 
+    console.log(this.dataSource)
+
     this.totalfunction();
+
 
   }
 
@@ -508,7 +616,6 @@ export class PriceComponent implements OnInit {
 
   totalfunction() {
     let totalprice = 0;
-    console.log(this.dataSource)
     this.dataSource.forEach((element) => {
       if (element.pass == true) {
         if (element.selected == true) {
