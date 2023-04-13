@@ -199,7 +199,6 @@ export class PriceComponent implements OnInit {
     this.http.get("https://www.elektraweb.com/priceapi/getapi.php?type=product", {}).subscribe((resp: any) => {
       this.dataSource = resp.ResultSets[0].map(x => {
         return {
-
           'pass': true,
           'packetfactor': this.packetListData[2].FACTOR,
           'period': 1,
@@ -223,12 +222,12 @@ export class PriceComponent implements OnInit {
 
       });
 
+
       let groupData = [];
       let categoryler = [];
       this.dataSource.forEach(element => {
         let cat = categoryler.filter(x => x == element.CATEGORYID);
-
-        if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID)) {
+        if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID) < 0) {
           element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID);
           groupData.push(element);
           categoryler.push(element.CATEGORYID);
@@ -240,45 +239,8 @@ export class PriceComponent implements OnInit {
 
       });
 
-      console.log(categoryler)
-      console.log(groupData);
-      return false;
-
-      const groups = this.dataSource.reduce((groups, item) => {
-        const group = (groups[item.CATEGORYID] || []);
-        group.push(item);
-        groups[item.CATEGORYID] = group;
-        return groups;
-      }, {});
-
-
-      console.log(groups)
-
-
-
-      /*  let pushData = [];
-       Object.entries(groups).forEach(([key, value], index) => {
-         let keyLabel = "";
-         if (this.category.filter(x => x.key == key).length > 0) {
-           keyLabel = this.category.filter(x => x.key == key)[0].displayField;
-         } else {
-           keyLabel = "";
-         }
- 
-         let pushItem = {
-           selected: false,
-           grupData: value,
-           grupLabel: keyLabel,
-           grupID: key,
-           finalprice: 0,
-           discount: 0,
-         }
-         pushData.push(pushItem);
-       });
- 
-       this.dataSourceGroup = pushData;
- 
-       console.log(this.dataSourceGroup) */
+      this.dataSource = groupData;
+      console.log(this.dataSource)
 
     }, (error) => {
       alert(error.error)
@@ -535,73 +497,136 @@ export class PriceComponent implements OnInit {
   }
 
 
-  changeData(roomcount, id?, type?) {
-
-    if (typeof id == 'object') {
-      if (id.selected == false) {
-        this.dataSourceGroup.map(x => {
-          if (id.grupID == x.grupID) {
-            x.grupData.map(y => {
-
-              y.selected = false,
-                y.discount = x.discount
-            });
-          }
-        });
-      }
-
-      this.dataSource = this.dataSourceGroup.flatMap(i => i.grupData);
-
-      if (id.ID && type == "radio") {
-        console.log(id)
-        this.dataSourceGroup.map(x => {
-          if (id.CATEGORYID == x.grupID) {
-            x.grupData.map(y => {
-
-              y.selected = false,
-                y.discount = x.discount
-            });
-          }
-        });
-        this.dataSource.filter(x => x.ID == id.ID)[0].selected = true;
-      }
-    }
-
+  changeData(roomcount, val?, type?) {
 
     let period = this.profileForm.value.period;
     let packet = this.profileForm.value.packet;
     if (roomcount == "" || roomcount == null || roomcount == undefined) { roomcount = 1; }
 
-    this.dataSource.forEach(x => {
+    this.dataSource = this.dataSource.map((x) => {
       if (x.selected) {
         let INSTALLATIONFEE = 0;
         if (x.INSTALLATIONFEE != null) {
           INSTALLATIONFEE = x.INSTALLATIONFEE;
         }
-        let price = (((roomcount * x.ROOMPRICE * packet * period) + x.BASEPRICE) * (12 * ((100 - x.discount) / 100)));
-        x.finalprice = price + INSTALLATIONFEE;
 
+        if (x.grupData) {
+          if (type == "radio") {
+            x.grupData.map(t => {
+              if (t.CATEGORYID == val.CATEGORYID) {
+                t.selecteditem = false;
+              }
+              if (t.ID == val.ID) {
+                t.selecteditem = true;
+                let price = (((roomcount * t.ROOMPRICE * packet * period) + t.BASEPRICE) * (12 * ((100 - t.discount) / 100)));
+                x.finalprice = price + INSTALLATIONFEE;
+                x.type = "radio";
+              }
 
-
-        if (typeof id == 'object') {
-          if (x.CATEGORYID == id.CATEGORYID && x.SHOWQUANTITY != true) {
-            this.dataSourceGroup.filter(x => id.CATEGORYID == x.grupID)[0].finalprice = price + INSTALLATIONFEE;
+            })
           }
 
-          if (x.CATEGORYID == id.CATEGORYID && x.SHOWQUANTITY == true) {
-            console.log(id)
-            let grupPrice = (x.quantity * (price + INSTALLATIONFEE));
-            x.finalprice = (grupPrice - (grupPrice / 100) * x.discount);
-            console.log(x.finalprice)
+debugger;
+          if (type == "check") {
+            let gruptotal = 0;
+            x.grupData.map(t => {
+              if (t.selected) {
+                let price = (((roomcount * t.ROOMPRICE * packet * period) + t.BASEPRICE) * (12 * ((100 - t.discount) / 100)));
+                let grupPrice = (t.quantity * (price + INSTALLATIONFEE));
+                t.finalprice = grupPrice;
+                gruptotal += grupPrice;
+              }
+
+               x.finalprice = gruptotal
+               x.type = "check";
+          
+              })
+         
           }
+
+        }
+        else {
+          let price = (((roomcount * x.ROOMPRICE * packet * period) + x.BASEPRICE) * (12 * ((100 - x.discount) / 100)));
+          x.finalprice = price + INSTALLATIONFEE;
         }
       }
+
+      return {
+        'pass': true,
+        'packetfactor': this.packetListData[2].FACTOR,
+        'period': x.period,
+        'discount': x.discount,
+        'selected': x.selected,
+        "ORDERNO": x.ORDERNO,
+        "CODE": x.CODE,
+        "NAME": x.NAME,
+        "DESCRIPTION": x.DESCRIPTION,
+        "ROOMPRICE": x.ROOMPRICE,
+        "BASEPRICE": x.BASEPRICE,
+        "INSTALLATIONFEE": x.INSTALLATIONFEE,
+        "USEFACTOR": x.USEFACTOR,
+        "ID": x.ID,
+        "selectedperiod": x.selectedperiod,
+        "finalprice": x.finalprice,
+        "SHOWQUANTITY": x.SHOWQUANTITY,
+        "CATEGORYID": x.CATEGORYID,
+        "quantity": x.quantity,
+        "grupData": x.grupData,
+        "finalpricegrup": x.finalpricegrup,
+        "type": x.type
+      }
+
+
     });
 
     console.log(this.dataSource)
 
-    this.totalfunction();
+    /* this.dataSource.forEach(x => {
+      if (x.selected) {
+        let INSTALLATIONFEE = 0;
+        if (x.INSTALLATIONFEE != null) {
+          INSTALLATIONFEE = x.INSTALLATIONFEE;
+        }
 
+        if (x.grupData) {
+          if (type == "radio") {
+
+              let t = x.grupData.selected;
+              let price = (((roomcount * t.ROOMPRICE * packet * period) + t.BASEPRICE) * (12 * ((100 - t.discount) / 100)));
+              x.finalprice = price + INSTALLATIONFEE;
+              x.type = "radio";
+           
+          }
+
+          if (type == "check") {
+
+            let m = x.grupData;
+            let gruptotal = 0;
+            m.forEach(element => {
+              console.log(element)
+              if (element.selected) {
+                let price = (((roomcount * element.ROOMPRICE * packet * period) + element.BASEPRICE) * (12 * ((100 - element.discount) / 100)));
+                let grupPrice = (element.quantity * (price + INSTALLATIONFEE));
+                element.finalprice = grupPrice;
+                gruptotal += element.finalprice;
+              }
+            });
+
+          }
+        }
+        else {
+          let price = (((roomcount * x.ROOMPRICE * packet * period) + x.BASEPRICE) * (12 * ((100 - x.discount) / 100)));
+          x.finalprice = price + INSTALLATIONFEE;
+        }
+
+
+      }
+    }); */
+
+
+
+
+    this.totalfunction();
 
   }
 

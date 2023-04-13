@@ -404,171 +404,153 @@
                     </thead>
                     <tbody>
 
-                        <ng-container *ngFor="let item of dataSourceGroup">
+                        <ng-container *ngFor="let item of dataSource">
 
-                            <!----Kategori Var ise-->
-                            <ng-container *ngIf="item.grupLabel !='' && item.grupLabel !='null'">
-                                <tr>
-                                    <td style="text-align: center;">
-                                        <mat-checkbox (change)="changeData(profileForm.get('roomcount').value,item);"
-                                            [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected">
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <div class="">
-                                            <span><b>{{item.grupLabel}}</b> </span>
-                                            <div class="description" [innerHTML]="item.DESCRIPTION"></div>
-                                            <ng-container *ngIf="item.selected==true">
-                                                <div
-                                                    style="background: whitesmoke;padding: 10px;border-radius: 5px;margin-top:10px;">
-                                                    <mat-radio-group aria-labelledby="example-radio-group-label"
-                                                        class="example-radio-group" [(ngModel)]="item.selectedItem"
-                                                        [ngModelOptions]="{standalone: true}">
-                                                        <ng-container *ngFor="let x of item.grupData">
-                                                            <mat-radio-button selected class="example-radio-button"
-                                                                *ngIf="x.SHOWQUANTITY !=true"
-                                                                (click)="changeData(profileForm.get('roomcount').value,x,'radio');"
-                                                                [value]="x.ID">
-                                                                {{x.NAME}}
-                                                            </mat-radio-button>
-                                                        </ng-container>
-                                                    </mat-radio-group>
 
-                                                   
-                                                    <table *ngIf="item.grupID==2">
-                                                        <thead>
+                            <!----Kategori Yok ise-->
+
+                            <tr>
+                                <td style="text-align: center;">
+                                    <mat-checkbox (change)="changeData(profileForm.get('roomcount').value,'','');"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected">
+                                    </mat-checkbox>
+                                </td>
+                                <td>
+                                    <div class="">
+                                        <span><b>{{item.NAME}}</b> </span>
+                                        <div class="description" [innerHTML]="item.DESCRIPTION"></div>
+                                        <ng-container *ngIf="item.selected==true &&  item.grupData">
+                                            <div
+                                                style="background: whitesmoke;padding: 10px;border-radius: 5px;margin-top:10px;">
+                                                <!--     <mat-radio-group aria-labelledby="example-radio-group-label"
+                                                    class="example-radio-group" [(ngModel)]="item.grupData.selected"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                    <ng-container *ngFor="let x of item.grupData">
+                                                        <mat-radio-button selected class="example-radio-button"
+                                                            *ngIf="x.SHOWQUANTITY !=true"
+                                                            (click)="changeData(profileForm.get('roomcount').value,'radio');"
+                                                            [value]="x">
+                                                            {{x.NAME}}
+                                                        </mat-radio-button>
+                                                    </ng-container>
+                                                </mat-radio-group>
+ -->
+
+                                                <ng-container *ngFor="let x of item.grupData">
+                                                    <div *ngIf="x.SHOWQUANTITY !=true">
+                                                        <mat-checkbox
+                                                            (change)="changeData(profileForm.get('roomcount').value,x,'radio');"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                            [(ngModel)]="x.selecteditem">
+                                                            {{x.NAME}}
+                                                        </mat-checkbox>
+                                                    </div>
+                                                </ng-container>
+
+
+                                                <table>
+                                                    <ng-container *ngFor="let x of item.grupData;let i = index">
+                                                        <thead *ngIf="x.SHOWQUANTITY && i==0">
                                                             <th> {{trans.select}}</th>
                                                             <th style="width:50%;"> {{trans.productname}} </th>
                                                             <th style="width:15%;"> {{trans.productquantity}}</th>
                                                             <th *ngIf="userservice.login"> {{trans.discount}}</th>
                                                             <th> {{trans.total}}</th>
                                                         </thead>
+                                                        <ng-container *ngIf="x.SHOWQUANTITY">
+                                                            <tr>
+                                                                <td>
+                                                                    <mat-checkbox
+                                                                        (change)="changeData(profileForm.get('roomcount').value,x,'check');"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        [(ngModel)]="x.selected">
+                                                                    </mat-checkbox>
+                                                                </td>
+                                                                <td>
+                                                                    {{x.NAME}}
+                                                                </td>
+                                                                <td>
+                                                                    <input
+                                                                        (change)="changeData(profileForm.get('roomcount').value,x,'check');"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        [(ngModel)]="x.quantity" style="width:50px;"
+                                                                        type="number" min="0" value="0"
+                                                                        class="productinput" matInput>
+                                                                </td>
 
-                                                        <ng-container *ngFor="let x of item.grupData">
-                                                            <ng-container *ngIf="x.SHOWQUANTITY">
-                                                                <tr>
-                                                                    <td>
-                                                                        <mat-checkbox
-                                                                            (change)="changeData(profileForm.get('roomcount').value,x);"
-                                                                            [ngModelOptions]="{standalone: true}"
-                                                                            [(ngModel)]="x.selected">
-                                                                        </mat-checkbox>
-                                                                    </td>
-                                                                    <td>
-                                                                        {{x.NAME}}
-                                                                    </td>
-                                                                    <td>
-                                                                        <input
-                                                                            (change)="changeData(profileForm.get('roomcount').value,x);"
-                                                                            [ngModelOptions]="{standalone: true}"
-                                                                            [(ngModel)]="x.quantity" style="width:50px;"
-                                                                            type="number" min="0" value="0"
-                                                                            class="productinput" matInput>
-                                                                    </td>
+                                                                <td *ngIf="userservice.login">
+                                                                    <input
+                                                                        (change)="changeData(profileForm.get('roomcount').value,x,'check');"
+                                                                        [ngModelOptions]="{standalone: true}"
+                                                                        [(ngModel)]="x.discount" style="width:50px;"
+                                                                        type="number" min="0" value="0"
+                                                                        class="productinput" matInput>
+                                                                </td>
+                                                                <td>
+                                                                    {{x.finalprice | currency : currencyprefix}}
 
-                                                                    <td *ngIf="userservice.login">
-                                                                        <input
-                                                                            (change)="changeData(profileForm.get('roomcount').value,x);"
-                                                                            [ngModelOptions]="{standalone: true}"
-                                                                            [(ngModel)]="x.discount" style="width:50px;"
-                                                                            type="number" min="0" value="0"
-                                                                            class="productinput" matInput>
-                                                                    </td>
-                                                                    <td>
-                                                                        {{x.finalprice | currency : currencyprefix}}
-
-                                                                    </td>
-                                                                </tr>
-                                                            </ng-container>
+                                                                </td>
+                                                            </tr>
                                                         </ng-container>
-                                                    </table>
+                                                    </ng-container>
+                                                </table>
+
+                                            </div>
+                                        </ng-container>
 
 
-                                                </div>
-                                            </ng-container>
-
-                                        </div>
-
-                                    </td>
-                                    <td style="text-align:center;" *ngIf="userservice.login">
-                                        <input (change)="changeData(profileForm.get('roomcount').value);"
-                                            [ngModelOptions]="{standalone: true}" [(ngModel)]="item.discount"
-                                            style="width:50px;" type="number" min="0" value="0" class="productinput"
-                                            matInput>
-                                    </td>
 
 
-                                    <ng-container>
-                                        <td class="pricess" style="text-align: end;">
+                                    </div>
 
-                                            <ng-container *ngIf="!item.selected"><span>{{0 | currency :
-                                                    currencyprefix}}</span></ng-container>
-                                            <ng-container *ngIf="item.selected && item.SHOWQUANTITY !=true">
-                                                <div>
-                                                    <strong style="color: yellowgreen;">{{item.finalprice /
-                                                        12 | currency :
-                                                        currencyprefix}}</strong> / {{trans.monthly}}
-                                                </div>
+                                </td>
+                                <td style="text-align:center;" *ngIf="userservice.login">
+                                    <input (change)="changeData(profileForm.get('roomcount').value);"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="item.discount"
+                                        style="width:50px;" type="number" min="0" value="0" class="productinput"
+                                        matInput>
+                                </td>
 
 
-                                                <span><b>{{item.finalprice | currency : currencyprefix}}</b> /
-                                                    {{trans.year}}</span>
-                                            </ng-container>
+                                <ng-container *ngIf="item.type !='check'">
+                                    <td class="pricess" style="text-align: end;">
 
-                                        </td>
-                                    </ng-container>
-                                </tr>
-
-                            </ng-container>
-
-                            <!----Kategori Yok ise-->
-                            <ng-container *ngIf="item.grupLabel =='' || item.grupLabel =='null'">
-                                <ng-container *ngFor="let item of item.grupData">
-                                    <tr>
-                                        <td style="text-align: center;">
-                                            <mat-checkbox (change)="changeData(profileForm.get('roomcount').value,1);"
-                                                [ngModelOptions]="{standalone: true}" [(ngModel)]="item.selected">
-                                            </mat-checkbox>
-                                        </td>
-                                        <td>
-                                            <div class="flexArea">
-                                                <span><b>{{item.NAME}}</b>
-                                                    <div class="description" [innerHTML]="item.DESCRIPTION"></div>
-                                                </span>
+                                        <ng-container *ngIf="!item.selected"><span>{{0 | currency :
+                                                currencyprefix}}</span></ng-container>
+                                        <ng-container *ngIf="item.selected">
+                                            <div>
+                                                <strong style="color: yellowgreen;">{{item.finalprice /
+                                                    12 | currency :
+                                                    currencyprefix}}</strong> / {{trans.monthly}}
                                             </div>
 
-                                        </td>
-                                        <td style="text-align:center;" *ngIf="userservice.login">
-                                            <input (change)="changeData(profileForm.get('roomcount').value);"
-                                                [ngModelOptions]="{standalone: true}" [(ngModel)]="item.discount"
-                                                style="width:50px;" type="number" min="0" value="0" class="productinput"
-                                                matInput>
-                                        </td>
 
-
-                                        <ng-container>
-                                            <td class="pricess" style="text-align: end;">
-
-                                                <ng-container *ngIf="!item.selected"><span>{{0 | currency :
-                                                        currencyprefix}}</span></ng-container>
-                                                <ng-container *ngIf="item.selected">
-                                                    <div>
-                                                        <strong style="color: yellowgreen;">{{item.finalprice /
-                                                            12 | currency :
-                                                            currencyprefix}}</strong> / {{trans.monthly}}
-                                                    </div>
-
-
-                                                    <span><b>{{item.finalprice | currency : currencyprefix}}</b> /
-                                                        {{trans.year}}</span>
-                                                </ng-container>
-
-                                            </td>
+                                            <span><b>{{item.finalprice | currency : currencyprefix}}</b> /
+                                                {{trans.year}}</span>
                                         </ng-container>
-                                    </tr>
+
+                                    </td>
                                 </ng-container>
-                            </ng-container>
+
+
+
+                                <ng-container *ngIf="item.type =='check'">
+                                    <td class="pricess" style="text-align: end;">
+
+                                        <ng-container *ngIf="!item.selected"><span>{{0 | currency :
+                                                currencyprefix}}</span></ng-container>
+                                        <ng-container *ngIf="item.selected">
+
+                                            <span><b>{{item.finalpricegrup | currency : currencyprefix}}</b></span>
+                                        </ng-container>
+
+                                    </td>
+                                </ng-container>
+
+                            </tr>
+
                         </ng-container>
+                        >
                     </tbody>
                 </table>
 
