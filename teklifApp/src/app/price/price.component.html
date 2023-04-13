@@ -328,6 +328,15 @@
                     </div>
 
                     <div class="infoBar">
+
+                        <div class="infoItem">
+                            <i class="material-icons">info</i>
+                            <p>Fiyat teklifi oluşturmak için zorunlu alanların doldurulması, paket seçimi yapılması (Standart, Midi veya Mini) ve oda sayısının 
+                                girilmesi gereklidir.
+                            </p>
+                        </div>
+
+
                         <div class="infoItem">
                             <i class="material-icons">info</i>
                             <p>150 oda ve üzeri işletmeler için <span>Standart Paket</span> önerilir.
@@ -348,7 +357,7 @@
                         <div class="infoItem">
                             <i class="material-icons">info</i>
                             <p>Sadece önbüro, e-Fatura, kanal yönetimi ve online rezervasyon kullanacak işletmeler için
-                                <span> Mini Paket</span> ekonomik bir çözümdür. Ancak herhangi bir modük eklenemez.
+                                <span> Mini Paket</span> ekonomik bir çözümdür. Ancak herhangi bir modül eklenemez.
                             </p>
                         </div>
 
@@ -417,7 +426,7 @@
                                 </td>
                                 <td>
                                     <div class="">
-                                        <span><b>{{item.NAME}}</b> </span>
+                                        <span><b *ngIf="!item.gruped">{{item.NAME}}</b> <b *ngIf="item.gruped">{{item.CATNAME}}</b></span>
                                         <div class="description" [innerHTML]="item.DESCRIPTION"></div>
                                         <ng-container *ngIf="item.selected==true &&  item.grupData">
                                             <div
@@ -505,7 +514,7 @@
 
                                 </td>
                                 <td style="text-align:center;" *ngIf="userservice.login">
-                                    <input (change)="changeData(profileForm.get('roomcount').value);"
+                                    <input (change)="changeData(profileForm.get('roomcount').value,item,'radio');"
                                         [ngModelOptions]="{standalone: true}" [(ngModel)]="item.discount"
                                         style="width:50px;" type="number" min="0" value="0" class="productinput"
                                         matInput>
@@ -541,7 +550,7 @@
                                                 currencyprefix}}</span></ng-container>
                                         <ng-container *ngIf="item.selected">
 
-                                            <span><b>{{item.finalpricegrup | currency : currencyprefix}}</b></span>
+                                            <span><b>{{item.finalprice | currency : currencyprefix}}</b></span>
                                         </ng-container>
 
                                     </td>
@@ -550,7 +559,7 @@
                             </tr>
 
                         </ng-container>
-                        >
+                        
                     </tbody>
                 </table>
 
