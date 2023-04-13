@@ -93,6 +93,7 @@ export class PriceComponent implements OnInit {
   alertmessage: string;
   offer: boolean = false;
   totalpricefinal: any = 0;
+  public totalfixpricefinal : any = 0;
   showpriceControl: boolean = true;
   overlayRef: OverlayRef;
   lang: any;
@@ -364,6 +365,7 @@ export class PriceComponent implements OnInit {
     if (type == 2) {
       pricetext =
         this.decimalPipe.transform((element.finalprice).toFixed(2)) + " " + this.currencycode;
+        this.totalfixpricefinal += element.finalprice;
     }
 
     let html =
@@ -418,8 +420,6 @@ export class PriceComponent implements OnInit {
 
 
         let html = "";
-
-
         let AnnuallyData = this.dataSource.filter(x => x.BASEPRICE != null && x.ROOMPRICE != null && x.selected == true);
 
         if (AnnuallyData.length > 0) {
@@ -444,10 +444,7 @@ export class PriceComponent implements OnInit {
           html += "</tbody></table><br><br>";
         }
 
-
         let fixData = this.dataSource.filter(x => x.INSTALLATIONFEE > 0 && x.BASEPRICE == null && x.ROOMPRICE == null && x.selected == true);
-
-
         if (fixData.length > 0) {
           ///Sabit Ücretler
           html += '<div class="heading">' + trans.productchargedronce + "</div>"
@@ -464,17 +461,11 @@ export class PriceComponent implements OnInit {
 
 
           fixData.forEach((element) => {
-
             html += this.getPriceHtml(element, trans, 2);
-
           });
 
           html += "</tbody></table><br><br>";
         }
-
-
-
-
 
 
 
@@ -488,7 +479,9 @@ export class PriceComponent implements OnInit {
           this.decimalPipe.transform(this.totalpricefinal) + " " + this.currencycode + "</strong></td></tr>";
 
         html += "</tbody></table>";
+        t.append("fixprice", this.totalfixpricefinal.toFixed(2));
 
+  
 
         let messagebody = html;
         t.append("offer", messagebody);
@@ -619,7 +612,6 @@ export class PriceComponent implements OnInit {
 
     });
 
-    console.log(this.profileForm)
     console.log(this.dataSource)
     this.totalfunction();
 
@@ -663,7 +655,6 @@ export class PriceComponent implements OnInit {
         { responseType: "json" }
       )
       .subscribe((resp: any) => {
-        console.log(resp);
         if (resp.html) {
           var sourceHTML = resp.html;
 
