@@ -79,7 +79,26 @@ export class PriceComponent implements OnInit {
       "displayField": "Personel",
       "key": 3
     }
-  ]
+  ];
+
+  categoryen: any = [
+    {
+      "displayField": "Restaurant / Pos",
+      "key": 0
+    },
+    {
+      "displayField": "SPA",
+      "key": 1
+    },
+    {
+      "displayField": "Cash Register Integration",
+      "key": 2
+    },
+    {
+      "displayField": "Employee",
+      "key": 3
+    }
+  ];
 
 
   public dataSourceGroup: any;
@@ -93,7 +112,7 @@ export class PriceComponent implements OnInit {
   alertmessage: string;
   offer: boolean = false;
   totalpricefinal: any = 0;
-  public totalfixpricefinal : any = 0;
+  public totalfixpricefinal: any = 0;
   showpriceControl: boolean = true;
   overlayRef: OverlayRef;
   lang: any;
@@ -218,7 +237,9 @@ export class PriceComponent implements OnInit {
           "finalprice": 0,
           "SHOWQUANTITY": x.SHOWQUANTITY,
           "CATEGORYID": x.CATEGORYID,
-          "quantity": 0
+          "quantity": 0,
+          "ABROAD": x.ABROAD,
+          "NAME_EN": x.NAME_EN
         }
 
       });
@@ -227,19 +248,46 @@ export class PriceComponent implements OnInit {
       let groupData = [];
       let categoryler = [];
       this.dataSource.forEach(element => {
-        let cat = categoryler.filter(x => x == element.CATEGORYID);
-        if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID) < 0) {
-          element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID);
-          element.CATNAME = this.category.filter(x => x.key == element.CATEGORYID)[0].displayField;
-          element.gruped = true;
-          groupData.push(element);
-          categoryler.push(element.CATEGORYID);
-        }
 
-        if (element.CATEGORYID == null) {
-          groupData.push(element);
-        }
+        if (this.userservice.company == "elektraweb") {
+          let cat = categoryler.filter(x => x == element.CATEGORYID);
+          if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID) < 0) {
+            element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID);
+            element.CATNAME = this.category.filter(x => x.key == element.CATEGORYID)[0].displayField;
+            element.gruped = true;
+            groupData.push(element);
+            categoryler.push(element.CATEGORYID);
+          }
 
+          if (element.CATEGORYID == null) {
+            groupData.push(element);
+          }
+        } else {
+          this.periodListData = this.periodListData.map(x => {
+            return {
+              "NAME": x.NAME.replace("Yıl","Year"), "PERIODFACTOR": x.PERIODFACTOR, "ID": x.ID
+            }
+          });
+          //Yurt dışı Fiyatlar İçin
+          if (element.ABROAD == true) {
+            element.NAME = element.NAME_EN;
+            element.DESCRIPTION = element.DESCRIPTION_EN;
+            element.BASEPRICE = element.BASEPRICE * 2;
+            
+            let cat = categoryler.filter(x => x == element.CATEGORYID);
+            if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID) < 0) {
+              element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID);
+              element.CATNAME = this.categoryen.filter(x => x.key == element.CATEGORYID)[0].displayField;
+              element.gruped = true;
+              groupData.push(element);
+              categoryler.push(element.CATEGORYID);
+            }
+
+            if (element.CATEGORYID == null) {
+              groupData.push(element);
+            }
+          }
+        }
       });
 
       this.dataSource = groupData;
@@ -365,7 +413,7 @@ export class PriceComponent implements OnInit {
     if (type == 2) {
       pricetext =
         this.decimalPipe.transform((element.finalprice).toFixed(2)) + " " + this.currencycode;
-        this.totalfixpricefinal += element.finalprice;
+      this.totalfixpricefinal += element.finalprice;
     }
 
     let html =
@@ -444,7 +492,7 @@ export class PriceComponent implements OnInit {
           html += "</tbody></table><br><br>";
         }
 
-        let fixData = this.dataSource.filter(x => x.INSTALLATIONFEE > 0 && x.BASEPRICE == null && x.ROOMPRICE == null && x.selected == true);
+        let fixData = this.dataSource.filter(x => x.INSTALLATIONFEE > 0 && (x.BASEPRICE == null || x.BASEPRICE == 0) && x.ROOMPRICE == null && x.selected == true);
         if (fixData.length > 0) {
           ///Sabit Ücretler
           html += '<div class="heading">' + trans.productchargedronce + "</div>"
@@ -481,7 +529,7 @@ export class PriceComponent implements OnInit {
         html += "</tbody></table>";
         t.append("fixprice", this.totalfixpricefinal.toFixed(2));
 
-  
+
 
         let messagebody = html;
         t.append("offer", messagebody);
@@ -545,7 +593,7 @@ export class PriceComponent implements OnInit {
                 t.discount = x.discount;
                 let price = (((roomcount * t.ROOMPRICE * packet * period) + t.BASEPRICE) * (12 * ((100 - t.discount) / 100)));
                 x.finalprice = price + INSTALLATIONFEE;
-                x.selectedProduct= t.NAME;
+                x.selectedProduct = t.NAME;
                 x.type = "radio";
               }
 
@@ -562,24 +610,21 @@ export class PriceComponent implements OnInit {
                 t.finalprice = grupPrice;
                 gruptotal += grupPrice;
                 x.finalprice = gruptotal;
-                x.selectedProduct= x.CATNAME;
+                x.selectedProduct = x.CATNAME;
                 x.type = "check";
               }
 
             });
 
           }
-
         }
         else {
           let price = (((roomcount * x.ROOMPRICE * packet * period) + x.BASEPRICE) * (12 * ((100 - x.discount) / 100)));
           x.finalprice = price + INSTALLATIONFEE;
-          x.selectedProduct= x.NAME;
+          x.selectedProduct = x.NAME;
 
         }
       }
-
-
 
       return {
         'pass': true,
@@ -606,7 +651,9 @@ export class PriceComponent implements OnInit {
         "type": x.type,
         "CATNAME": x.CATNAME,
         "gruped": x.gruped,
-        "selectedProduct":x.selectedProduct
+        "selectedProduct": x.selectedProduct,
+        "ABROAD": x.ABROAD,
+        "NAME_EN": x.NAME_EN
       }
 
 

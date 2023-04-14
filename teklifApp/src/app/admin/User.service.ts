@@ -13,13 +13,13 @@ export class UserService implements CanActivate {
     }
 
     if (this.company == "elektraweben") {
-      this.path = "https://www.elektraweb.com/offerapp/";
+      this.path = "https://www.elektraweb.com/yenitasarim/offerapp/";
       this.logo = "https://www.elektraweb.com/wp-content/uploads/2020/01/elektraweblogo.png";
 
     }
 
     if (this.company == "easypms") {
-      this.path = "https://www.easypms.com/offerapp/";
+      this.path = "https://www.easypms.com/yenitasarim/offerapp/";
       this.logo = "https://www.easypms.com/offerapp/easypmslogo.png";
 
     }
@@ -29,7 +29,7 @@ export class UserService implements CanActivate {
   public login: boolean = false;
   public userdata: any;
   public userinfo: any;
-  public company: string = "elektraweb";  // elektraweb,easypms,elektraweben değerlerinden birini giriniz.
+  public company: string = "elektraweben";  // elektraweb,easypms,elektraweben değerlerinden birini giriniz.
   public logo: string;
 
 

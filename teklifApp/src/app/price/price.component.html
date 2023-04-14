@@ -327,11 +327,12 @@
                         </div>
                     </div>
 
-                    <div class="infoBar">
 
+                    <div *ngIf="userservice.company=='elektraweb'" class="infoBar">
                         <div class="infoItem">
                             <i class="material-icons">info</i>
-                            <p>Fiyat teklifi oluşturmak için zorunlu alanların doldurulması, paket seçimi yapılması (Standart, Midi veya Mini) ve oda sayısının 
+                            <p>Fiyat teklifi oluşturmak için zorunlu alanların doldurulması, paket seçimi yapılması
+                                (Standart, Midi veya Mini) ve oda sayısının
                                 girilmesi gereklidir.
                             </p>
                         </div>
@@ -362,13 +363,15 @@
                         </div>
 
                     </div>
+
+
                     <div *ngIf="!userservice.login" fxFlex="80" fxFlex.xs="100" style="    align-items: center;
           vertical-align: middle;
           display: flex;">
                         {{trans.modulstext}}
                     </div>
 
-                    <div *ngIf="userservice.login" fxFlex="60" fxFlex.xs="100" style="    align-items: center;
+                    <div *ngIf="userservice.login" fxFlex="80" fxFlex.xs="100" style="    align-items: center;
             vertical-align: middle;
             display: flex;">
                         {{trans.modulstext}}
@@ -426,7 +429,8 @@
                                 </td>
                                 <td>
                                     <div class="">
-                                        <span><b *ngIf="!item.gruped">{{item.NAME}}</b> <b *ngIf="item.gruped">{{item.CATNAME}}</b></span>
+                                        <span><b *ngIf="!item.gruped">{{item.NAME}}</b> <b
+                                                *ngIf="item.gruped">{{item.CATNAME}}</b></span>
                                         <div class="description" [innerHTML]="item.DESCRIPTION"></div>
                                         <ng-container *ngIf="item.selected==true &&  item.grupData">
                                             <div
@@ -559,7 +563,7 @@
                             </tr>
 
                         </ng-container>
-                        
+
                     </tbody>
                 </table>
 
