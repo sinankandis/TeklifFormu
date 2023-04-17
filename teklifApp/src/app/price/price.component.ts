@@ -252,14 +252,14 @@ export class PriceComponent implements OnInit {
         if (this.userservice.company == "elektraweb") {
           let cat = categoryler.filter(x => x == element.CATEGORYID);
           if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID) < 0) {
-            element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID &&  x.ABROAD ==false);
+            element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID && x.ABROAD != true);
             element.CATNAME = this.category.filter(x => x.key == element.CATEGORYID)[0].displayField;
             element.gruped = true;
             groupData.push(element);
             categoryler.push(element.CATEGORYID);
           }
 
-          if (element.CATEGORYID == null) {
+          if (element.CATEGORYID == null && element.ABROAD != true) {
             groupData.push(element);
           }
         } else {
@@ -271,10 +271,9 @@ export class PriceComponent implements OnInit {
           //Yurt dışı Fiyatlar İçin
           if (element.ABROAD == true) {
             element.NAME = element.NAME_EN;
-            element.DESCRIPTION = element.DESCRIPTION_EN;
             let cat = categoryler.filter(x => x == element.CATEGORYID);
             if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID) < 0) {
-              element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID && x.ABROAD ==true);
+              element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID && x.ABROAD == true);
               element.CATNAME = this.categoryen.filter(x => x.key == element.CATEGORYID)[0].displayField;
               element.gruped = true;
               groupData.push(element);

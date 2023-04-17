@@ -29,7 +29,7 @@ export class UserService implements CanActivate {
   public login: boolean = false;
   public userdata: any;
   public userinfo: any;
-  public company: string = "elektraweb";  // elektraweb,easypms,elektraweben değerlerinden birini giriniz.
+  public company: string = "elektraweben";  // elektraweb,easypms,elektraweben değerlerinden birini giriniz.
   public logo: string;
 
 
