@@ -265,18 +265,16 @@ export class PriceComponent implements OnInit {
         } else {
           this.periodListData = this.periodListData.map(x => {
             return {
-              "NAME": x.NAME.replace("Yıl","Year"), "PERIODFACTOR": x.PERIODFACTOR, "ID": x.ID
+              "NAME": x.NAME.replace("Yıl", "Year"), "PERIODFACTOR": x.PERIODFACTOR, "ID": x.ID
             }
           });
           //Yurt dışı Fiyatlar İçin
           if (element.ABROAD == true) {
             element.NAME = element.NAME_EN;
             element.DESCRIPTION = element.DESCRIPTION_EN;
-            element.BASEPRICE = element.BASEPRICE * 2;
-            
             let cat = categoryler.filter(x => x == element.CATEGORYID);
             if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID) < 0) {
-              element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID);
+              element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID && x.ABROAD ==true);
               element.CATNAME = this.categoryen.filter(x => x.key == element.CATEGORYID)[0].displayField;
               element.gruped = true;
               groupData.push(element);
