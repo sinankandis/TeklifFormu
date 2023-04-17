@@ -252,7 +252,7 @@ export class PriceComponent implements OnInit {
         if (this.userservice.company == "elektraweb") {
           let cat = categoryler.filter(x => x == element.CATEGORYID);
           if (element.CATEGORYID != null && cat.indexOf(element.CATEGORYID) < 0) {
-            element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID);
+            element.grupData = this.dataSource.filter(x => x.CATEGORYID == element.CATEGORYID &&  x.ABROAD ==false);
             element.CATNAME = this.category.filter(x => x.key == element.CATEGORYID)[0].displayField;
             element.gruped = true;
             groupData.push(element);
