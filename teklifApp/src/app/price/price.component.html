@@ -288,6 +288,21 @@
 
                         <div class="righFloat">
                             <div class="flexArea">
+
+                                <ng-container>
+                                    <mat-form-field appearance="fill" class="matItem">
+                                        <mat-label>Market</mat-label>
+                                        <mat-select name="market" formControlName="market"
+                                            (selectionChange)="GetData();">
+                                            <mat-option *ngFor="let market of marketData" [value]="market.MARKETTYPE">
+                                                {{market.MARKETNAME}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </ng-container>
+
+
                                 <ng-container *ngIf="packetListData">
                                     <mat-form-field appearance="fill" class="matItem">
                                         <mat-label>Packets</mat-label>
@@ -417,10 +432,6 @@
                     <tbody>
 
                         <ng-container *ngFor="let item of dataSource">
-
-
-                            <!----Kategori Yok ise-->
-
                             <tr>
                                 <td style="text-align: center;">
                                     <mat-checkbox (change)="changeData(profileForm.get('roomcount').value,'','');"
@@ -428,93 +439,42 @@
                                     </mat-checkbox>
                                 </td>
                                 <td>
-                                    <div class="">
-                                        <span><b *ngIf="!item.gruped">{{item.NAME}}</b> <b
-                                                *ngIf="item.gruped">{{item.CATNAME}}</b></span>
-                                        <div class="description" [innerHTML]="item.DESCRIPTION"></div>
-                                        <ng-container *ngIf="item.selected==true &&  item.grupData">
-                                            <div
-                                                style="background: whitesmoke;padding: 10px;border-radius: 5px;margin-top:10px;">
-                                                <!--     <mat-radio-group aria-labelledby="example-radio-group-label"
-                                                    class="example-radio-group" [(ngModel)]="item.grupData.selected"
-                                                    [ngModelOptions]="{standalone: true}">
-                                                    <ng-container *ngFor="let x of item.grupData">
-                                                        <mat-radio-button selected class="example-radio-button"
-                                                            *ngIf="x.SHOWQUANTITY !=true"
-                                                            (click)="changeData(profileForm.get('roomcount').value,'radio');"
-                                                            [value]="x">
-                                                            {{x.NAME}}
-                                                        </mat-radio-button>
-                                                    </ng-container>
-                                                </mat-radio-group>
- -->
+                                    <div class="flexArea">
+                                        <div class="infoDetailBar">
+                                            <span><b>{{item.NAME}}</b></span>
+                                            <div class="description" [innerHTML]="item.DESCRIPTION"></div>
+                                        </div>
+                                        <ng-container *ngIf="item.USERPRICE>0">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>{{trans.user}}</mat-label>
+                                                <select matNativeControl  [ngModelOptions]="{standalone: true}"
+                                                    (change)="changeData(profileForm.get('roomcount').value);"
+                                                    [(ngModel)]="item.usercount">
+                                                    <option 
+                                                        *ngFor="let usercount of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
+                                                        {{usercount}}</option>
+                                                </select>
+                                            </mat-form-field>
+                                        </ng-container>
 
-                                                <ng-container *ngFor="let x of item.grupData">
-                                                    <div *ngIf="x.SHOWQUANTITY !=true">
-                                                        <mat-checkbox
-                                                            (change)="changeData(profileForm.get('roomcount').value,x,'radio');"
-                                                            [ngModelOptions]="{standalone: true}"
-                                                            [(ngModel)]="x.selecteditem">
-                                                            {{x.NAME}}
-                                                        </mat-checkbox>
-                                                    </div>
-                                                </ng-container>
-
-
-                                                <table>
-                                                    <ng-container *ngFor="let x of item.grupData;let i = index">
-                                                        <thead *ngIf="x.SHOWQUANTITY && i==0">
-                                                            <th> {{trans.select}}</th>
-                                                            <th style="width:50%;"> {{trans.productname}} </th>
-                                                            <th style="width:15%;"> {{trans.productquantity}}</th>
-                                                            <th *ngIf="userservice.login"> {{trans.discount}}</th>
-                                                            <th> {{trans.total}}</th>
-                                                        </thead>
-                                                        <ng-container *ngIf="x.SHOWQUANTITY">
-                                                            <tr>
-                                                                <td>
-                                                                    <mat-checkbox
-                                                                        (change)="changeData(profileForm.get('roomcount').value,x,'check');"
-                                                                        [ngModelOptions]="{standalone: true}"
-                                                                        [(ngModel)]="x.selected">
-                                                                    </mat-checkbox>
-                                                                </td>
-                                                                <td>
-                                                                    {{x.NAME}}
-                                                                </td>
-                                                                <td>
-                                                                    <input
-                                                                        (change)="changeData(profileForm.get('roomcount').value,x,'check');"
-                                                                        [ngModelOptions]="{standalone: true}"
-                                                                        [(ngModel)]="x.quantity" style="width:50px;"
-                                                                        type="number" min="0" value="0"
-                                                                        class="productinput" matInput>
-                                                                </td>
-
-                                                                <td *ngIf="userservice.login">
-                                                                    <input
-                                                                        (change)="changeData(profileForm.get('roomcount').value,x,'check');"
-                                                                        [ngModelOptions]="{standalone: true}"
-                                                                        [(ngModel)]="x.discount" style="width:50px;"
-                                                                        type="number" min="0" value="0"
-                                                                        class="productinput" matInput>
-                                                                </td>
-                                                                <td>
-                                                                    {{x.finalprice | currency : currencyprefix}}
-
-                                                                </td>
-                                                            </tr>
-                                                        </ng-container>
-                                                    </ng-container>
-                                                </table>
-
-                                            </div>
+                                        <ng-container *ngIf="item.SHOWQUANTITY">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>{{trans.quantity}}</mat-label>
+                                                <select matNativeControl  [ngModelOptions]="{standalone: true}"
+                                                    (change)="changeData(profileForm.get('roomcount').value);"
+                                                    [(ngModel)]="item.quantity">
+                                                    <option
+                                                        *ngFor="let quantity of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
+                                                        {{quantity}}</option>
+                                                </select>
+                                            </mat-form-field>
                                         </ng-container>
 
 
-
-
                                     </div>
+
+
+
 
                                 </td>
                                 <td style="text-align:center;" *ngIf="userservice.login">
