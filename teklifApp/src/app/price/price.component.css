@@ -253,6 +253,9 @@ p.desctext {
 }
 
 
+::ng-deep .teklifApp {
+    width: 100px;
+}
 
 ::ng-deep .teklifApp .mat-form-field-wrapper {
     padding-bottom: 0;

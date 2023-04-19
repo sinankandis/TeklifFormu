@@ -598,8 +598,8 @@ export class PriceComponent implements OnInit {
 
 
 
-        if (roomcount * x.ROOMPRICE < x.MINPRICE) {
-          roomprice = x.MINPRICE
+        if (roomcount * x.ROOMPRICE * packet < x.MINPRICE) {
+              roomprice = x.MINPRICE;
         } else {
           roomprice = roomcount * x.ROOMPRICE * packet;
         }
