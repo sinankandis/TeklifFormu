@@ -59,7 +59,7 @@ export class PriceComponent implements OnInit {
     wantphone: new FormControl(""),
     sellerEmailCheck: new FormControl(true),
     note: new FormControl(""),
-    market: new FormControl(1),
+    market: new FormControl(this.userservice.selectedmarket),
   });
 
 
@@ -91,11 +91,6 @@ export class PriceComponent implements OnInit {
       "displayField": "Yardımcı",
       "key": 2
     }
-  ];
-
-  public marketData: any = [
-    { "MARKETNAME": "Yurt İçi", "MARKETTYPE": 1 },
-    { "MARKETNAME": "Yurt Dışı", "MARKETTYPE": 2 }
   ];
 
 
@@ -245,8 +240,7 @@ export class PriceComponent implements OnInit {
         }
       });
 
-      this.dataSource = this.rawData;
-
+      this.GetData();
     }, (error) => {
       alert(error.error)
     });
@@ -380,16 +374,10 @@ export class PriceComponent implements OnInit {
     if (type == 1) {
       pricetext =
         "<b>" +
-        this.decimalPipe.transform((element.finalprice / 12).toFixed(2)) +
-        "</b>" +
-        " " +
-        this.currencycode +
-        "/" +
-        trans.monthly +
-        "<br>" +
         this.decimalPipe.transform((element.finalprice).toFixed(2)) +
         " " +
         this.currencycode;
+      "</b>";
 
       this.annuallytotalpricefinal += element.finalprice;
 
@@ -539,11 +527,11 @@ export class PriceComponent implements OnInit {
 
     <div class="infosBar">
         <div>
-            <span>İlk Yıl Ödenecek Toplam </span><span>${this.decimalPipe.transform(this.totalpricefinal) + " " + this.currencycode}</span>
+            <span>${trans.firstyear} </span><span>${this.decimalPipe.transform(this.totalpricefinal) + " " + this.currencycode}</span>
         </div>
 
         <div>
-            <span>Sonraki Yıllarda Ödenecek Toplam </span><span>${this.decimalPipe.transform(this.annuallytotalpricefinal) + " " + this.currencycode}</span>
+            <span>${trans.otheryear} </span><span>${this.decimalPipe.transform(this.annuallytotalpricefinal) + " " + this.currencycode}</span>
         </div>
     </div>
 
@@ -610,17 +598,14 @@ export class PriceComponent implements OnInit {
 
 
 
-
         if (roomcount * x.ROOMPRICE < x.MINPRICE) {
           roomprice = x.MINPRICE
         } else {
-          roomprice = roomcount * x.ROOMPRICE
+          roomprice = roomcount * x.ROOMPRICE * packet;
         }
 
 
-
-
-        let price = (((roomprice * packet * period) + x.BASEPRICE + x.USERPRICE * x.usercount) * (12 * ((100 - x.discount) / 100)));
+        let price = (((roomprice * period) + x.BASEPRICE + x.USERPRICE * x.usercount) * (12 * ((100 - x.discount) / 100)));
         if (x.quantity > 0) {
           price = price + (INSTALLATIONFEE * x.quantity);
         } else {

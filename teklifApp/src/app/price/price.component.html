@@ -294,7 +294,7 @@
                                         <mat-label>Market</mat-label>
                                         <mat-select name="market" formControlName="market"
                                             (selectionChange)="GetData();">
-                                            <mat-option *ngFor="let market of marketData" [value]="market.MARKETTYPE">
+                                            <mat-option *ngFor="let market of userservice.marketData" [value]="market.MARKETTYPE">
                                                 {{market.MARKETNAME}}
                                             </mat-option>
                                         </mat-select>
@@ -445,7 +445,7 @@
                                             <div class="description" [innerHTML]="item.DESCRIPTION"></div>
                                         </div>
                                         <ng-container *ngIf="item.USERPRICE>0">
-                                            <mat-form-field appearance="fill">
+                                            <mat-form-field appearance="fill" class="teklifApp">
                                                 <mat-label>{{trans.user}}</mat-label>
                                                 <select matNativeControl  [ngModelOptions]="{standalone: true}"
                                                     (change)="changeData(profileForm.get('roomcount').value);"
@@ -458,7 +458,7 @@
                                         </ng-container>
 
                                         <ng-container *ngIf="item.SHOWQUANTITY">
-                                            <mat-form-field appearance="fill">
+                                            <mat-form-field appearance="fill" class="teklifApp">
                                                 <mat-label>{{trans.quantity}}</mat-label>
                                                 <select matNativeControl  [ngModelOptions]="{standalone: true}"
                                                     (change)="changeData(profileForm.get('roomcount').value);"

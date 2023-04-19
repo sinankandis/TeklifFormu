@@ -251,3 +251,14 @@ p.desctext {
 .matItem {
     width: 33%;
 }
+
+
+
+::ng-deep .teklifApp .mat-form-field-wrapper {
+    padding-bottom: 0;
+}
+
+
+::ng-deep .teklifApp .mat-form-field-underline {
+    visibility: hidden;
+}
