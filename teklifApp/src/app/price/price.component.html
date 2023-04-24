@@ -295,7 +295,7 @@
                                     <mat-form-field appearance="fill" class="matItem">
                                         <mat-label>Market</mat-label>
                                         <mat-select name="market" formControlName="market"
-                                            (selectionChange)="GetData();">
+                                            (selectionChange)="GetData();changeData(profileForm.get('roomcount').value);">
                                             <mat-option *ngFor="let market of userservice.marketData" [value]="market.MARKETTYPE">
                                                 {{market.MARKETNAME}}
                                             </mat-option>

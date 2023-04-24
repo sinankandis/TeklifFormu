@@ -274,7 +274,7 @@ export class PriceComponent implements OnInit {
           });
 
           if (element.ABROAD == true) {
-            element.BASEPRICE = element.BASEPRICE * 2;
+            element.BASEPRICE = element.BASEPRICE;
             element.NAME = element.NAME_EN || element.NAME
             groupData.push(element);
           }
@@ -582,8 +582,8 @@ export class PriceComponent implements OnInit {
 
     let period = this.profileForm.value.period;
     let packet = this.profileForm.value.packet;
+    let market = this.profileForm.value.market;
     if (roomcount == "" || roomcount == null || roomcount == undefined) { roomcount = 1; }
-
     this.dataSource = this.dataSource.map((x) => {
       let roomprice = 0;
       if (x.selected) {
@@ -599,18 +599,42 @@ export class PriceComponent implements OnInit {
 
 
         if (roomcount * x.ROOMPRICE * packet < x.MINPRICE) {
-              roomprice = x.MINPRICE;
+          roomprice = x.MINPRICE;
         } else {
           roomprice = roomcount * x.ROOMPRICE * packet;
         }
 
 
-        let price = (((roomprice * period) + x.BASEPRICE + x.USERPRICE * x.usercount) * (12 * ((100 - x.discount) / 100)));
+
+
+
+        let roomCountPrice = roomcount * x.ROOMPRICE;
+
+        roomCountPrice = packet * roomCountPrice;
+        if (roomCountPrice < x.MINPRICE) {
+          roomCountPrice = x.MINPRICE;
+        }
+        roomCountPrice += x.USERPRICE * x.usercount;
+        let price =
+          (roomCountPrice + x.BASEPRICE) *
+          12 *
+          period * market;
+
+
+
+
+        //let price = (((roomprice * period) + x.BASEPRICE + x.USERPRICE * x.usercount) * (12 * ((100 - x.discount) / 100)));
         if (x.quantity > 0) {
           price = price + (INSTALLATIONFEE * x.quantity);
         } else {
           price = price + (INSTALLATIONFEE * 1);
         }
+
+
+        if (x.discount > 0) {
+          price = (price * (100 - x.discount)) / 100;
+        }
+
         x.finalprice = price
         x.selectedProduct = x.NAME;
 
