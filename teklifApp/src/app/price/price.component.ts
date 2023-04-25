@@ -23,6 +23,7 @@ import { async } from "q";
 import { runInThisContext } from "vm";
 import { exit } from "process";
 import { Xmb } from "@angular/compiler";
+import { Console } from "console";
 
 
 
@@ -585,41 +586,23 @@ export class PriceComponent implements OnInit {
     let market = this.profileForm.value.market;
     if (roomcount == "" || roomcount == null || roomcount == undefined) { roomcount = 1; }
     this.dataSource = this.dataSource.map((x) => {
-      let roomprice = 0;
       if (x.selected) {
         let INSTALLATIONFEE = 0;
-        if (x.INSTALLATIONFEE != null) {
-          INSTALLATIONFEE = x.INSTALLATIONFEE;
-        }
-
-
+        if (x.INSTALLATIONFEE != null) {INSTALLATIONFEE = x.INSTALLATIONFEE;}
         if (x.USERPRICE == null) { x.USERPRICE = 0 }
         if (x.usercount == null) { x.usercount = 0 }
-
-
-
-        if (roomcount * x.ROOMPRICE * packet < x.MINPRICE) {
-          roomprice = x.MINPRICE;
-        } else {
-          roomprice = roomcount * x.ROOMPRICE * packet;
-        }
-
-
-
-
+        if(!x.USEFACTOR) {
+          packet = 1
+        } 
+   
 
         let roomCountPrice = roomcount * x.ROOMPRICE;
-
         roomCountPrice = packet * roomCountPrice;
         if (roomCountPrice < x.MINPRICE) {
           roomCountPrice = x.MINPRICE;
         }
         roomCountPrice += x.USERPRICE * x.usercount;
-        let price =
-          (roomCountPrice + x.BASEPRICE) *
-          12 *
-          period * market;
-
+        let price = (roomCountPrice + x.BASEPRICE) *12 *period * market;
 
 
 
