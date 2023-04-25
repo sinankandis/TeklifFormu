@@ -445,6 +445,16 @@
                                         <div class="infoDetailBar">
                                             <span><b>{{item.NAME}}</b></span>
                                             <div class="description" [innerHTML]="item.DESCRIPTION"></div>
+                                            <div class="infoLink" *ngIf="(item.TR_LINK !=null && item.TR_LINK !='') && userservice.selectedmarket==1">
+                                                <a href="{{item.TR_LINK}}" target="_blank"><i  class="material-icons">info</i> Detaylı Bilgi İçin Tıklayınız</a>
+                                            </div>
+
+                                            <div class="infoLink" *ngIf="(item.TR_LINK !=null && item.TR_LINK !='') && userservice.selectedmarket==2">
+                                                <a href="{{item.TR_LINK}}" target="_blank"><i  class="material-icons">info</i> Click for detailed information</a>
+                                            </div>
+
+                                            
+
                                         </div>
                                         <ng-container *ngIf="item.USERPRICE>0">
                                             <mat-form-field appearance="fill" class="teklifApp">

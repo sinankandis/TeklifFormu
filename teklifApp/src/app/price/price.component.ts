@@ -237,7 +237,9 @@ export class PriceComponent implements OnInit {
           "HIDE_IN_PRICE_LIST": x.HIDE_IN_PRICE_LIST,
           "MINPRICE": x.MINPRICE,
           "USERPRICE": x.USERPRICE,
-          "usercount": 1
+          "usercount": 1,
+          "TR_LINK":x.TR_LINK,
+          "EN_LINK":x.EN_LINK
         }
       });
 
@@ -258,6 +260,7 @@ export class PriceComponent implements OnInit {
 
 
   GetData() {
+    this.userservice.selectedmarket = this.profileForm.value.market;
     let groupData = [];
     let categoryler = [];
     this.rawData.forEach(element => {
@@ -588,13 +591,13 @@ export class PriceComponent implements OnInit {
     this.dataSource = this.dataSource.map((x) => {
       if (x.selected) {
         let INSTALLATIONFEE = 0;
-        if (x.INSTALLATIONFEE != null) {INSTALLATIONFEE = x.INSTALLATIONFEE;}
+        if (x.INSTALLATIONFEE != null) { INSTALLATIONFEE = x.INSTALLATIONFEE; }
         if (x.USERPRICE == null) { x.USERPRICE = 0 }
         if (x.usercount == null) { x.usercount = 0 }
-        if(!x.USEFACTOR) {
+        if (!x.USEFACTOR) {
           packet = 1
-        } 
-   
+        }
+
 
         let roomCountPrice = roomcount * x.ROOMPRICE;
         roomCountPrice = packet * roomCountPrice;
@@ -602,7 +605,7 @@ export class PriceComponent implements OnInit {
           roomCountPrice = x.MINPRICE;
         }
         roomCountPrice += x.USERPRICE * x.usercount;
-        let price = (roomCountPrice + x.BASEPRICE) *12 *period * market;
+        let price = (roomCountPrice + x.BASEPRICE) * 12 * period * market;
 
 
 
@@ -655,7 +658,9 @@ export class PriceComponent implements OnInit {
         "HIDE_IN_PRICE_LIST": x.HIDE_IN_PRICE_LIST,
         "MINPRICE": x.MINPRICE,
         "USERPRICE": x.USERPRICE,
-        "usercount": x.usercount
+        "usercount": x.usercount,
+        "TR_LINK": x.TR_LINK,
+        "EN_LINK": x.EN_LINK
       }
 
 
