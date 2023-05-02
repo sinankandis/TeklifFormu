@@ -268,23 +268,7 @@ p.desctext {
 
 .infoLink a {
     display: flex;
-    -webkit-box-align: center;
     align-items: center;
     text-decoration: none;
-    color: black;
-    background: #f44336;
-    padding: 2px 15px;
-    color: white;
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
-    border-radius: 5px;
-}
-
-.infoLink a i {
-    margin-right: 7px;
-}
-
-.infoLink a:hover {
-    background: #069e06;
+    color: red;
 }
