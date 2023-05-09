@@ -155,6 +155,14 @@ p.desctext {
 }
 
 @media (max-width:720px) {
+    .flexArea {
+        flex-wrap: wrap;
+    }
+
+    .matItem {
+        width: 48% !important;
+    }
+
     .CallMeArea {
         width: 80%;
     }
@@ -170,6 +178,14 @@ p.desctext {
     font-size: 30px;
     border-radius: 5px;
     position: relative;
+    width: 95%;
+    height: 80vh;
+}
+
+.CallMeArea iframe {
+    border: none;
+    width: 100%;
+    height: 80vh;
 }
 
 .callnumber a {
@@ -214,8 +230,7 @@ p.desctext {
 }
 
 .description {
-    margin: 5px 0px;
-    /* padding: 5px; */
+    margin: 5px 40px;
 }
 
 .infoBar {
@@ -244,6 +259,7 @@ p.desctext {
     color: red;
 
 }
+
 ::ng-deep .mat-select-value {
     font-weight: 700;
 }
@@ -271,4 +287,21 @@ p.desctext {
     align-items: center;
     text-decoration: none;
     color: red;
+}
+
+.infoDetailBar span {
+    display: flex;
+    align-items: center;
+}
+
+.infoDetailBar span i {
+    background: red;
+    color: white;
+    margin: 3px 10px;
+    border-radius: 27px;
+    cursor: pointer;
+}
+
+.infoLinkEmpty {
+    margin: 0 20px;
 }

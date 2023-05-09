@@ -24,6 +24,7 @@ import { runInThisContext } from "vm";
 import { exit } from "process";
 import { Xmb } from "@angular/compiler";
 import { Console } from "console";
+import { DomSanitizer } from "@angular/platform-browser";
 
 
 
@@ -37,6 +38,7 @@ export class PriceComponent implements OnInit {
   progressTpl: TemplateRef<any>;
   @ViewChild("menu", { read: HTMLElement, static: true }) menu: HTMLElement;
   close: boolean = false;
+  link: any;
 
   constructor(
     private http: HttpClient,
@@ -44,7 +46,8 @@ export class PriceComponent implements OnInit {
     public viewContainerRef: ViewContainerRef,
     public dialog: MatDialog,
     private decimalPipe: DecimalPipe,
-    public userservice: UserService
+    public userservice: UserService,
+    private sanitizer: DomSanitizer
   ) { }
 
   profileForm = new FormGroup({
@@ -238,8 +241,8 @@ export class PriceComponent implements OnInit {
           "MINPRICE": x.MINPRICE,
           "USERPRICE": x.USERPRICE,
           "usercount": 1,
-          "TR_LINK":x.TR_LINK,
-          "EN_LINK":x.EN_LINK
+          "TR_LINK": x.TR_LINK,
+          "EN_LINK": x.EN_LINK
         }
       });
 
@@ -733,6 +736,12 @@ export class PriceComponent implements OnInit {
 
   closeCall() {
     this.close = false;
+  }
+
+  openFrame(link) {
+    this.close = true;
+    this.link = this.sanitizer.bypassSecurityTrustResourceUrl(link);
+
   }
 
   setDiscount(data) {

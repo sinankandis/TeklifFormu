@@ -12,7 +12,7 @@
         </div>
     </ng-template>
 
-    
+
 
 
     <div class="container">
@@ -296,7 +296,8 @@
                                         <mat-label>Market</mat-label>
                                         <mat-select name="market" formControlName="market"
                                             (selectionChange)="GetData();changeData(profileForm.get('roomcount').value);">
-                                            <mat-option *ngFor="let market of userservice.marketData" [value]="market.MARKETTYPE">
+                                            <mat-option *ngFor="let market of userservice.marketData"
+                                                [value]="market.MARKETTYPE">
                                                 {{market.MARKETNAME}}
                                             </mat-option>
                                         </mat-select>
@@ -443,26 +444,43 @@
                                 <td>
                                     <div class="flexArea">
                                         <div class="infoDetailBar">
-                                            <span><b>{{item.NAME}}</b></span>
+                                            <span>
+                                                <div class="infoLink"
+                                                    *ngIf="(item.TR_LINK !=null && item.TR_LINK !='') && userservice.selectedmarket==1">
+                                                    <i (click)="openFrame(item.TR_LINK);"
+                                                        title="Detaylı bilgi için tıklayınız."
+                                                        class="material-icons">chevron_right</i>
+                                                </div>
+
+                                                <div class="infoLink"
+                                                    *ngIf="(item.EN_LINK !=null && item.EN_LINK !='') && userservice.selectedmarket==2">
+                                                    <i (click)="openFrame(item.EN_LINK);"
+                                                        title="Detaylı bilgi için tıklayınız."
+                                                        class="material-icons">chevron_right</i>
+                                                </div>
+
+                                                <div class="infoLinkEmpty"
+                                                    *ngIf="(item.EN_LINK ==null || item.EN_LINK =='') && userservice.selectedmarket==2">
+                                                </div>
+                                                <div class="infoLinkEmpty"
+                                                    *ngIf="(item.TR_LINK ==null || item.TR_LINK =='') && userservice.selectedmarket==1">
+                                                </div>
+
+                                                <b>{{item.NAME}}</b>
+
+                                            </span>
+
                                             <div class="description" [innerHTML]="item.DESCRIPTION"></div>
-                                            <div class="infoLink" *ngIf="(item.TR_LINK !=null && item.TR_LINK !='') && userservice.selectedmarket==1">
-                                                <a href="{{item.TR_LINK}}" target="_blank"><i  class="material-icons">info</i> Detaylı Bilgi İçin Tıklayınız</a>
-                                            </div>
 
-                                            <div class="infoLink" *ngIf="(item.TR_LINK !=null && item.TR_LINK !='') && userservice.selectedmarket==2">
-                                                <a href="{{item.TR_LINK}}" target="_blank"><i  class="material-icons">info</i> Click for detailed information</a>
-                                            </div>
-
-                                            
 
                                         </div>
                                         <ng-container *ngIf="item.USERPRICE>0">
                                             <mat-form-field appearance="fill" class="teklifApp">
                                                 <mat-label>{{trans.user}}</mat-label>
-                                                <select matNativeControl  [ngModelOptions]="{standalone: true}"
+                                                <select matNativeControl [ngModelOptions]="{standalone: true}"
                                                     (change)="changeData(profileForm.get('roomcount').value);"
                                                     [(ngModel)]="item.usercount">
-                                                    <option 
+                                                    <option
                                                         *ngFor="let usercount of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
                                                         {{usercount}}</option>
                                                 </select>
@@ -472,7 +490,7 @@
                                         <ng-container *ngIf="item.SHOWQUANTITY">
                                             <mat-form-field appearance="fill" class="teklifApp">
                                                 <mat-label>{{trans.quantity}}</mat-label>
-                                                <select matNativeControl  [ngModelOptions]="{standalone: true}"
+                                                <select matNativeControl [ngModelOptions]="{standalone: true}"
                                                     (change)="changeData(profileForm.get('roomcount').value);"
                                                     [(ngModel)]="item.quantity">
                                                     <option
@@ -573,14 +591,12 @@
 </ng-template>
 
 
-<!--<div class="callMe" *ngIf="close==true">
-  <div class="CallMeArea">
-    <div class="Calltext">Özel Fiyatlar İçin Bizi Arayın</div>
-    <div class="callnumber"><a href="tel:+908507770444">
-      <span class="material-icons">phone</span>+90 850 777 0 444</a></div>
-      <button class="callmeClose" (click)="closeCall();" #closeButton mat-mini-fab color="warn">
-        <span class="material-icons">close</span>
-      </button>
-  </div>
+<div class="callMe" *ngIf="close==true">
+    <div class="CallMeArea">
+        <iframe [src]="link"></iframe>
+        <button class="callmeClose" (click)="closeCall();" #closeButton mat-mini-fab color="warn">
+            <span class="material-icons">close</span>
+        </button>
+    </div>
 
-</div>-->
+</div>
