@@ -445,28 +445,24 @@
                                     <div class="flexArea">
                                         <div class="infoDetailBar">
                                             <span>
+
+                                                <b>{{item.NAME}}</b>
                                                 <div class="infoLink"
                                                     *ngIf="(item.TR_LINK !=null && item.TR_LINK !='') && userservice.selectedmarket==1">
-                                                    <i (click)="openFrame(item.TR_LINK);"
-                                                        title="Detaylı bilgi için tıklayınız."
+                                                    <a href="{{item.TR_LINK }}" target="_blank">
+                                                    <i title="Detaylı bilgi için tıklayınız."
                                                         class="material-icons">chevron_right</i>
+                                                        </a>
                                                 </div>
 
                                                 <div class="infoLink"
                                                     *ngIf="(item.EN_LINK !=null && item.EN_LINK !='') && userservice.selectedmarket==2">
-                                                    <i (click)="openFrame(item.EN_LINK);"
-                                                        title="Detaylı bilgi için tıklayınız."
-                                                        class="material-icons">chevron_right</i>
+                                                    <a href="{{item.EN_LINK }}" target="_blank">
+                                                        <i title="Detaylı bilgi için tıklayınız."
+                                                            class="material-icons">chevron_right</i>
+                                                    </a>
                                                 </div>
 
-                                                <div class="infoLinkEmpty"
-                                                    *ngIf="(item.EN_LINK ==null || item.EN_LINK =='') && userservice.selectedmarket==2">
-                                                </div>
-                                                <div class="infoLinkEmpty"
-                                                    *ngIf="(item.TR_LINK ==null || item.TR_LINK =='') && userservice.selectedmarket==1">
-                                                </div>
-
-                                                <b>{{item.NAME}}</b>
 
                                             </span>
 

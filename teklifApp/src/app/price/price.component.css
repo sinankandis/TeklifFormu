@@ -230,7 +230,7 @@ p.desctext {
 }
 
 .description {
-    margin: 5px 40px;
+    margin: 5px 0px;
 }
 
 .infoBar {
@@ -286,7 +286,7 @@ p.desctext {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: red;
+    color: black;
 }
 
 .infoDetailBar span {
@@ -295,13 +295,7 @@ p.desctext {
 }
 
 .infoDetailBar span i {
-    background: red;
-    color: white;
-    margin: 3px 10px;
+    margin: 3px 4px;
     border-radius: 27px;
     cursor: pointer;
-}
-
-.infoLinkEmpty {
-    margin: 0 20px;
 }
