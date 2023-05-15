@@ -324,11 +324,13 @@ export class PriceComponent implements OnInit {
 
   getDiscountText(element, trans) {
 
+
     let discounttext;
+    let price = element.finalprice - (element.INSTALLATIONFEE * element.quantity);
     if (element.discount > 0) {
       let nodiscountt =
-        element.finalprice +
-        (element.finalprice / (100 - element.discount)) * element.discount;
+        price +
+        (price / (100 - element.discount)) * element.discount;
       if (isFinite(nodiscountt) == false) {
         nodiscountt = 0;
       }
@@ -354,12 +356,12 @@ export class PriceComponent implements OnInit {
   }
 
   getPriceHtml(element, trans, type) {
-    let discounttext = this.getDiscountText(element, trans)
 
-
+    let discounttext = "";
     if (element.INSTALLATIONFEE == null) {
       element.INSTALLATIONFEE = 0;
     }
+    let price = element.finalprice - (element.INSTALLATIONFEE * element.quantity);
 
     let pricetext = "";
     let quantitytext = "";
@@ -379,14 +381,16 @@ export class PriceComponent implements OnInit {
 
 
     if (type == 1) {
+      discounttext = this.getDiscountText(element, trans)
+
       pricetext =
         "<b>" +
-        this.decimalPipe.transform((element.finalprice).toFixed(2)) +
+        this.decimalPipe.transform((price).toFixed(2)) +
         " " +
         this.currencycode;
       "</b>";
 
-      this.annuallytotalpricefinal += element.finalprice;
+      this.annuallytotalpricefinal += price;
 
     }
 
@@ -394,8 +398,8 @@ export class PriceComponent implements OnInit {
     //Tek Sefer Ücretlendirelecek Ürünler
     if (type == 2) {
       pricetext =
-        this.decimalPipe.transform((element.finalprice).toFixed(2)) + " " + this.currencycode;
-      this.totalfixpricefinal += element.finalprice;
+        this.decimalPipe.transform((element.INSTALLATIONFEE * element.quantity).toFixed(2)) + " " + this.currencycode;
+      this.totalfixpricefinal += element.INSTALLATIONFEE * element.quantity;
     }
 
     let html =
@@ -450,7 +454,7 @@ export class PriceComponent implements OnInit {
 
 
         let html = "";
-        let AnnuallyData = this.dataSource.filter(x => x.BASEPRICE != null && x.ROOMPRICE != null && x.selected == true);
+        let AnnuallyData = this.dataSource.filter(x => ((x.BASEPRICE != null && x.BASEPRICE > 0 ) || (x.ROOMPRICE != null &&  x.ROOMPRICE > 0 )) && x.selected == true);
 
         if (AnnuallyData.length > 0) {
           //Her Yıl Alınan Ücretler
@@ -479,7 +483,7 @@ export class PriceComponent implements OnInit {
         }
 
 
-        let fixData = this.dataSource.filter(x => x.INSTALLATIONFEE > 0 && (x.BASEPRICE == null || x.BASEPRICE == 0) && x.ROOMPRICE == null && x.selected == true);
+        let fixData = this.dataSource.filter(x => x.INSTALLATIONFEE > 0 && x.selected == true);
         if (fixData.length > 0) {
           ///Sabit Ücretler
           html += '<div class="heading">' + trans.productchargedronce + "</div>"
@@ -612,17 +616,18 @@ export class PriceComponent implements OnInit {
 
 
 
-        //let price = (((roomprice * period) + x.BASEPRICE + x.USERPRICE * x.usercount) * (12 * ((100 - x.discount) / 100)));
+        if (x.discount > 0) {
+          price = (price * (100 - x.discount)) / 100;
+        }
+
         if (x.quantity > 0) {
-          price = price + (INSTALLATIONFEE * x.quantity);
+          price = (price + INSTALLATIONFEE) * x.quantity;
         } else {
           price = price + (INSTALLATIONFEE * 1);
         }
 
 
-        if (x.discount > 0) {
-          price = (price * (100 - x.discount)) / 100;
-        }
+
 
         x.finalprice = price
         x.selectedProduct = x.NAME;
