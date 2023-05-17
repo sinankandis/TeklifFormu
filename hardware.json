@@ -495,413 +495,414 @@
                         "priceCase3": 0.5,
                         "fixprice": 12
                     }
+                ]
+            },
+            {
+                "id": 3,
+                "productname": "Kablosuz Klavye Mouse",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/klavye.jpg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
                 ],
-                {
-                    "id": 3,
-                    "productname": "Kablosuz Klavye Mouse",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/klavye.jpg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 21
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "head": "Barkod Okuyucular",
-                    "pass": true
-                },
-                {
-                    "id": 3,
-                    "productname": "PR230 Laser El Tipi 1D Barkod Okuyucu Usb Kablolu",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/elektrapos_f796c6445210d3127b81a6a5c399d4c9.jpg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 35
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "id": 3,
-                    "productname": "Kablosuz 1D/2D QR Barkod Okuyucu",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2dbarkod.jpg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 70
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "head": "Turnike Ürünleri",
-                    "pass": true
-                },
-                {
-                    "id": 3,
-                    "productname": "3 Kollu Paslanmaz Çelik Turnike",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/turnike.jpg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 500
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "id": 3,
-                    "productname": "Turnike Kontrol Ünitesi 2 Li",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/kontrol.jpg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 250
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "id": 3,
-                    "productname": "Turnike Kontrol Ünitesi 10 Lu",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/kontrol.jpg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 450
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "id": 3,
-                    "productname": "QR+Mifare Okuyucu Turnike için",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/QROK.jpeg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 195
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "id": 3,
-                    "productname": "250 Adet 4 Renk Baskılı Logolu Harcama Kartı",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/kartornek.jpg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 200
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "head": "Yazarkasa POS Cihazları",
-                    "pass": true
-                },
-                {
-                    "id": 3,
-                    "productname": "PROFİLO S900 Ecr Yazarkasa POS",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/profilo.jpg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 270
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "id": 3,
-                    "productname": "Ingenico Move 5000F",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/move.jpg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 315
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "id": 3,
-                    "productname": "Para Çekmecesi",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/cekmece.jpeg",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 70
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "head": "Yazılımlar",
-                    "pass": true
-                },
-                {
-                    "id": 1,
-                    "productname": "Windows 10 Pro Lisans",
-                    "productimg": "https://elektraweb.com/hardwareoffer/hardwareimage/windows10.png",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 155
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                },
-                {
-                    "id": 1,
-                    "productname": "İş Günü Yerinde Servis",
-                    "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/tamir.png",
-                    "timesequence": "yearlyfixsingle",
-                    "fixroompricecalculate": true,
-                    "producttip": "hardware",
-                    "count": 0,
-                    "firstprice": [
-                        {
-                            "desc": "",
-                            "price": 0,
-                            "grupid": 50
-                        }
-                    ],
-                    "fixuse": true,
-                    "discount": 0,
-                    "roomprice": [
-                        {
-                            "priceCase1": 0.5,
-                            "priceCase2": 0.5,
-                            "priceCase3": 0.5,
-                            "fixprice": 150
-                        }
-                    ],
-                    "productgrup": [],
-                    "total": 0,
-                    "selected": false,
-                    "desc": ""
-                }
-            ]
-        }
-    ]
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 21
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "head": "Barkod Okuyucular",
+                "pass": true
+            },
+            {
+                "id": 3,
+                "productname": "PR230 Laser El Tipi 1D Barkod Okuyucu Usb Kablolu",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/elektrapos_f796c6445210d3127b81a6a5c399d4c9.jpg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 35
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "id": 3,
+                "productname": "Kablosuz 1D/2D QR Barkod Okuyucu",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/2dbarkod.jpg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 70
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "head": "Turnike Ürünleri",
+                "pass": true
+            },
+            {
+                "id": 3,
+                "productname": "3 Kollu Paslanmaz Çelik Turnike",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/turnike.jpg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 500
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "id": 3,
+                "productname": "Turnike Kontrol Ünitesi 2 Li",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/kontrol.jpg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 250
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "id": 3,
+                "productname": "Turnike Kontrol Ünitesi 10 Lu",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/kontrol.jpg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 450
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "id": 3,
+                "productname": "QR+Mifare Okuyucu Turnike için",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/QROK.jpeg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 195
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "id": 3,
+                "productname": "250 Adet 4 Renk Baskılı Logolu Harcama Kartı",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/kartornek.jpg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 200
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "head": "Yazarkasa POS Cihazları",
+                "pass": true
+            },
+            {
+                "id": 3,
+                "productname": "PROFİLO S900 Ecr Yazarkasa POS",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/profilo.jpg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 270
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "id": 3,
+                "productname": "Ingenico Move 5000F",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/move.jpg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 315
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "id": 3,
+                "productname": "Para Çekmecesi",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/cekmece.jpeg",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 70
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "head": "Yazılımlar",
+                "pass": true
+            },
+            {
+                "id": 1,
+                "productname": "Windows 10 Pro Lisans",
+                "productimg": "https://elektraweb.com/hardwareoffer/hardwareimage/windows10.png",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 155
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            },
+            {
+                "id": 1,
+                "productname": "İş Günü Yerinde Servis",
+                "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/tamir.png",
+                "timesequence": "yearlyfixsingle",
+                "fixroompricecalculate": true,
+                "producttip": "hardware",
+                "count": 0,
+                "firstprice": [
+                    {
+                        "desc": "",
+                        "price": 0,
+                        "grupid": 50
+                    }
+                ],
+                "fixuse": true,
+                "discount": 0,
+                "roomprice": [
+                    {
+                        "priceCase1": 0.5,
+                        "priceCase2": 0.5,
+                        "priceCase3": 0.5,
+                        "fixprice": 150
+                    }
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
+            }
+        ]
+    }
+]
