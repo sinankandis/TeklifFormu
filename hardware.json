@@ -495,7 +495,11 @@
                         "priceCase3": 0.5,
                         "fixprice": 12
                     }
-                ]
+                ],
+                "productgrup": [],
+                "total": 0,
+                "selected": false,
+                "desc": ""
             },
             {
                 "id": 3,
