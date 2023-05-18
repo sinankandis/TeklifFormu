@@ -283,40 +283,8 @@
         "selected": false,
         "desc": ""
       },
-      {
-        "head": "Wifi",
-        "pass": true
-      },
-      {
-        "id": 3,
-        "productname": "Tp-Link Tl-Wn823N Usb Adaptör - Bilgisayarları Kablosuz Yap",
-        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/elektrapos_2a4aaa5cf16463d39184f30dcb7a0b6c.jpg",
-        "timesequence": "yearlyfixsingle",
-        "fixroompricecalculate": true,
-        "producttip": "hardware",
-        "count": 0,
-        "firstprice": [
-          {
-            "desc": "",
-            "price": 0,
-            "grupid": 50
-          }
-        ],
-        "fixuse": true,
-        "discount": 0,
-        "roomprice": [
-          {
-            "priceCase1": 0.5,
-            "priceCase2": 0.5,
-            "priceCase3": 0.5,
-            "fixprice": 12
-          }
-        ],
-        "productgrup": [],
-        "total": 0,
-        "selected": false,
-        "desc": ""
-      },
+      
+      
       {
         "head": "El Terminalleri",
         "pass": true
@@ -414,6 +382,36 @@
       {
         "head": "Switch ve Aksesuar",
         "pass": true
+      },
+      {
+        "id": 3,
+        "productname": "Tp-Link Tl-Wn823N Usb Adaptör - Bilgisayarları Kablosuz Yap",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/elektrapos_2a4aaa5cf16463d39184f30dcb7a0b6c.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 12
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
       },
       {
         "id": 3,
