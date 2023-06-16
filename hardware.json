@@ -721,6 +721,66 @@
         "selected": false,
         "desc": ""
       },
+      {
+        "id": 3,
+        "productname": "Mifare Silikon Bileklik",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/bileklik.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 1,5
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
+      {
+        "id": 3,
+        "productname": "Termal KullanAt Baskı Yapılabilir Bileklik",
+        "productimg": "https://www.elektraweb.com/hardwareoffer/hardwareimage/termalb.jpg",
+        "timesequence": "yearlyfixsingle",
+        "fixroompricecalculate": true,
+        "producttip": "hardware",
+        "count": 0,
+        "firstprice": [
+          {
+            "desc": "",
+            "price": 0,
+            "grupid": 50
+          }
+        ],
+        "fixuse": true,
+        "discount": 0,
+        "roomprice": [
+          {
+            "priceCase1": 0.5,
+            "priceCase2": 0.5,
+            "priceCase3": 0.5,
+            "fixprice": 0,5
+          }
+        ],
+        "productgrup": [],
+        "total": 0,
+        "selected": false,
+        "desc": ""
+      },
        {
         "id": 3,
         "productname": "250 Adet 4 Renk Baskılı Logolu Harcama Kartı",
