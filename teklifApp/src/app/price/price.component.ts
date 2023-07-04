@@ -242,7 +242,8 @@ export class PriceComponent implements OnInit {
           "USERPRICE": x.USERPRICE,
           "usercount": 1,
           "TR_LINK": x.TR_LINK,
-          "EN_LINK": x.EN_LINK
+          "EN_LINK": x.EN_LINK,
+          "TAXPERCENT":x.TAXPERCENT
         }
       });
 
@@ -454,7 +455,7 @@ export class PriceComponent implements OnInit {
 
 
         let html = "";
-        let AnnuallyData = this.dataSource.filter(x => ((x.BASEPRICE != null && x.BASEPRICE > 0 ) || (x.ROOMPRICE != null &&  x.ROOMPRICE > 0 )) && x.selected == true);
+        let AnnuallyData = this.dataSource.filter(x => ((x.BASEPRICE != null && x.BASEPRICE > 0) || (x.ROOMPRICE != null && x.ROOMPRICE > 0)) && x.selected == true);
 
         if (AnnuallyData.length > 0) {
           //Her Yıl Alınan Ücretler
@@ -626,10 +627,16 @@ export class PriceComponent implements OnInit {
           price = price + (INSTALLATIONFEE * 1);
         }
 
+      
+        if (x.TAXPERCENT != null) {
+          x.finalprice = price * (1 + 18 / 100);
+        } else {
+          x.finalprice = price;
+        }
 
 
 
-        x.finalprice = price
+
         x.selectedProduct = x.NAME;
 
 
@@ -668,7 +675,8 @@ export class PriceComponent implements OnInit {
         "USERPRICE": x.USERPRICE,
         "usercount": x.usercount,
         "TR_LINK": x.TR_LINK,
-        "EN_LINK": x.EN_LINK
+        "EN_LINK": x.EN_LINK,
+        "TAXPERCENT":x.TAXPERCENT
       }
 
 
