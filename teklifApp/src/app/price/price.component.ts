@@ -629,7 +629,7 @@ export class PriceComponent implements OnInit {
 
       
         if (x.TAXPERCENT != null) {
-          x.finalprice = price * (1 + 18 / 100);
+          x.finalprice = price * (1 + x.TAXPERCENT / 100);
         } else {
           x.finalprice = price;
         }
