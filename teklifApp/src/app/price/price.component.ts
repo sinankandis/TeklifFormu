@@ -243,7 +243,7 @@ export class PriceComponent implements OnInit {
           "usercount": 1,
           "TR_LINK": x.TR_LINK,
           "EN_LINK": x.EN_LINK,
-          "TAXPERCENT":x.TAXPERCENT
+          "TAXPERCENT": x.TAXPERCENT
         }
       });
 
@@ -398,9 +398,15 @@ export class PriceComponent implements OnInit {
 
     //Tek Sefer Ücretlendirelecek Ürünler
     if (type == 2) {
-      pricetext =
-        this.decimalPipe.transform((element.INSTALLATIONFEE * element.quantity).toFixed(2)) + " " + this.currencycode;
-      this.totalfixpricefinal += element.INSTALLATIONFEE * element.quantity;
+      let INSTALLATIONFEE;
+      if (element.TAXPERCENT != null) {
+        INSTALLATIONFEE = element.INSTALLATIONFEE * (1 + element.TAXPERCENT / 100);
+      } else {
+        INSTALLATIONFEE = element.INSTALLATIONFEE;
+      }
+
+      pricetext = this.decimalPipe.transform((INSTALLATIONFEE * element.quantity).toFixed(2)) + " " + this.currencycode;
+      this.totalfixpricefinal += INSTALLATIONFEE  * element.quantity;
     }
 
     let html =
@@ -627,7 +633,7 @@ export class PriceComponent implements OnInit {
           price = price + (INSTALLATIONFEE * 1);
         }
 
-      
+
         if (x.TAXPERCENT != null) {
           x.finalprice = price * (1 + x.TAXPERCENT / 100);
         } else {
@@ -676,7 +682,7 @@ export class PriceComponent implements OnInit {
         "usercount": x.usercount,
         "TR_LINK": x.TR_LINK,
         "EN_LINK": x.EN_LINK,
-        "TAXPERCENT":x.TAXPERCENT
+        "TAXPERCENT": x.TAXPERCENT
       }
 
 
