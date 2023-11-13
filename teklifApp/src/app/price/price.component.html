@@ -466,7 +466,13 @@
 
                                             </span>
 
-                                            <div class="description" [innerHTML]="item.DESCRIPTION"></div>
+                                            <ng-container *ngIf="userservice.selectedmarket==1">
+                                                <div class="description" [innerHTML]="item.DESCRIPTION"></div>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="userservice.selectedmarket==2">
+                                                <div class="description" [innerHTML]="item.DESCRIPTION_EN"></div>
+                                            </ng-container>
 
 
                                         </div>
